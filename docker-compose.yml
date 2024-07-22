@@ -1,0 +1,28 @@
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "9000:27017"
+    volumes:
+      - mongo_data:/data/db
+  
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URL: 'mongodb://mongodb:27017/'
+      MONDO_DB: 'coderhouse'
+      MONGO_COLLECTION_PRODUCTS: 'products'
+      MONGO_COLLECTION_CARTS: 'carts'
+      MONGO_DB_URL: 'mongodb://mongodb:27017/coderhouse'
+
+
+volumes:
+  mongo_data: {}
+      

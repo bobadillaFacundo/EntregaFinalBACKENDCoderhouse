@@ -1,0 +1,21 @@
+{
+  "name": "primera-entrega",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch ./src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.3",
+    "mongo": "^0.1.0",
+    "mongoose": "^8.5.1",
+    "mongoose-paginate-v2": "^1.8.2"
+  }
+}
