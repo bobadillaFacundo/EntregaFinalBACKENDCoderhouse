@@ -5,7 +5,11 @@ import mongoose from 'mongoose'
 
 const router = express.Router()
 
-router.get("/", async (req, res) => {
+router.get('/',(req,res)=>{
+    res.render('index',{})
+})
+
+router.get("/products", (req, res) => {
     if (req.query.limit) {
         if (req.query.limit > (products.length + 1))
             return res.status(404).send({ status: "success", error: "numero mayor a la cantidad de productos" })
@@ -38,17 +42,17 @@ router.post("/", (async (req, res) => {
     try {
         mongoose.connect(process.env.MONGO_DB_URL)
         const savedPorduct = await newProduct.save()
-        return res.json(savedPorduct)
+        return res.send(savedPorduct)
     } catch (err) {
         console.error('Error al insertar documento', err)
-        return res.status(500).send({ status: "success", error: "ERROR BDD" })
+        return res.status(500).send({ status: "success", error: `${error}` })
     } finally {
         mongoose.connection.close(); // Cerrar la conexión cuando termine
         console.log('Conexión cerrada correctamente en obtenerDocumento');
     }
 }))
 
-router.get("/:pid", (req, res) => {
+router.get("/:pid",  (req, res) => {
     obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result=>{
         if (!result) {
             return res.status(404).send({ status: "success", error: "id no existe" })
@@ -59,7 +63,7 @@ router.get("/:pid", (req, res) => {
      })  
 })
 
-router.delete("/:pid", (req, res) => {
+router.delete("/:pid",  (req, res) => {
     deleteDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result=>{
         if (result.deletedCount===0) {
             return res.status(400).send({ status: "success", error: "id no existe" })
@@ -70,26 +74,39 @@ router.delete("/:pid", (req, res) => {
      }) 
 })
 
-// router.put("/:pid", (req, res) => {
-//     const user = req.body
-//     const pid = parseInt(req.params.pid)
-//     const productIndex = products.findIndex(prod => prod.id === pid);
+router.put("/:pid", async (req, res) => {
+    const user = req.body
+    obtenerDocumento(req.params.pid,process.env.MONGO_DB_URL, porductsModel).then(result=>{
+    if (!result) {
+        return res.status(404).send({ status: "success", error: "No se encontro id" })
+    } }).catch(async (error)=>{
+        res.status(500).send({ status: "success", error: `${error}` })
 
-//     if (productIndex === -1) {
-//         return res.status(404).send({ status: "success", error: "No se encontro id" })
-//     }
+    const products = new porductsModel()
+    console.log(products)
+    products.title = user.title || products.title
+    products.description = user.description || products.description
+    products.code = user.code || products.code
+    products.price = user.price || products.price
+    products.stock = user.stock || products.stock
+    products.category = user.category || products.category
+    products.thumbnails = user.thumbnails || products.thumbnails
+    
+    try {
+        mongoose.connect(process.env.MONGO_DB_URL)
+        const savedPorduct = await porductsModel.updateOne({_id:req.params.pid},products)
+        return res.send(savedPorduct)
+    } catch (error) {
+        console.error('Error en el Put', error)
+        return res.status(500).send({ status: "success", error:  `${error}` })
+    } finally {
+        mongoose.connection.close(); // Cerrar la conexión cuando termine
+        console.log('Conexión cerrada correctamente en put product');
+    }
 
-//     products[productIndex].title = user.title || products[productIndex].title
-//     products[productIndex].description = user.description || products[productIndex].description
-//     products[productIndex].code = user.code || products[productIndex].code
-//     products[productIndex].price = user.price || products[productIndex].price
-//     products[productIndex].stock = user.stock || products[productIndex].stock
-//     products[productIndex].category = user.category || products[productIndex].category
-//     products[productIndex].thumbnails = user.thumbnails || products[productIndex].thumbnails;
-//     return res.send({ status: "success", message: "Product update" })
+})
 
-// })
-
+})
 
 
 export default router
