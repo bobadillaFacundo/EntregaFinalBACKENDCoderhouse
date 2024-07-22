@@ -2,11 +2,16 @@ import express from "express"
 import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento } from "../utils.js"
 import porductsModel from '../models/products.js'
 import mongoose from 'mongoose'
+import __dirname from "../utils.js"
+
 
 const router = express.Router()
+router.use(express.static(__dirname + "/public"))
 
 router.get('/', (req, res) => {
-    res.render('index', {})
+    res.render('index',{
+        style:'index.css'
+    })
 })
 
 router.get("/products", (req, res) => {
@@ -22,10 +27,12 @@ router.get("/products", (req, res) => {
     }).catch(error => {
         res.status(500).send({ status: "success", error: `${error}` })
     })
+
 })
 
 router.post("/", (async (req, res) => {
     const user = req.body
+    console.log(req.body)
     if (!user.title || !user.description || !user.code || !user.stock || !user.category || !user.price)
         return res.status(400).send({ status: "success", error: "Campos vacios" })
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Productos</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>CRUD Productos</h1>
+
+        <!-- Lista de Productos sin botón de eliminar -->
+        <h2 class="toggle-form" data-target="productListWithoutDelete">Lista de Productos
+            <button>categorias</button>
+        </h2>
+        <div id="productListWithoutDelete" class="product-list"></div>
+
+        <!-- Formulario para Cargar Producto -->
+        <h2 class="toggle-form" data-target="formCP">Cargar Producto</h2>
+        <form action="" id="formCP" class="form" method="post">
+            <input type="text" id="titleCP" class="input" placeholder="title" name="title">
+            <input type="text" id="descriptionCP" class="input" placeholder="description" name="description">
+            <input type="text" id="codeCP" class="input" placeholder="code" name="code">
+            <input type="text" id="priceCP" class="input" placeholder="price" name="price">
+            <input type="text" id="stockCP" class="input" placeholder="stock" name="stock">
+            <input type="text" id="categoryCP" class="input" placeholder="category" name="category">
+            <button type="submit" id="submitCP" class="button">Registrar</button>
+        </form>
+
+        <!-- Formulario para Modificar Producto -->
+        <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
+        <form action="" id="formMP" class="form" method="put">
+            <input type="text" id="idMP" class="input" placeholder="id" name="id">
+            <input type="text" id="titleMP" class="input" placeholder="title" name="title">
+            <input type="text" id="descriptionMP" class="input" placeholder="description" name="description">
+            <input type="text" id="codeMP" class="input" placeholder="code" name="code">
+            <input type="text" id="priceMP" class="input" placeholder="price" name="price">
+            <input type="text" id="statusMP" class="input" placeholder="status" name="status">
+            <input type="text" id="stockMP" class="input" placeholder="stock" name="stock">
+            <input type="text" id="categoryMP" class="input" placeholder="category" name="category">
+            <button type="submit" id="submitMP" class="button">Registrar</button>
+        </form>
+
+        <!-- Lista de Productos con botón de eliminar -->
+        <h2 class="toggle-form" data-target="productListWithDelete">Lista de Productos a Eliminar</h2>
+        <div id="productListWithDelete" class="product-list"></div>
+        <p id="messageLogs" class="message-logs"></p>
+    </div>
+
+
+
+</body>
+
+</html>
+<script src="/js/index.js"></script>
+<!-- Enlace a tu archivo CSS en las vistas home y realTimeProducts -->
+<link rel="stylesheet" href="/css/index.css">
