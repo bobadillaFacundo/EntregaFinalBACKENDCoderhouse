@@ -40,14 +40,14 @@ router.post("/", (async (req, res) => {
         thumbnails: user.thumbnails || []
     })
     try {
-        mongoose.connect(process.env.MONGO_DB_URL)
+        await mongoose.connect(process.env.MONGO_DB_URL)
         const savedPorduct = await newProduct.save()
         return res.send(savedPorduct)
     } catch (err) {
         console.error('Error al insertar documento', err)
         return res.status(500).send({ status: "success", error: `${error}` })
     } finally {
-        mongoose.connection.close(); // Cerrar la conexión cuando termine
+        await mongoose.connection.close(); // Cerrar la conexión cuando termine
         console.log('Conexión cerrada correctamente en obtenerDocumento');
     }
 }))
@@ -63,7 +63,7 @@ router.get("/:pid",  (req, res) => {
      })  
 })
 
-router.delete("/:pid",  (req, res) => {
+router.delete("/:pid",   (req, res) => {
     deleteDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result=>{
         if (result.deletedCount===0) {
             return res.status(400).send({ status: "success", error: "id no existe" })
@@ -76,36 +76,30 @@ router.delete("/:pid",  (req, res) => {
 
 router.put("/:pid", async (req, res) => {
     const user = req.body
-    obtenerDocumento(req.params.pid,process.env.MONGO_DB_URL, porductsModel).then(result=>{
-    if (!result) {
-        return res.status(404).send({ status: "success", error: "No se encontro id" })
-    } }).catch(async (error)=>{
-        res.status(500).send({ status: "success", error: `${error}` })
 
-    const products = new porductsModel()
-    console.log(products)
-    products.title = user.title || products.title
-    products.description = user.description || products.description
-    products.code = user.code || products.code
-    products.price = user.price || products.price
-    products.stock = user.stock || products.stock
-    products.category = user.category || products.category
-    products.thumbnails = user.thumbnails || products.thumbnails
-    
+    const products = { title: user.title, 
+    description: user.description,
+    code: user.code ,
+    price: user.price ,
+    status: user.status,
+    stock: user.stock ,
+    category: user.category ,
+    thumbnails: user.thumbnails  || []
+    }
     try {
-        mongoose.connect(process.env.MONGO_DB_URL)
-        const savedPorduct = await porductsModel.updateOne({_id:req.params.pid},products)
-        return res.send(savedPorduct)
-    } catch (error) {
+        await mongoose.connect(process.env.MONGO_DB_URL)
+        const savedProduct = await porductsModel.updateOne({_id:req.params.pid},{ $set: products })        
+        if (savedProduct.matchedCount === 0) {
+            return res.status(404).send({ status: "error", message: "Producto no encontrado" });
+        }
+        res.status(200).json({ status: "success", message: "Producto actualizado exitosamente", data: savedProduct });
+        } catch (error) {
         console.error('Error en el Put', error)
         return res.status(500).send({ status: "success", error:  `${error}` })
     } finally {
-        mongoose.connection.close(); // Cerrar la conexión cuando termine
+        await mongoose.connection.close(); // Cerrar la conexión cuando termine
         console.log('Conexión cerrada correctamente en put product');
     }
-
-})
-
 })
 
 
