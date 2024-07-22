@@ -15,13 +15,12 @@ router.get('/', (req, res) => {
 })
 
 router.get("/products", (req, res) => {
-    if (req.query.limit) {
-        if (req.query.limit > (products.length + 1))
-            return res.status(404).send({ status: "success", error: "numero mayor a la cantidad de productos" })
+    
+   
+    // const resultado = obtenerElementosFiltros()
+        
+    // return res.json(resultado)
 
-        let resultado = products.slice(0, req.query.limit);
-        return res.json(resultado)
-    }
     obtenerTodosLosDocumentos(process.env.MONGO_DB_URL).then(result => {
         return res.json(result)
     }).catch(error => {
