@@ -1,7 +1,7 @@
 import express from "express"
 
 const router = express.Router()
-let carts =[]
+let carts = []
 
 router.get("/:cid", (req, res) => {
     const cart = carts.find(cart => cart.id === parseInt(req.params.cid))
