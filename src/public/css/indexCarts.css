@@ -15,15 +15,14 @@ header {
     text-align: left;
 }
 
-/* Button Styles */
 button {
-    padding: 10px 15px;
+    padding: 5px 10px; /* Disminuye el relleno */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     color: white;
-    font-size: 14px;
-    margin: 5px;
+    font-size: 14px; /* Disminuye el tamaño de la fuente */
+    margin: 5px; /* Disminuye el margen */
 }
 
 .product-button, .product-button2, .product-button3, .btn-volver {

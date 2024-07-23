@@ -1,19 +1,37 @@
-/* General Styles */
+/* Variables de colores */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #e74c3c;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --white-color: #fff;
+    --border-color: #ddd;
+    --hover-color: #0056b3;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos Generales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: var(--background-color);
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    color: var(--text-color);
 }
 
-/* Products Section */
-.products-section {
+/* Sección de Productos */
+.products-section,
+.filters-section,
+.forms-section {
     margin: 20px;
+    background: var(--white-color);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .products-container {
@@ -23,107 +41,115 @@ h1 {
 }
 
 .product-item {
-    background: white;
+    background: var(--white-color);
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .product-item p {
     margin: 5px 0;
 }
 
+/* Botones Generales */
 button {
-    padding: 10px 15px;
+    padding: 6px 12px; /* Ajustar padding para hacer los botones más angostos */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    color: white;
-    font-size: 14px;
+    color: var(--white-color);
+    font-size: 14px; /* Ajustar tamaño de fuente */
     margin: 5px;
-}
-
-.btn-delete {
-    background-color: #e74c3c;
-}
-
-.btn-cart {
-    background-color: #3498db;
-}
-
-/* Filters Section */
-.filters-section {
-    margin: 20px;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.filters-section form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Forms Section */
-.forms-section {
-    margin: 20px;
-}
-
-.forms-section .form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-button {
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    cursor: pointer;
+    background-color: var(--primary-color);
 }
 
 button:hover {
-    background-color: #27ae60;
+    background-color: var(--hover-color);
 }
 
-input:focus, select:focus {
-    border-color: #3498db;
+.btn-delete {
+    background-color: var(--secondary-color);
+}
+
+.btn-cart {
+    background-color: var(--primary-color);
+}
+
+/* Botones con clase .boton2 */
+.boton2 {
+    padding: 2px 4px; /* Ajustar padding para hacer los botones más cortos */
+    font-size: 12px; /* Ajustar tamaño de fuente */
+    background-color: var(--primary-color); /* Color de fondo por defecto */
+    color: var(--white-color);
+}
+
+.boton2:hover {
+    background-color: var(--hover-color);
+}
+
+/* Sección de Filtros */
+.filters-section form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.filters-section input,
+.filters-section select {
+    width: 150px; /* Ajustar el ancho para hacer los inputs más pequeños */
+    box-sizing: border-box; /* Incluye padding y border en el width total */
+    padding: 6px; /* Ajustar padding para hacer los inputs más compactos */
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 12px; /* Ajustar tamaño de fuente para que el texto se ajuste mejor */
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary-color);
     outline: none;
+}
+
+/* Sección de Formularios */
+.forms-section .form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.forms-section .form input,
+.forms-section .form select {
+    width: 150px; /* Ajustar el ancho para hacer los inputs más pequeños */
+    box-sizing: border-box; /* Incluye padding y border en el width total */
+    padding: 6px; /* Ajustar padding para hacer los inputs más compactos */
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 12px; /* Ajustar tamaño de fuente para que el texto se ajuste mejor */
 }
 
 .toggle-form {
     cursor: pointer;
-    color: #3498db;
+    color: var(--primary-color);
     font-size: 18px;
     font-weight: bold;
     margin-top: 20px;
 }
 
+/* Estilos de Header */
 header {
     padding: 10px;
     text-align: left;
 }
 
+/* Botón del Carrito */
 .cart-button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: var(--white-color);
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 4px 8px; /* Ajustar padding para hacer el botón del carrito más compacto */
+    font-size: 14px; /* Ajustar tamaño de fuente */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -134,5 +160,5 @@ header {
 }
 
 .cart-button:hover {
-    background-color: #0056b3;
+    background-color: var(--hover-color);
 }

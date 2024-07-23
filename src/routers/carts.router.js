@@ -1,5 +1,5 @@
 import express from "express"
-import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento } from "../utils.js"
+import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, error } from "../utils.js"
 import cartsModel from '../models/carts.js'
 import __dirname from "../utils.js"
 import mongoose from 'mongoose'
@@ -14,10 +14,7 @@ router.get('/',async(req,res)=>{
             carts: result
         })
     }).catch(error => {
-        res.status(500).render('ERROR', {
-            style: 'index.css',
-            resultado: ` status: "error", message: Error del servidor: ${error}`
-        })
+        error(res, `Error del servidor: ${error}`)
     })
 })
 
@@ -25,10 +22,7 @@ router.get("/:cid",async (req, res) => {
     await obtenerDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel)
     .then(result => {
         if (!result) {
-            return res.status(404).render('ERROR', {
-                style: 'index.css',
-                resultado: `Error del servidor: ID no Existe`
-            })
+            return error(res,`Error del servidor: ID no Existe`)
         }
         return res.render('cartsList', {
             style: 'indexCarts.css',
@@ -36,10 +30,7 @@ router.get("/:cid",async (req, res) => {
         })
     })
     .catch(error => {
-        res.status(500).render('ERROR', {
-            style: 'index.css',
-            resultado: `Error del servidor: ${error}`
-        })
+        error(res, `Error del servidor: ${error}`)
     })
 })
 
@@ -77,10 +68,7 @@ router.post("/", async (req, res) =>  {
         })
     } catch (error) {
         console.error(`Error al insertar documento, ${error}`)
-        res.status(500).render('ERROR', {
-            style: 'index.css',
-            resultado: `Error del servidor: ${error}`
-        })
+        error(res, `Error del servidor: ${error}`)
     } finally {
         await mongoose.connection.close(); // Cerrar la conexión cuando termine
         console.log('Conexión cerrada correctamente');
@@ -90,17 +78,11 @@ router.post("/", async (req, res) =>  {
 router.delete("/:cid", async (req, res) => {
     await deleteDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel).then(result => {
         if (result.deletedCount === 0) {
-            return res.status(404).render('ERROR', {
-                style: 'index.css',
-                resultado: `Error del servidor: ID no Existe`
-            })
+            return error(res,`Error del servidor: ID no Existe`)
         }
         return res.send({ status: "success", message: "Carts delete" })
     }).catch(error => {
-        res.status(500).render('ERROR', {
-            style: 'index.css',
-            resultado: `Error del servidor: ${error}`
-        })
+        error(res, `Error del servidor: ${error}`)
     })
 })
 
