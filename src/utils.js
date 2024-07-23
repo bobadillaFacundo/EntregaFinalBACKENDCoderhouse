@@ -55,3 +55,10 @@ export async function deleteDocumento(id, url, Model) {
     console.log('Conexión cerrada correctamente en deleteDocumento');
   }
 }
+
+export function error(res,message){
+  res.status(404).render('ERROR', {
+      style: 'index.css',
+      resultado: message
+  })
+}
