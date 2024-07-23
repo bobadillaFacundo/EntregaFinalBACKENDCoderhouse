@@ -98,7 +98,7 @@ document.getElementById('formMP').addEventListener('submit', async function (eve
         alert('Se Modifico el Producto', response.json().message)
     } catch (error) {
         console.error('Error:', error)
-        document.getElementById('messageLogs').innerText = 'Error al actualizar el producto'
+        alert('Error al actualizar el producto')
     }
 })
 

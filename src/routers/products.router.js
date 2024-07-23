@@ -100,6 +100,13 @@ router.delete("/:pid", async (req, res) => {
 
 router.put("/:pid", async (req, res) => {
     const user = req.body
+    if(!mongoose.Types.ObjectId.isValid(req.params.pid)){
+        return res.status(404).render('ERROR', {
+            style: 'index.css',
+            resultado: `Error del servidor: ID no Existe`
+        })
+    }
+    
     await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(async result => {
         if (result.deletedCount === 0) {
             return res.status(404).render('ERROR', {
