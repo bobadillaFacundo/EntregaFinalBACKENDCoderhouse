@@ -102,7 +102,7 @@ document.querySelectorAll('.toggle-form').forEach(header => {
 // Función para cargar productos con el botón de eliminar
 async function loadProductsWithDelete() {
     try {
-        const response = await fetch('http://localhost:8080/api/products/products')
+        const response = await fetch('http://localhost:8080/api/products/')
         const products = await response.json();
         const productList = document.getElementById('productListWithDelete')
         productList.innerHTML = ''
@@ -144,13 +144,14 @@ async function deleteProduct(id) {
         const result = await response.json()
         document.getElementById('messageLogs').innerText = result.message
         loadProductsWithDelete()
+        closeModal()
     } catch (error) {
         console.error('Error:', error)
         document.getElementById('messageLogs').innerText = 'Error al eliminar el producto: ' + error.message
     }
 }
 
-// Mostrar los productos con y sin botón de eliminar cuando la página se carga
+// Mostrar los productos con botón de eliminar cuando la página se carga
 document.addEventListener('DOMContentLoaded', function() {
     loadProductsWithDelete()
 })
@@ -178,6 +179,7 @@ document.getElementById('IDB').addEventListener('submit', async function(event) 
             <button onclick="deleteProduct('${product._id}')">Eliminar</button>
             <hr>`)}
         else showModal('ID no existe')
+        document.getElementById('bID').value=''
     } catch (error) {
         console.error('Error:', error)
         document.getElementById('messageLogs').innerText = 'Error al actualizar el producto solicitado'
@@ -186,22 +188,28 @@ document.getElementById('IDB').addEventListener('submit', async function(event) 
 
 // Función para mostrar el modal con el mensaje dado
 function showModal(message) {
-    const modal = document.getElementById('myModal');
-    const modalMessage = document.getElementById('modalMessage');
-    modalMessage.innerHTML = message;
-    modal.style.display = 'block';
+    const modal = document.getElementById('myModal')
+    const modalMessage = document.getElementById('modalMessage')
+    modalMessage.innerHTML = message
+    modal.style.display = 'block'
 }
 
 // Cerrar el modal cuando el usuario hace clic en la 'X'
 document.querySelector('.close').onclick = function() {
-    const modal = document.getElementById('myModal');
-    modal.style.display = 'none';
-};
+    const modal = document.getElementById('myModal')
+    modal.style.display = 'none'
+}
 
 // Cerrar el modal cuando el usuario hace clic fuera del contenido del modal
 window.onclick = function(event) {
-    const modal = document.getElementById('myModal');
+    const modal = document.getElementById('myModal')
     if (event.target === modal) {
-        modal.style.display = 'none';
+        modal.style.display = 'none'
     }
-};
+}
+
+ // Función para cerrar el modal
+ function closeModal() {
+    const modal = document.getElementById('myModal')
+    modal.style.display = 'none'
+}

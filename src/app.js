@@ -13,6 +13,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/products', products); // Monta el router de usuarios en /api/users
 app.use('/api/carts', carts)
 app.engine("handlebars", engine.engine())
+app.engine('handlebars', engine.engine({
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true, // Permite acceso a propiedades heredadas
+        allowProtoMethodsByDefault: true,    // Permite acceso a métodos heredados
+    }
+}))
 app.set("view engine", "handlebars")
 app.set("views", __dirname + "/views")
 app.use(express.static(__dirname + "/public"))
