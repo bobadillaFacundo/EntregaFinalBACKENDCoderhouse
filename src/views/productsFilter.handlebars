@@ -1,0 +1,35 @@
+{{#if isValid}}
+<div>
+    {{#each docs}}
+    <div class="product-item">
+        <p><strong>_id:</strong> {{this._id}}</p>
+        <p><strong>Title:</strong> {{this.title}}</p>
+        <p><strong>Description:</strong> {{this.description}}</p>
+        <p><strong>Code:</strong> {{this.code}}</p>
+        <p><strong>Stock:</strong> {{this.stock}}</p>
+        <p><strong>Category:</strong> {{this.category}}</p>
+        <p><strong>Price:</strong> {{this.price}}</p>
+        <button class="btn-delete" data-id="{{this._id}}">Eliminar</button>
+        <button class="btn-cart" data-id="{{this._id}}">Agregar al Carrito</button>
+    </div>
+    <button class="btn-volver">Volver</button>
+    <br />
+    {{/each}}
+</div>
+<br />
+<div>
+    {{#if hasPrevPage}}
+    <a href={{this.prevLink}}>
+        << Anterior</a>
+            {{/if}}
+            &nbsp;
+            {{this.page}}
+            &nbsp;
+            {{#if hasNextPage}}
+            <a href={{this.nextLink}}>Siguiente >></a>
+            {{/if}}
+</div>
+{{else}}
+<h1>No hay productos para mostrar</h1>
+{{/if}}
+<script src="js/indexProducts.js"></script>

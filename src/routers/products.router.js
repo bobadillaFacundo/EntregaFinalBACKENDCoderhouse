@@ -9,7 +9,24 @@ const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
 router.get('/',async (req, res) => {
-   await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,porductsModel).then(result => {
+    let page = parseInt(req.query.page)
+    if(page>0){
+    //Lean es crucial para mostrar en Handlebars, ya que evita la "hidratación" del documento de mongoose,
+    //esto hace que a Handlebars llegue el documento como plain object y no como Document.
+    try {
+    let result = await porductsModel.paginate({},{page,limit:req.query.limit,lean:true})
+    result.prevLink = result.hasPrevPage?`http://localhost:8080/api/products?page=${result.prevPage}`:'';
+    result.nextLink = result.hasNextPage?`http://localhost:8080/api/products?page=${result.nextPage}`:'';
+    result.isValid= !(page<=0||page>result.totalPages)
+    return res.render('productsFilter',{
+        style: 'indexProducts.css',
+        result
+    })   
+    } catch (error) {
+        //error(res, `Error del servidor: ${error}`)
+    }
+    }
+    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,porductsModel).then(result => {
         return res.render('indexProducts', {
             style: 'indexProducts.css',
             products: result

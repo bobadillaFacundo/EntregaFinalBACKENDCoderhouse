@@ -40,12 +40,12 @@
     <!-- Sección de Filtros -->
     <section class="filters-section">
         <h2>Filtros</h2>
-        <form id="filtersForm">
+        <form id="filtersForm" method="get">
             <label for="limit">Límite:</label>
             <input type="number" id="limit" name="limit" min="1" value="10">
 
             <label for="page">Página:</label>
-            <input type="number" id="page" name="page" min="1" value="1">
+            <input type="number" id="page" name="page" min="1" value="0">
 
             <label for="sort">Ordenar:</label>
             <select id="sort" name="sort">
