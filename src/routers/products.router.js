@@ -9,13 +9,13 @@ const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
 router.get('/', (req, res) => {
-    obtenerTodosLosDocumentos(process.env.MONGO_DB_URL).then(result => {
+    obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,porductsModel).then(result => {
         return res.render('indexProducts', {
             style: 'indexProducts.css',
             products: result
         })
     }).catch(error => {
-        res.status(500).render('ERRORproducts', {
+        res.status(500).render('ERROR', {
             style: 'index.css',
             resultado: ` status: "error", message: Error del servidor: ${error}`
         })
@@ -24,11 +24,10 @@ router.get('/', (req, res) => {
 
 router.post("/", (async (req, res) => {
     const user = req.body
-    console.log(req.body)
     if (!user.title || !user.description || !user.code || !user.stock || !user.category || !user.price) {
-        res.status(400).render('ERRORproducts', {
+        res.status(400).render('ERROR', {
             style: 'index.css',
-            resultado: `status: "success", error: "Campos vacios"`
+            resultado: `Error: "Campos vacios"`
         })
     }
     const newProduct = new porductsModel({
@@ -43,13 +42,16 @@ router.post("/", (async (req, res) => {
     })
     try {
         await mongoose.connect(process.env.MONGO_DB_URL)
-        const savedPorduct = await newProduct.save()
-        return res.send(savedPorduct)
+        const savedProduct = await newProduct.save()
+        res.status(500).render('productsAndPosts', {
+            style: 'indexProducts.css',
+            products: savedProduct
+        })
     } catch (error) {
         console.error(`Error al insertar documento, ${error}`)
-        res.status(500).render('ERRORproducts', {
+        res.status(500).render('ERROR', {
             style: 'index.css',
-            resultado: ` status: "error", message: Error del servidor: ${error}`
+            resultado: `Error del servidor: ${error}`
         })
     } finally {
         await mongoose.connection.close(); // Cerrar la conexión cuando termine
@@ -61,18 +63,18 @@ router.get("/:pid", (req, res) => {
     obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
         .then(result => {
             if (!result) {
-                return res.status(404).render('ERRORproducts', {
+                return res.status(404).render('ERROR', {
                     style: 'index.css',
                     resultado: ` status: "error", message: Error del servidor: ID no Existe`
                 })
             }
-            return res.render('products', {
+            return res.render('productsAndPosts', {
                 style: 'indexProducts.css',
                 products: result
             })
         })
         .catch(error => {
-            res.status(500).render('ERRORproducts', {
+            res.status(500).render('ERROR', {
                 style: 'index.css',
                 resultado: ` status: "error", message: Error del servidor: ${error}`
             })
@@ -82,14 +84,14 @@ router.get("/:pid", (req, res) => {
 router.delete("/:pid", (req, res) => {
     deleteDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result => {
         if (result.deletedCount === 0) {
-            return res.status(404).render('ERRORproducts', {
+            return res.status(404).render('ERROR', {
                 style: 'index.css',
                 resultado: ` status: "error", message: Error del servidor: ID no Existe`
             })
         }
         return res.send({ status: "success", message: "Product delete" })
     }).catch(error => {
-        res.status(500).render('ERRORproducts', {
+        res.status(500).render('ERROR', {
             style: 'index.css',
             resultado: ` status: "error", message: Error del servidor: ${error}`
         })
@@ -113,19 +115,28 @@ router.put("/:pid", async (req, res) => {
         await mongoose.connect(process.env.MONGO_DB_URL)
         const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
         if (savedProduct.matchedCount === 0) {
-            return res.status(404).send({ status: "error", message: "Producto no encontrado" });
+            res.status(500).render('ERROR', {
+                style: 'index.css',
+                resultado: `Error producto no encontrado`
+            })
         }
-
-        return res.status(200).render('ProdcutPut', {
-            style: 'index.css',
-            resultado: savedProduct
+        obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,porductsModel).then(result => {
+            return res.render('productsAndPosts', {
+                style: 'indexProducts.css',
+                products: result
+            })
+        }).catch(error => {
+            res.status(500).render('ERROR', {
+                style: 'index.css',
+                resultado: `Error del servidor: ${error}`
+            })
         })
 
     } catch (error) {
         console.error('Error en el Put Products', error)
-        res.status(500).render('ERRORproducts', {
+        res.status(500).render('ERROR', {
             style: 'index.css',
-            resultado: ` status: "error", message: Error del servidor: ${error}`
+            resultado: `Error del servidor: ${error}`
         })
     } finally {
         await mongoose.connection.close(); // Cerrar la conexión cuando termine

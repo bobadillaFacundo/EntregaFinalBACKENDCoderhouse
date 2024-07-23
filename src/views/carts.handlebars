@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pedidos</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Añadir enlace a tu archivo CSS -->
+</head>
+<body>
+    <header>
+        <!-- Botón para volver -->
+        <button id="showProductsButton" class="product-button">Volver</button>
+    </header>
+
+    <h1>Lista de Carritos</h1>
+    
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Sección de Buscar ID -->
+        <section class="search-section">
+            <div class="search-container">
+                <h2>Buscar por ID</h2>
+                <form id="IDB" method="get">
+                    <label for="bID">ID del Carrito:</label>
+                    <input type="text" id="bID" name="bID" placeholder="ID del carrito">
+                    <button type="submit" class="product-button2">Buscar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sección de Carts -->
+        <section class="carts-section">
+            <div class="carts-container">
+                {{#each carts}}
+                <div class="carts-item">
+                    <p><strong>_id:</strong> {{_id}}</p>
+                    {{#each products}}
+                    <div class="product-item">
+                        <p><strong>_id:</strong> {{_id}}</p>
+                        <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+                    </div>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </div>
+        </section>
+    </div>
+
+    <script src="js/carts.js"></script>
+</body>
+</html>

@@ -19,6 +19,7 @@ app.engine('handlebars', engine.engine({
     }
 }))
 app.set("view engine", "handlebars")
+app.use(express.static(path.join(__dirname, 'public')));
 app.set("views", __dirname + "/views")
 app.use('/css', express.static(path.join(__dirname, 'public', 'css'), {
     // Configuración adicional para definir el tipo MIME de manera explícita

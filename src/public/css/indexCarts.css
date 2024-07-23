@@ -1,0 +1,95 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+header {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Button Styles */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    margin: 5px;
+}
+
+.product-button, .product-button2 {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.product-button:hover, .product-button2:hover {
+    background-color: #0056b3;
+}
+
+.product-button i, .product-button2 i {
+    margin-right: 8px;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Carts Section */
+.carts-section {
+    flex: 3;
+    margin: 20px;
+}
+
+.carts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.carts-item {
+    background: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carts-item p {
+    margin: 5px 0;
+}
+
+/* Search Section */
+.search-section {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.search-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-sizing: border-box;
+}

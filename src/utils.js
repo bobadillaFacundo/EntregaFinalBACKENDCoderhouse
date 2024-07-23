@@ -9,12 +9,12 @@ const __dirname = path.dirname(__filename)
 export default __dirname
 
 // Función para obtener todos los documentos de una colección
-export async function obtenerTodosLosDocumentos(url) {
+export async function obtenerTodosLosDocumentos(url,model) {
   try {
     await mongo.connect(url); // Conexión a la base de datos
     console.log('Conectado correctamente al servidor de MongoDB obtenerTodosLosDocumentos');
     // Consulta para obtener todos los documentos de la colección
-    const documents = await porductsModel.find()
+    const documents = await model.find()
     return documents
   } catch (error) {
     console.error('Error al conectar o interactuar con la base de datos en obtenerTodoslosDocumentos', error);

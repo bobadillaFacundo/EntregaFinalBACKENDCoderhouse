@@ -112,3 +112,27 @@ input:focus, select:focus {
     margin-top: 20px;
 }
 
+header {
+    padding: 10px;
+    text-align: left;
+}
+
+.cart-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.cart-button i {
+    margin-right: 8px;
+}
+
+.cart-button:hover {
+    background-color: #0056b3;
+}

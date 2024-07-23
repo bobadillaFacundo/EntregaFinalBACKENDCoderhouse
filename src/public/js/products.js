@@ -46,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
-    // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-volver').forEach(button => {
         button.addEventListener('click', () => {
             window.location.href = `http://localhost:8080/api/products`
         })
     })
+
 })
