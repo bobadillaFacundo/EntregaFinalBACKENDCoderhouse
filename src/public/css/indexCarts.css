@@ -1,4 +1,3 @@
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -27,7 +26,7 @@ button {
     margin: 5px;
 }
 
-.product-button, .product-button2 {
+.product-button, .product-button2, .product-button3, .btn-volver {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -39,15 +38,15 @@ button {
     align-items: center;
 }
 
-.product-button:hover, .product-button2:hover {
+.product-button:hover, .product-button2:hover, .product-button3:hover {
     background-color: #0056b3;
 }
 
-.product-button i, .product-button2 i {
+.product-button i, .product-button2 i, .product-button3 i {
     margin-right: 8px;
 }
 
-.btn-delete {
+.btn-delete, .btn-delete-carts {
     background-color: #e74c3c;
 }
 

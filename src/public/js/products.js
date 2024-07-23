@@ -16,27 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Función para manejar agregar al carrito
-    const handleAddToCart = async (id) => {
-        try {
-            const response = await fetch(`/api/cart/${id}`, {
-                method: 'POST'
-            })
-            const result = await response.json()
-            alert(result.message) // Mostrar mensaje de éxito o error
-        } catch (error) {
-            console.error('Error:', error)
-            alert('Error al agregar el producto al carrito')
-        }
-    }
-
-    // Asignar eventos a los botones de eliminar
+    // Asignar eventos a loss botones de eliminar
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', () => {
             const id = button.getAttribute('data-id')
             handleDelete(id)
         })
     })
+    // Función para manejar agregar al carrito
+    const handleAddToCart = async (id) => {
+       
+        
+    }
+
 
     // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Pedidos</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Añadir enlace a tu archivo CSS -->
 </head>
+
 <body>
     <header>
         <!-- Botón para volver -->
@@ -13,7 +14,7 @@
     </header>
 
     <h1>Lista de Carritos</h1>
-    
+
     <!-- Contenedor principal -->
     <div class="main-container">
         <!-- Sección de Buscar ID -->
@@ -26,8 +27,15 @@
                     <button type="submit" class="product-button2">Buscar</button>
                 </form>
             </div>
+            <br>
+            <!-- Crear Carrito -->
+            <div class="search-container">
+                <h2>Crear Carrito</h2>
+                <form id="NEWCarts" method="post">
+                    <button type="submit" class="product-button3">crear</button>
+                </form>
+            </div>
         </section>
-
         <!-- Sección de Carts -->
         <section class="carts-section">
             <div class="carts-container">
@@ -46,6 +54,7 @@
         </section>
     </div>
 
-    <script src="js/carts.js"></script>
+    <script src="js/cartsIndex.js"></script>
 </body>
+
 </html>

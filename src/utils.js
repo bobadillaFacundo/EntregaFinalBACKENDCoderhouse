@@ -44,14 +44,14 @@ export async function obtenerDocumento(id, url, Model) {
 export async function deleteDocumento(id, url, Model) {
   try {
     await mongo.connect(url)
-    console.log('Conectado correctamente al servidor de MongoDB obtenerDocumento');
+    console.log('Conectado correctamente al servidor de MongoDB deleteDocumento');
     // Consulta para obtener todos los documentos de la colección
     const document = await Model.deleteOne({ _id: id })
     return document
   } catch (error) {
-    console.error('Error al conectar o interactuar con la base de datos en obtenerDocumento', error);
+    console.error('Error al conectar o interactuar con la base de datos en deleteDocumento', error);
   } finally {
     await mongo.connection.close(); // Cerrar la conexión cuando termine
-    console.log('Conexión cerrada correctamente en obtenerDocumento');
+    console.log('Conexión cerrada correctamente en deleteDocumento');
   }
 }

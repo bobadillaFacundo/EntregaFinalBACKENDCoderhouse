@@ -5,11 +5,10 @@ import __dirname from "../utils.js"
 import mongoose from 'mongoose'
 
 const router = express.Router()
-let carts = []
 router.use(express.static(__dirname + "/public"))
 
-router.get('/',(req,res)=>{
-    obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,cartsModel).then(result => {
+router.get('/',async(req,res)=>{
+    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,cartsModel).then(result => {
         return res.render('carts', {
             style: 'indexCarts.css',
             carts: result
@@ -22,8 +21,8 @@ router.get('/',(req,res)=>{
     })
 })
 
-router.get("/:cid", (req, res) => {
-    obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, cartsModel)
+router.get("/:cid",async (req, res) => {
+    await obtenerDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel)
     .then(result => {
         if (!result) {
             return res.status(404).render('ERROR', {
@@ -31,9 +30,9 @@ router.get("/:cid", (req, res) => {
                 resultado: `Error del servidor: ID no Existe`
             })
         }
-        return res.render('carts', {
-            style: 'carts.css',
-            products: result
+        return res.render('cartsList', {
+            style: 'indexCarts.css',
+            carts: result
         })
     })
     .catch(error => {
@@ -64,7 +63,46 @@ router.post("/:cid/product/:pid", (req, res) => {
     res.json(product)
 })
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) =>  {
+    const newCarts = new cartsModel({
+        products: []
+    })
+    try {
+        await mongoose.connect(process.env.MONGO_DB_URL)
+        const savedCarts = await newCarts.save()
+        console.log(savedCarts)
+        res.render('cartsList', {
+            style: 'indexCarts.css',
+            carts: savedCarts
+        })
+    } catch (error) {
+        console.error(`Error al insertar documento, ${error}`)
+        res.status(500).render('ERROR', {
+            style: 'index.css',
+            resultado: `Error del servidor: ${error}`
+        })
+    } finally {
+        await mongoose.connection.close(); // Cerrar la conexión cuando termine
+        console.log('Conexión cerrada correctamente');
+    }
 })
+
+router.delete("/:cid", async (req, res) => {
+    await deleteDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel).then(result => {
+        if (result.deletedCount === 0) {
+            return res.status(404).render('ERROR', {
+                style: 'index.css',
+                resultado: `Error del servidor: ID no Existe`
+            })
+        }
+        return res.send({ status: "success", message: "Carts delete" })
+    }).catch(error => {
+        res.status(500).render('ERROR', {
+            style: 'index.css',
+            resultado: `Error del servidor: ${error}`
+        })
+    })
+})
+
 
 export default router

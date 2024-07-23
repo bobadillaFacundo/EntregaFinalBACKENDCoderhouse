@@ -1,0 +1,21 @@
+<body>
+    <div class="main-container">
+        <section class="carts-section">
+            <div class="carts-container">
+                <div class="carts-item">
+                    <p><strong>_id:</strong> {{carts._id}}</p>
+                    {{#each carts.products}}
+                    <div class="carts-item">
+                        <p><strong>_id:</strong> {{carts.products._id}}</p>
+                        <button class="btn-delete-products" data-id3="{{carts.products._id}}">Eliminar</button>
+                    </div>
+                    {{/each}}
+                    <button class="btn-delete-carts" data-id2="{{carts._id}}">Eliminar</button>
+                    <button class="btn-volver">Volver</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+<script src="js/cartsList.js"></script>
