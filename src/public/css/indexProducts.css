@@ -1,35 +1,47 @@
-/* styles.css */
-.container {
-    margin: 10px;
-    padding: 10px;
-    border: 2px solid #333;
-    border-radius: 8px;
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-.product-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.product-item:last-child {
-    border-bottom: none;
-}
-
-p {
-    margin: 5px 0;
-}
-
-strong {
+h1 {
+    text-align: center;
     color: #333;
 }
 
+/* Products Section */
+.products-section {
+    margin: 20px;
+}
+
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.product-item {
+    background: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-item p {
+    margin: 5px 0;
+}
+
 button {
-    padding: 10px;
-    margin: 5px;
+    padding: 10px 15px;
     border: none;
-    border-radius: 4px;
-    color: #fff;
+    border-radius: 5px;
     cursor: pointer;
+    color: white;
+    font-size: 14px;
+    margin: 5px;
 }
 
 .btn-delete {
@@ -37,5 +49,66 @@ button {
 }
 
 .btn-cart {
-    background-color: #2ecc71;
+    background-color: #3498db;
 }
+
+/* Filters Section */
+.filters-section {
+    margin: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filters-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Forms Section */
+.forms-section {
+    margin: 20px;
+}
+
+.forms-section .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #27ae60;
+}
+
+input:focus, select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.toggle-form {
+    cursor: pointer;
+    color: #3498db;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+

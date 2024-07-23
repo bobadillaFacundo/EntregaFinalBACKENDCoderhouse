@@ -1,12 +1,15 @@
-<body>
-    <!-- Lista de Productos con botón de eliminar -->
-    <h2 class="toggle-form" data-target="productListWithDelete">Lista de Productos a Eliminar</h2>
-    <div id="productListWithDelete" class="product-list" style="display: none;"></div>
-</body>
-<script>
+<div class="product-item">
+    <p><strong>_id:</strong> {{products._id}}</p>
+    <p><strong>Title:</strong> {{products.title}}</p>
+    <p><strong>Description:</strong> {{products.description}}</p>
+    <p><strong>Code:</strong> {{products.code}}</p>
+    <p><strong>Stock:</strong> {{products.stock}}</p>
+    <p><strong>Category:</strong> {{products.category}}</p>
+    <p><strong>Price:</strong> {{products.price}}</p>
+    <button class="btn-delete" data-id="{{products._id}}">Eliminar</button>
+    <button class="btn-cart" data-id="{{products._id}}">Agregar al Carrito</button>
+    <button class="btn-volver">Volver</button>
 
+</div>
 
-    
-</script>
 <script src="js/products.js"></script>
-<link rel="stylesheet" href="/css/index.css">

@@ -1,18 +1,90 @@
-<h1>Lista de Productos</h1>
-{{#each products}}
-    <div class="container">
-        <div class="product-item">
-            <p><strong>_id:</strong> {{_id}}</p>
-            <p><strong>Title:</strong> {{title}}</p>
-            <p><strong>Description:</strong> {{description}}</p>
-            <p><strong>Code:</strong> {{code}}</p>
-            <p><strong>Stock:</strong> {{stock}}</p>
-            <p><strong>Category:</strong> {{category}}</p>
-            <p><strong>Price:</strong> {{price}}</p>
-            <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
-            <button class="btn-cart" data-id="{{_id}}">Agregar al Carrito</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Añadir enlace a tu archivo CSS -->
+</head>
+<body>
+    <h1>Lista de Productos</h1>
+    
+    <!-- Sección de Productos -->
+    <section class="products-section">
+        <div class="products-container">
+            {{#each products}}
+                <div class="product-item">
+                    <p><strong>_id:</strong> {{_id}}</p>
+                    <p><strong>Title:</strong> {{title}}</p>
+                    <p><strong>Description:</strong> {{description}}</p>
+                    <p><strong>Code:</strong> {{code}}</p>
+                    <p><strong>Stock:</strong> {{stock}}</p>
+                    <p><strong>Category:</strong> {{category}}</p>
+                    <p><strong>Price:</strong> {{price}}</p>
+                    <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+                    <button class="btn-cart" data-id="{{_id}}">Agregar al Carrito</button>
+                </div>
+            {{/each}}
         </div>
-    </div>
-{{/each}}
+    </section>
 
-<script src="js/indexProducts.js"></script>
+    <!-- Sección de Filtros -->
+    <section class="filters-section">
+        <h2>Filtros</h2>
+        <form id="filtersForm">
+            <label for="limit">Límite:</label>
+            <input type="number" id="limit" name="limit" min="1" value="10">
+
+            <label for="page">Página:</label>
+            <input type="number" id="page" name="page" min="1" value="1">
+
+            <label for="sort">Ordenar:</label>
+            <select id="sort" name="sort">
+                <option value="null"></option>
+                <option value="asc">Ascendente</option>
+                <option value="desc">Descendente</option>
+            </select>
+
+            <button type="submit">Aplicar Filtros</button>
+        </form>
+        
+        <div class="search-container">
+            <h2>Buscar por ID</h2>
+            <form id="IDB" method="get">
+                <label for="bID">ID del Producto:</label>
+                <input type="text" id="bID" name="bID" placeholder="ID producto">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Sección de Formularios -->
+    <section class="forms-section">
+        <h2 class="toggle-form" data-target="formCP">Cargar Producto</h2>
+        <form id="formCP" class="form" method="post">
+            <input type="text" id="titleCP" class="input" placeholder="Title" name="title">
+            <input type="text" id="descriptionCP" class="input" placeholder="Description" name="description">
+            <input type="text" id="codeCP" class="input" placeholder="Code" name="code">
+            <input type="text" id="priceCP" class="input" placeholder="Price" name="price">
+            <input type="text" id="stockCP" class="input" placeholder="Stock" name="stock">
+            <input type="text" id="categoryCP" class="input" placeholder="Category" name="category">
+            <button type="submit" class="button">Registrar</button>
+        </form>
+
+        <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
+        <form id="formMP" class="form" method="put">
+            <input type="text" id="idMP" class="input" placeholder="ID" name="id">
+            <input type="text" id="titleMP" class="input" placeholder="Title" name="title">
+            <input type="text" id="descriptionMP" class="input" placeholder="Description" name="description">
+            <input type="text" id="codeMP" class="input" placeholder="Code" name="code">
+            <input type="text" id="priceMP" class="input" placeholder="Price" name="price">
+            <input type="text" id="statusMP" class="input" placeholder="Status" name="status">
+            <input type="text" id="stockMP" class="input" placeholder="Stock" name="stock">
+            <input type="text" id="categoryMP" class="input" placeholder="Category" name="category">
+            <button type="submit" class="button">Modificar</button>
+        </form>
+    </section>
+</body>
+</html>
+ <script src="js/indexProducts.js"></script>
+ 

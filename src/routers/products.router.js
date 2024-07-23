@@ -67,7 +67,7 @@ router.get("/:pid", (req, res) => {
                 })
             }
             return res.render('products', {
-                style: 'index.css',
+                style: 'indexProducts.css',
                 products: result
             })
         })
