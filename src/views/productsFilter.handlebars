@@ -25,6 +25,7 @@
                     <p><strong>Description:</strong> {{description}}</p>
                     <p><strong>Code:</strong> {{code}}</p>
                     <p><strong>Stock:</strong> {{stock}}</p>
+                    <p><strong>Status:</strong> {{status}}</p>
                     <p><strong>Category:</strong> {{category}}</p>
                     <p><strong>Price:</strong> {{price}}</p>
                     <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
@@ -38,14 +39,15 @@
 
         <div class="pagination">
             {{#if result.hasPrevPage}}
-            <a href="?page={{result.prevPage}}&limit={{../query.limit}}" class="prev-link">
+            <a href="?page={{result.nextPage}}&limit={{../query.limit}}&sort={{../query.sort}}" class="prev-link">
                 << Anterior</a>
                     {{/if}}
 
                     <span class="page-number">{{result.page}}</span>
 
                     {{#if result.hasNextPage}}
-                    <a href="?page={{result.nextPage}}&limit={{../query.limit}}" class="next-link">Siguiente >></a>
+                    <a href="?page={{result.nextPage}}&limit={{../query.limit}}&sort={{../query.sort}}"
+                        class="next-link">Siguiente >></a>
                     {{/if}}
         </div>
     </div>

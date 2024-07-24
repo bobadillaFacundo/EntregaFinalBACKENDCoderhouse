@@ -1,7 +1,6 @@
 import path from "path"
 import { fileURLToPath } from "url"
 import mongo from 'mongoose'
-import porductsModel from "./models/products.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -56,8 +55,9 @@ export async function deleteDocumento(id, url, Model) {
   }
 }
 
-export function error(res,message){
-  res.status(404).render('ERROR', {
+export function ERROR(res,message,status){
+  status = status ?? 404
+  res.status(status).render('ERROR', {
       style: 'index.css',
       resultado: message
   })

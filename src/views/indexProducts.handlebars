@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,66 +8,14 @@
     <!-- Agregar Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
-     <header>
+    <header>
         <!-- Botón para mostrar carritos -->
         <button id="showCartButton" class="cart-button">
             <i class="fas fa-shopping-cart"></i> Ver Carrito
         </button>
     </header>
-    <h1>Lista de Productos</h1>
-
-    <!-- Sección de Productos -->
-    <section class="products-section">
-        <div class="products-container">
-            {{#each products}}
-            <div class="product-item">
-                <p><strong>_id:</strong> {{_id}}</p>
-                <p><strong>Title:</strong> {{title}}</p>
-                <p><strong>Description:</strong> {{description}}</p>
-                <p><strong>Code:</strong> {{code}}</p>
-                <p><strong>Stock:</strong> {{stock}}</p>
-                <p><strong>Category:</strong> {{category}}</p>
-                <p><strong>Price:</strong> {{price}}</p>
-                <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
-                <button class="btn-cart" data-id="{{_id}}">
-                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                </button>
-            </div>
-            {{/each}}
-        </div>
-    </section>
-
-    <!-- Sección de Filtros -->
-    <section class="filters-section">
-        <h2>Filtros</h2>
-        <form id="filtersForm" method="get">
-            <label for="limit">Límite:</label>
-            <input type="number" id="limit" name="limit" min="1" value="10">
-
-            <label for="page">Página:</label>
-            <input type="number" id="page" name="page" min="1" value="0">
-
-            <label for="sort">Ordenar:</label>
-            <select id="sort" name="sort">
-                <option value="null"></option>
-                <option value="asc">Ascendente</option>
-                <option value="desc">Descendente</option>
-            </select>
-
-            <button type="submit">Aplicar Filtros</button>
-        </form>
-        
-        <div class="search-container">
-            <h2>Buscar por ID</h2>
-            <form id="IDB" method="get">
-                <label for="bID">ID del Producto:</label>
-                <input type="text" id="bID" name="bID" placeholder="ID producto">
-                <button type="submit">Buscar</button>
-            </form>
-        </div>
-    </section>
-
     <!-- Sección de Formularios -->
     <section class="forms-section">
         <h2 class="toggle-form" data-target="formCP">Cargar Producto</h2>
@@ -93,6 +42,59 @@
             <button type="submit" class="button2">Modificar</button>
         </form>
     </section>
+    <!-- Sección de Filtros -->
+    <section class="filters-section">
+        <h2>Filtros</h2>
+        <form id="filtersForm" method="get">
+            <label for="limit">Límite:</label>
+            <input type="number" id="limit" name="limit" min="1" value="10">
+
+            <label for="page">Página:</label>
+            <input type="number" id="page" name="page" min="1" value="0">
+
+            <label for="sort">Ordenar:</label>
+            <select id="sort" name="sort">
+                <option value="null"></option>
+                <option value="asc">Ascendente</option>
+                <option value="desc">Descendente</option>
+            </select>
+
+            <button type="submit">Aplicar Filtros</button>
+        </form>
+
+        <div class="search-container">
+            <h2>Buscar por ID</h2>
+            <form id="IDB" method="get">
+                <label for="bID">ID del Producto:</label>
+                <input type="text" id="bID" name="bID" placeholder="ID producto">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+    </section>
+    <h1>Lista de Productos</h1>
+
+    <!-- Sección de Productos -->
+    <section class="products-section">
+        <div class="products-container">
+            {{#each products}}
+            <div class="product-item">
+                <p><strong>_id:</strong> {{_id}}</p>
+                <p><strong>Title:</strong> {{title}}</p>
+                <p><strong>Description:</strong> {{description}}</p>
+                <p><strong>Code:</strong> {{code}}</p>
+                <p><strong>Stock:</strong> {{stock}}</p>
+                <p><strong>Status:</strong> {{status}}</p>
+                <p><strong>Category:</strong> {{category}}</p>
+                <p><strong>Price:</strong> {{price}}</p>
+                <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+                <button class="btn-cart" data-id="{{_id}}">
+                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                </button>
+            </div>
+            {{/each}}
+        </div>
+    </section>
     <script src="js/indexProducts.js"></script>
 </body>
+
 </html>
