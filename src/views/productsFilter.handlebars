@@ -1,35 +1,47 @@
-{{#if isValid}}
-<div>
-    {{#each docs}}
-    <div class="product-item">
-        <p><strong>_id:</strong> {{this._id}}</p>
-        <p><strong>Title:</strong> {{this.title}}</p>
-        <p><strong>Description:</strong> {{this.description}}</p>
-        <p><strong>Code:</strong> {{this.code}}</p>
-        <p><strong>Stock:</strong> {{this.stock}}</p>
-        <p><strong>Category:</strong> {{this.category}}</p>
-        <p><strong>Price:</strong> {{this.price}}</p>
-        <button class="btn-delete" data-id="{{this._id}}">Eliminar</button>
-        <button class="btn-cart" data-id="{{this._id}}">Agregar al Carrito</button>
-    </div>
+<header>
     <button class="btn-volver">Volver</button>
-    <br />
-    {{/each}}
-</div>
-<br />
+</header>
+{{#if result.isValid}}
 <div>
-    {{#if hasPrevPage}}
-    <a href={{this.prevLink}}>
-        << Anterior</a>
-            {{/if}}
-            &nbsp;
-            {{this.page}}
-            &nbsp;
-            {{#if hasNextPage}}
-            <a href={{this.nextLink}}>Siguiente >></a>
-            {{/if}}
+    <h1>Lista de productos</h1>
+    <ul>
+       <!-- Sección de Productos -->
+    <section class="products-section">
+        <div class="products-container">
+            {{#each result.docs}}
+            <div class="product-item">
+                <p><strong>_id:</strong> {{_id}}</p>
+                <p><strong>Title:</strong> {{title}}</p>
+                <p><strong>Description:</strong> {{description}}</p>
+                <p><strong>Code:</strong> {{code}}</p>
+                <p><strong>Stock:</strong> {{stock}}</p>
+                <p><strong>Category:</strong> {{category}}</p>
+                <p><strong>Price:</strong> {{price}}</p>
+                <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+                <button class="btn-cart" data-id="{{_id}}">
+                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                </button>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+    </ul>
+    <br />
+    <div>
+        {{#if result.hasPrevPage}}
+        <a href={{this.prevLink}}>
+            << Anterior</a>
+                {{/if}}
+                &nbsp;
+                {{this.page}}
+                &nbsp;
+                {{#if result.hasNextPage}}
+                <a href={{this.nextLink}}>Siguiente >></a>
+                {{/if}}
+    </div>
 </div>
 {{else}}
 <h1>No hay productos para mostrar</h1>
 {{/if}}
-<script src="js/indexProducts.js"></script>
+<script src="js/productsFilter.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

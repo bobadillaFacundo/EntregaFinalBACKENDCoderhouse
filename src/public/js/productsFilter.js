@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json()
             alert(result.message); // Mostrar mensaje de éxito o error
             if (response.ok) {
-                window.location.href = `http://localhost:8080/api/products`
+                location.reload()
             }
         } catch (error) {
             console.error('Error:', error)

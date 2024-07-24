@@ -1,5 +1,5 @@
 import express from "express"
-import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento,error } from "../utils.js"
+import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, error } from "../utils.js"
 import porductsModel from '../models/products.js'
 import mongoose from 'mongoose'
 import __dirname from "../utils.js"
@@ -8,25 +8,31 @@ import __dirname from "../utils.js"
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
-router.get('/',async (req, res) => {
+router.get('/', async (req, res) => {
     let page = parseInt(req.query.page)
-    if(page>0){
-    //Lean es crucial para mostrar en Handlebars, ya que evita la "hidratación" del documento de mongoose,
-    //esto hace que a Handlebars llegue el documento como plain object y no como Document.
-    try {
-    let result = await porductsModel.paginate({},{page,limit:req.query.limit,lean:true})
-    result.prevLink = result.hasPrevPage?`http://localhost:8080/api/products?page=${result.prevPage}`:'';
-    result.nextLink = result.hasNextPage?`http://localhost:8080/api/products?page=${result.nextPage}`:'';
-    result.isValid= !(page<=0||page>result.totalPages)
-    return res.render('productsFilter',{
-        style: 'indexProducts.css',
-        result
-    })   
-    } catch (error) {
-        //error(res, `Error del servidor: ${error}`)
+    let limit = parseInt(req.query.limit)
+    if (page > 0) {
+        try {
+            await mongoose.connect(process.env.MONGO_DB_URL)
+            let result = await porductsModel.paginate({}, { page, limit, lean: true })
+            result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : ''
+            result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : ''
+            result.isValid = !(page <= 0 || page > result.totalPages)
+            console.log(result.isValid)
+            return res.render('productsFilter', {
+                style: 'indexProducts.css',
+                result
+            })
+        } catch (error) {
+            console.error(`Server Error: ${error}`);
+            return res.send(`Error del servidor: ${error}`)
+        }
+        finally {
+            await mongoose.connection.close(); // Cerrar la conexión cuando termine
+            console.log('Conexión cerrada correctamente en get product');
+        }
     }
-    }
-    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,porductsModel).then(result => {
+    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
         return res.render('indexProducts', {
             style: 'indexProducts.css',
             products: result
@@ -68,9 +74,9 @@ router.post("/", (async (req, res) => {
     }
 }))
 
-router.get("/:pid",async (req, res) => {
-    if(!mongoose.Types.ObjectId.isValid(req.params.pid)){
-        return error(res,`Error del servidor: ID no Existe`)
+router.get("/:pid", async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
+        return error(res, `Error del servidor: ID no Existe`)
     }
     await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
         .then(result => {
@@ -88,8 +94,8 @@ router.get("/:pid",async (req, res) => {
 })
 
 router.delete("/:pid", async (req, res) => {
-    if(!mongoose.Types.ObjectId.isValid(req.params.pid)){
-        return error(res,`Error del servidor: ID no Existe`)
+    if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
+        return error(res, `Error del servidor: ID no Existe`)
     }
     await deleteDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result => {
         if (result.deletedCount === 0) {
@@ -103,13 +109,13 @@ router.delete("/:pid", async (req, res) => {
 
 router.put("/:pid", async (req, res) => {
     const user = req.body
-    if(!mongoose.Types.ObjectId.isValid(req.params.pid)){
-        return error(res,`Error del servidor: ID no Existe`)
+    if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
+        return error(res, `Error del servidor: ID no Existe`)
     }
-    
+
     await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(async result => {
         if (result.deletedCount === 0) {
-            return error(res,`Error del servidor: ID no Existe`)
+            return error(res, `Error del servidor: ID no Existe`)
         }
         const products = {
             title: user.title || result.title,
@@ -125,9 +131,9 @@ router.put("/:pid", async (req, res) => {
             await mongoose.connect(process.env.MONGO_DB_URL)
             const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
             if (savedProduct.matchedCount === 0) {
-                return error(res,`Error producto no encontrado`)
+                return error(res, `Error producto no encontrado`)
             }
-            obtenerTodosLosDocumentos(process.env.MONGO_DB_URL,porductsModel).then(result => {
+            obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
                 return res.render('putProducts', {
                     style: 'indexProducts.css',
                     products: result
@@ -135,7 +141,7 @@ router.put("/:pid", async (req, res) => {
             }).catch(error => {
                 error(res, `Error del servidor: ${error}`)
             })
-    
+
         } catch (error) {
             console.error('Error en el Put Products', error)
             error(res, `Error del servidor: ${error}`)
@@ -147,7 +153,7 @@ router.put("/:pid", async (req, res) => {
         error(res, `Error del servidor: ${error}`)
     })
 
-    
+
 })
 
 
