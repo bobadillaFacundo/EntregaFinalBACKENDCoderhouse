@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
         try {
             await mongoose.connect(process.env.MONGO_DB_URL)
             let result = await porductsModel.paginate({}, { page, limit, lean: true })
-            result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : ''
-            result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : ''
+            result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${limit}` : '';
+            result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${limit}` : '';
             result.isValid = !(page <= 0 || page > result.totalPages)
             console.log(result.isValid)
             return res.render('productsFilter', {

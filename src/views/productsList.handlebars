@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
 <div class="product-item">
     <p><strong>_id:</strong> {{products._id}}</p>
     <p><strong>Title:</strong> {{products.title}}</p>
@@ -7,7 +17,9 @@
     <p><strong>Category:</strong> {{products.category}}</p>
     <p><strong>Price:</strong> {{products.price}}</p>
     <button class="btn-delete" data-id="{{products._id}}">Eliminar</button>
-    <button class="btn-cart" data-id="{{products._id}}">Agregar al Carrito</button>
+    <button class="btn-cart" data-id="{{_id}}">
+        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+    </button>
     <button class="btn-volver">Volver</button>
 </div>
 

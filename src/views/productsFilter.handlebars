@@ -1,47 +1,61 @@
-<header>
-    <button class="btn-volver">Volver</button>
-</header>
-{{#if result.isValid}}
-<div>
-    <h1>Lista de productos</h1>
-    <ul>
-       <!-- Sección de Productos -->
-    <section class="products-section">
-        <div class="products-container">
-            {{#each result.docs}}
-            <div class="product-item">
-                <p><strong>_id:</strong> {{_id}}</p>
-                <p><strong>Title:</strong> {{title}}</p>
-                <p><strong>Description:</strong> {{description}}</p>
-                <p><strong>Code:</strong> {{code}}</p>
-                <p><strong>Stock:</strong> {{stock}}</p>
-                <p><strong>Category:</strong> {{category}}</p>
-                <p><strong>Price:</strong> {{price}}</p>
-                <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
-                <button class="btn-cart" data-id="{{_id}}">
-                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                </button>
-            </div>
-            {{/each}}
-        </div>
-    </section>
-    </ul>
-    <br />
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <button class="btn-volver">Volver</button>
+    </header>
+
+    {{#if result.isValid}}
     <div>
-        {{#if result.hasPrevPage}}
-        <a href={{this.prevLink}}>
-            << Anterior</a>
-                {{/if}}
-                &nbsp;
-                {{this.page}}
-                &nbsp;
-                {{#if result.hasNextPage}}
-                <a href={{this.nextLink}}>Siguiente >></a>
-                {{/if}}
+        <h1>Lista de productos</h1>
+        <section class="products-section">
+            <div class="products-container">
+                {{#each result.docs}}
+                <div class="product-item">
+                    <p><strong>_id:</strong> {{_id}}</p>
+                    <p><strong>Title:</strong> {{title}}</p>
+                    <p><strong>Description:</strong> {{description}}</p>
+                    <p><strong>Code:</strong> {{code}}</p>
+                    <p><strong>Stock:</strong> {{stock}}</p>
+                    <p><strong>Category:</strong> {{category}}</p>
+                    <p><strong>Price:</strong> {{price}}</p>
+                    <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+                    <button class="btn-cart" data-id="{{_id}}">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                </div>
+                {{/each}}
+            </div>
+        </section>
+
+        <div class="pagination">
+            {{#if result.hasPrevPage}}
+            <a href="?page={{result.prevPage}}&limit={{../query.limit}}" class="prev-link">
+                << Anterior</a>
+                    {{/if}}
+
+                    <span class="page-number">{{result.page}}</span>
+
+                    {{#if result.hasNextPage}}
+                    <a href="?page={{result.nextPage}}&limit={{../query.limit}}" class="next-link">Siguiente >></a>
+                    {{/if}}
+        </div>
     </div>
-</div>
-{{else}}
-<h1>No hay productos para mostrar</h1>
-{{/if}}
-<script src="js/productsFilter.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {{else}}
+    <div>
+        <h1>No hay productos para mostrar</h1>
+    </div>
+    {{/if}}
+
+    <script src="js/productsFilter.js"></script>
+</body>
+
+</html>
