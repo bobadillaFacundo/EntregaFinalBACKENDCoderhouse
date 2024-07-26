@@ -30,9 +30,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
+
+            const selectElement = document.getElementById('popupList');
+            const carritoId = selectElement.value;
             const id = button.getAttribute('data-id')
-            handleAddToCart(id)
+            const numberProducts = document.getElementById('numberProducts').value; // Asegúrate de que este elemento existe y tenga un valor
+
+            try {
+                // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
+                const response = await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+
+                if (response.ok) {
+                    location.reload();
+                    alert(`Se agregó al carrito: ${carritoId}`);
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData);
+                    alert(`Error al agregar al carrito: ${errorData.message}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error al agregar al carrito: ${error.message}`);
+            }
         })
     })
 
