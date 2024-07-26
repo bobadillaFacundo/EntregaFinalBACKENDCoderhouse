@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', async () => {
             const idCart = button.getAttribute("data-id-carrito")
             const idproducto = button.getAttribute("data-id-producto")
+            alert("idcart"+idCart+" idproducto"+idproducto)
             try {
                 await fetch(`http://localhost:8080/api/carts/${idCart}/product/${idproducto}`, {
                     method: 'DELETE'

@@ -116,7 +116,7 @@ router.delete("/:cid/product/:pid", async (req, res) => {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
         }
         await mongoose.connect(process.env.MONGO_DB_URL)
-        let x = await carrito.products.find(a => a._id.toString() !== producto._id.toString())
+        let x = await carrito.products.filter(a => a._id.toString() !== producto._id.toString())
        
         carrito.products = x
         

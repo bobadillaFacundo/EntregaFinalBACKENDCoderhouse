@@ -39,7 +39,6 @@
         <!-- Sección de Carts -->
         <section class="carts-section">
             <div class="carts-container">
-                <form id="CP">
                 {{#each carts}}
                 <div class="carts-item">
                     <label for="text">Carrito:</label>
@@ -49,12 +48,11 @@
                     <div class="product-item">
                         <p><strong>_id:</strong> {{_id}}</p>
                         <p><strong>cantidad:</strong> {{cantidad}}</p>
-                        <button type="button" "btn-delete-productsCarts" data-id-carrito={{../carts._id}} data-id-producto={{_id}}>Eliminar</button>
+                        <button class="btn-delete-productsCarts" data-id-producto={{_id}} data-id-carrito={{../_id}} >Eliminar</button>
                     </div>
                     {{/each}}
                 </div>
                 {{/each}}
-                </form>
             </div>
         </section>
     </div>
