@@ -2,11 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para manejar la eliminación de un producto
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/products/${id}`, {
+            await fetch(`http://localhost:8080/api/products/${id}`, {
                 method: 'DELETE'
             })
-            const result = await response.json()
-            alert(result.message)
+         
             if (response.ok) {
                 location.reload()
             }
@@ -51,10 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => window.location.href = 'http://localhost:8080/api/carts')
     })
 
-    // Navegar al carrito
-    document.querySelectorAll('.button2').forEach(button => {
+    document.querySelectorAll('.button22').forEach(button => {
         button.addEventListener('click', async () => {
-
+            event.preventDefault()
             const data = {
                 title: document.getElementById('titleMP').value,
                 description: document.getElementById('descriptionMP').value,
@@ -65,17 +63,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: document.getElementById('categoryMP').value
             }
 
+            console.log(data);
+
             try {
-                const response = await fetch(`http://localhost:8080/api/products/${document.getElementById('idMP').value}`, {
+                await fetch(`http://localhost:8080/api/products/${document.getElementById('idMP').value}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-
-                const result = await response.json()
-                alert('Producto modificado: ' + result.message)
-                location.reload()
                 document.getElementById('formMP').reset()
+                alert("Se modifico el producto")
+                location.reload()
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al actualizar el producto')
@@ -84,6 +82,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
     })
+
+    document.querySelectorAll('.button2').forEach(button => {
+        button.addEventListener('click', async () => {
+
+            const data = {
+                title: document.getElementById('titleCP').value,
+                description: document.getElementById('descriptionCP').value,
+                code: document.getElementById('codeCP').value,
+                price: document.getElementById('priceCP').value,
+                status: document.getElementById('statusCP').value,
+                stock: document.getElementById('stockCP').value,
+                category: document.getElementById('categoryCP').value
+            }
+
+            try {
+                await fetch(`http://localhost:8080/api/products/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                document.getElementById('formCP').reset()
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al cargar el producto')
+            }
+
+
+        })
+    })
+
+
+
+
 
     document.querySelectorAll('.button223').forEach(button => {
         button.addEventListener('click', async () => {
@@ -96,13 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (idInput) {
                     const id = idInput.value
                     if (id) {
-                        console.log(`Redirigiendo a: http://localhost:8080/api/products/${id}`)
                         window.location.href = `http://localhost:8080/api/products/${id}`
                     } else {
                         alert('Error, ingrese el ID del producto');
                     }
                 } else {
-                    console.error('No se encontró el elemento con ID "bID"')
+                    console.error('No se encontró el elemento ese ID')
                 }
             })
         })

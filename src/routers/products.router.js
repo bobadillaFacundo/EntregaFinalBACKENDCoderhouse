@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
     let limit = parseInt(req.query.limit)
     let sort = req.query.sort
     let message
-    console.log(sort)
     if (!sort) ({ page, limit, lean: true })   
     if (sort=="asc") ({ page, limit, lean: true, sort: {price: 1} })  
     if (sort=="desc") ({ page, limit, lean: true,sort: {price: -1} })   
@@ -35,7 +34,7 @@ router.get('/', async (req, res) => {
         }
         finally {
             await mongoose.connection.close(); // Cerrar la conexión cuando termine
-            console.log('Conexión cerrada correctamente en get product');
+            ('Conexión cerrada correctamente en get product');
         }
     }
     await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
@@ -118,7 +117,7 @@ router.put("/:pid", async (req, res) => {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
 
-    await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(async result => {
+    const result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
@@ -138,15 +137,10 @@ router.put("/:pid", async (req, res) => {
             if (savedProduct.matchedCount === 0) {
                 return ERROR(res, `Error producto no encontrado`)
             }
-            obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
-                return res.render('putProducts', {
-                    style: 'indexProducts.css',
-                    products: result
+            return res.render('putProducts', {
+               style: 'indexProducts.css',
+               products: savedProduct
                 })
-            }).catch(error => {
-                ERROR(res, `Error del servidor: ${error}`)
-            })
-
         } catch (error) {
             console.error('Error en el Put Products', error)
             ERROR(res, `Error del servidor: ${error}`)
@@ -154,11 +148,6 @@ router.put("/:pid", async (req, res) => {
             await mongoose.connection.close(); // Cerrar la conexión cuando termine
             console.log('Conexión cerrada correctamente en put product');
         }
-    }).catch(error => {
-        ERROR(res, `Error del servidor: ${error}`)
-    })
-
-
 })
 
 

@@ -38,22 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const numberProducts = document.getElementById('numberProducts').value; // Asegúrate de que este elemento existe y tenga un valor
 
             try {
+                alert("numberProducts"+numberProducts+"id"+id+"carritoId"+carritoId)
                 // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
-                const response = await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
+                    method: 'POST'
                 })
 
-                if (response.ok) {
-                    location.reload();
-                    alert(`Se agregó al carrito: ${carritoId}`);
-                } else {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData);
-                    alert(`Error al agregar al carrito: ${errorData.message}`);
-                }
+                location.reload();
+                alert(`Se agregó producto al carrito: ${carritoId}`);
+
             } catch (error) {
                 console.error('Error:', error);
                 alert(`Error al agregar al carrito: ${error.message}`);
