@@ -10,31 +10,56 @@ const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
 router.get('/', async (req, res) => {
-    let page = parseInt(req.query.page)
-    let limit = parseInt(req.query.limit)
+    let page = parseInt(req.query.page) 
+    let limit = parseInt(req.query.limit) 
     let sort = req.query.sort
-    let message
-    if (!sort) ({ page, limit, lean: true })
-    if (sort == "asc") ({ page, limit, lean: true, sort: { price: 1 } })
-    if (sort == "desc") ({ page, limit, lean: true, sort: { price: -1 } })
+    let sortOption = {}
+    let tipo = req.query.tipo
+
+
+    if(tipo==='category'){
+    if (sort === "asc") {
+        sortOption = { category: 1 }
+    } else if (sort === "desc") {
+        sortOption = { category: -1 }
+    }}
+    
+    if(tipo==='price'){
+        if (sort === "asc") {
+            sortOption = { price: 1 }
+        } else if (sort === "desc") {
+            sortOption = { price: -1 }
+        }}
+   
     if (page > 0) {
         try {
             await mongoose.connect(process.env.MONGO_DB_URL)
-            let result = await porductsModel.paginate({}, message)
-            result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${limit}&sort=${1}` : '';
-            result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${limit}&sort=${1}` : '';
+            
+            let result = await porductsModel.paginate({}, {
+                page,
+                limit,
+                lean: true,
+                sort: sortOption
+            })
+    
+            result.prevLink = result.hasPrevPage 
+                ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${result.limit}&sort=${result.sort}` 
+                : ''
+            result.nextLink = result.hasNextPage 
+                ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${result.limit}&sort=${result.sort}` 
+                : ''
             result.isValid = !(page <= 0 || page > result.totalPages)
+    
             return res.render('productsFilter', {
                 style: 'indexProducts.css',
                 result
-            })
+            });
         } catch (error) {
-            console.error(`Server Error: ${error}`);
-            return ERROR(res`Error del servidor: ${error}`)
-        }
-        finally {
+            console.error(`Server Error: ${error}`)
+            return ERROR(res,`Error del servidor: ${error}`,'500')
+        } finally {
             await mongoose.connection.close(); // Cerrar la conexión cuando termine
-            ('Conexión cerrada correctamente en get product');
+            console.log('Conexión cerrada correctamente en get product')
         }
     }
     await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {

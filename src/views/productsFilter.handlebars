@@ -39,16 +39,16 @@
 
         <div class="pagination">
             {{#if result.hasPrevPage}}
-            <a href="?page={{result.nextPage}}&limit={{../query.limit}}&sort={{../query.sort}}" class="prev-link">
+            <a href="?page={{result.prevPage}}&limit={{result.limit}}&sort={{result.sort}}" class="prev-link">
                 << Anterior</a>
-                    {{/if}}
+            {{/if}}
 
-                    <span class="page-number">{{result.page}}</span>
+            <span class="page-number">{{result.page}}</span>
 
-                    {{#if result.hasNextPage}}
-                    <a href="?page={{result.nextPage}}&limit={{../query.limit}}&sort={{../query.sort}}"
-                        class="next-link">Siguiente >></a>
-                    {{/if}}
+            {{#if result.hasNextPage}}
+            <a href="?page={{result.nextPage}}&limit={{result.limit}}&sort={{result.sort}}"
+                class="next-link">Siguiente >></a>
+            {{/if}}
         </div>
     </div>
     {{else}}

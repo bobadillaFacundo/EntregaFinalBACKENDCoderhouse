@@ -59,13 +59,18 @@
                 <option value="asc">Ascendente</option>
                 <option value="desc">Descendente</option>
             </select>
-
+            <label for="ordenar">Ordenar:</label>
+            <select id="tipo" name="tipo">
+                <option value="null"></option>
+                <option value="category">Categoria</option>
+                <option value="price">Precio</option>
+            </select>
             <button type="submit">Aplicar Filtros</button>
         </form>
 
         <div class="search-container">
             <h2>Buscar por ID</h2>
-            <form id="IDB" >
+            <form id="IDB">
                 <label for="BID">ID del Producto:</label>
                 <input type="text" id="bID" name="bID" placeholder="ID producto">
                 <button type="button" class="button223">Buscar</button>
@@ -99,19 +104,20 @@
     <div class="overlay" id="popupOverlay">
         <div class="popup">
             <form id="carritoForm">
-            <h2>Producto: </h2>
-            <h2 id="h2"></h2>
-            <h2>Lista de carritos</h2>
-            <select id="popupList">
-            </select>
-            <label for="name">Cantidad:</label>
-            <input type="number" id="numberProducts" name="number" min="1" value="0">
-            <button class="close-btn" onclick="closePopup()">Cerrar</button>
-            <button type="submit" id="agregarCarrito" class="agregarCarrito-btn">Seleccionar</button>
+                <h2>Producto: </h2>
+                <h2 id="h2"></h2>
+                <h2>Lista de carritos</h2>
+                <select id="popupList">
+                </select>
+                <label for="name">Cantidad:</label>
+                <input type="number" id="numberProducts" name="number" min="1" value="0">
+                <button class="close-btn" onclick="closePopup()">Cerrar</button>
+                <button type="submit" id="agregarCarrito" class="agregarCarrito-btn">Seleccionar</button>
             </form>
         </div>
     </div>
 
 </body>
+
 </html>
-    <script src="js/indexProducts.js"></script>
+<script src="js/indexProducts.js"></script>
