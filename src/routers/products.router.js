@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
     let limit = parseInt(req.query.limit)
     let sort = req.query.sort
     let message
-    if (!sort) ({ page, limit, lean: true })   
-    if (sort=="asc") ({ page, limit, lean: true, sort: {price: 1} })  
-    if (sort=="desc") ({ page, limit, lean: true,sort: {price: -1} })   
+    if (!sort) ({ page, limit, lean: true })
+    if (sort == "asc") ({ page, limit, lean: true, sort: { price: 1 } })
+    if (sort == "desc") ({ page, limit, lean: true, sort: { price: -1 } })
     if (page > 0) {
         try {
             await mongoose.connect(process.env.MONGO_DB_URL)
@@ -112,42 +112,51 @@ router.delete("/:pid", async (req, res) => {
 })
 
 router.put("/:pid", async (req, res) => {
-    const user = req.body
+    const user = req.body;
+
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
-        return ERROR(res, `Error del servidor: ID no Existe`)
+        return ERROR(res,"ID no es válido")
     }
 
-    const result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
-        if (result.deletedCount === 0) {
-            return ERROR(res, `Error del servidor: ID no Existe`)
+    let result;
+    try {
+        result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel);
+        if (!result) {
+            return ERROR(res,"Documento no encontrado" )
         }
-        const products = {
-            title: user.title || result.title,
-            description: user.description || result.description,
-            code: user.code || result.code,
-            price: user.price || result.price,
-            status: user.status || result.status,
-            stock: user.stock || result.stock,
-            category: user.category || result.category,
-            thumbnails: user.thumbnails || result.thumbnails
+    } catch (error) {
+        console.error('Error obteniendo el documento:', error)
+        return ERROR(res,'Error del servidor',"500")
+    }
+
+    const products = {
+        title: user.title || result.title,
+        description: user.description || result.description,
+        code: user.code || result.code,
+        price: user.price || result.price,
+        status: user.status || result.status,
+        stock: user.stock || result.stock,
+        category: user.category || result.category,
+        thumbnails: user.thumbnails || result.thumbnails
+    };
+
+    try {
+        await mongoose.connect(process.env.MONGO_DB_URL)
+        const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
+        if (savedProduct.matchedCount === 0) {
+            return ERROR(res, "Producto no encontrado"  )
         }
-        try {
-            await mongoose.connect(process.env.MONGO_DB_URL)
-            const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
-            if (savedProduct.matchedCount === 0) {
-                return ERROR(res, `Error producto no encontrado`)
-            }
-            return res.render('putProducts', {
-               style: 'indexProducts.css',
-               products: savedProduct
-                })
-        } catch (error) {
-            console.error('Error en el Put Products', error)
-            ERROR(res, `Error del servidor: ${error}`)
-        } finally {
-            await mongoose.connection.close(); // Cerrar la conexión cuando termine
-            console.log('Conexión cerrada correctamente en put product');
-        }
+
+        return res.render('putProducts', {
+            style: 'indexProducts.css',
+            products: products // Asegúrate de que 'products' sea lo que necesitas renderizar
+        })
+    } catch (error) {
+        console.error('Error actualizando el producto:', error)
+        return ERROR(res,'Error del servidor',"500")
+    } finally {
+        mongoose.connection.close()
+    }
 })
 
 

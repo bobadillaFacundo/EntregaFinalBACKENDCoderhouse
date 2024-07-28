@@ -29,17 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
     })
-    document.querySelectorAll('.button223').forEach(button => {
+    document.querySelectorAll('.product-button2').forEach(button => {
         button.addEventListener('click', async () => {
-            const id = document.getElementById('bID').value
-            alert(id)
-            if (id !== '') {
-                window.location.href = `http://localhost:8080/api/carts/${id}`
-                document.getElementById('bID').value = ''
-            } else {
-                alert('Error, ingrese el id del carrito')
-            }
-
+            const idInput = document.getElementById('CID').value
+                if (idInput) {
+                    window.location.href = `http://localhost:8080/api/carts/${idInput}`
+                } else {
+                    alert('Error, ingrese el ID del producto');
+                }
         })
     })
 })

@@ -112,17 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
-
-
-
-
     document.querySelectorAll('.button223').forEach(button => {
         button.addEventListener('click', async () => {
-            // Verifica si los botones con clase 'button223' existen y agrega los eventos
-    const buttons = document.querySelectorAll('.button223');
-    if (buttons.length > 0) {
-        buttons.forEach(button => {
-            button.addEventListener('click', async () => {
                 const idInput = document.getElementById('bID')
                 if (idInput) {
                     const id = idInput.value
@@ -132,17 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         alert('Error, ingrese el ID del producto');
                     }
                 } else {
-                    console.error('No se encontró el elemento ese ID')
+                    console.error('No se encontró ID')
                 }
+            
             })
         })
-    } else {
-        console.error('No se encontraron botones con la clase "button223"')
-    }
-        })
-    })
 
-})
+    })
 
 // Función para abrir la ventana emergente y agregar una lista
 function openPopup(items) {
