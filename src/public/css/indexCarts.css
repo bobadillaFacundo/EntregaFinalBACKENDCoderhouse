@@ -25,7 +25,7 @@ button {
     margin: 5px; /* Disminuye el margen */
 }
 
-.product-button, .product-button2, .product-button3, .btn-volver {
+.product-button, .product-button2, .product-button3, .btn-volver, .button_ {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -37,7 +37,7 @@ button {
     align-items: center;
 }
 
-.product-button:hover, .product-button2:hover, .product-button3:hover {
+.product-button:hover, .product-button2:hover, .product-button3:hover, .button_:hover {
     background-color: #0056b3;
 }
 
@@ -45,7 +45,7 @@ button {
     margin-right: 8px;
 }
 
-.btn-delete, .btn-delete-carts {
+.btn-delete, .btn-delete-carts, .btn-delete-Cart, .btn-delete-productsCarts {
     background-color: #e74c3c;
 }
 

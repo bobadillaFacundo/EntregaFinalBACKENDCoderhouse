@@ -23,8 +23,8 @@
                 <h2>Buscar por ID</h2>
                 <form id="cID" method="get">
                     <label for="cID">ID del Carrito:</label>
-                    <input type="text" id="CID" name="bID" placeholder="ID del carrito">
-                    <button type="submit" class="product-button2">Buscar</button>
+                    <input type="text" id="CID" name="CID" placeholder="ID del carrito">
+                    <button type="submit" class="button_">Buscar</button>
                 </form>
             </div>
             <br>
@@ -48,9 +48,12 @@
                     <div class="product-item">
                         <p><strong>_id:</strong> {{_id}}</p>
                         <p><strong>cantidad:</strong> {{cantidad}}</p>
-                        <button class="btn-delete-productsCarts" data-id-producto={{_id}} data-id-carrito={{../_id}} >Eliminar</button>
+                        <button class="btn-delete-productsCarts" data-id-producto={{_id}}
+                            data-id-carrito={{../_id}}>Eliminar Producto</button>
                     </div>
                     {{/each}}
+                    <button class="btn-delete-Cart" data-id-carrito={{_id}}>Eliminar Carrito</button>
+
                 </div>
                 {{/each}}
             </div>

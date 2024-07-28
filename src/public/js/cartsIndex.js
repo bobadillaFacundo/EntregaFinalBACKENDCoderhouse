@@ -32,11 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.product-button2').forEach(button => {
         button.addEventListener('click', async () => {
             const idInput = document.getElementById('CID').value
+            alert(idInput)
                 if (idInput) {
                     window.location.href = `http://localhost:8080/api/carts/${idInput}`
                 } else {
                     alert('Error, ingrese el ID del producto');
                 }
+        })
+    })
+     document.querySelectorAll('.btn-delete-Cart').forEach(button => {
+        button.addEventListener('click', async () => {
+            const idCart = button.getAttribute("data-id-carrito")
+            try {
+                await fetch(`http://localhost:8080/api/carts/${idCart}`, {
+                    method: 'DELETE'
+                })
+                alert('Se elimino carrito')
+                location.reload()
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al eliminar el carrito')
+            }
+
         })
     })
 })
