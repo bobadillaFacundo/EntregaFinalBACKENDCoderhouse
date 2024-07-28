@@ -10,53 +10,57 @@ const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
 router.get('/', async (req, res) => {
-    let page = parseInt(req.query.page) 
-    let limit = parseInt(req.query.limit) 
+    let page = parseInt(req.query.page)
+    let limit = parseInt(req.query.limit)
     let sort = req.query.sort
     let sortOption = {}
     let tipo = req.query.tipo
 
 
-    if(tipo==='category'){
-    if (sort === "asc") {
-        sortOption = { category: 1 }
-    } else if (sort === "desc") {
-        sortOption = { category: -1 }
-    }}
-    
-    if(tipo==='price'){
+    if (tipo === 'category') {
+        if (sort === "asc") {
+            sortOption = { category: 1 }
+        } else if (sort === "desc") {
+            sortOption = { category: -1 }
+        }
+    }
+
+    if (tipo === 'price') {
         if (sort === "asc") {
             sortOption = { price: 1 }
         } else if (sort === "desc") {
             sortOption = { price: -1 }
-        }}
-   
+        }
+    }
+
     if (page > 0) {
         try {
             await mongoose.connect(process.env.MONGO_DB_URL)
-            
+
             let result = await porductsModel.paginate({}, {
                 page,
                 limit,
                 lean: true,
                 sort: sortOption
             })
-    
-            result.prevLink = result.hasPrevPage 
-                ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${result.limit}&sort=${result.sort}` 
+
+            result.prevLink = result.hasPrevPage
+                ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${result.limit}&sort=${result.sort}&tipo=${tipo}`
                 : ''
-            result.nextLink = result.hasNextPage 
-                ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${result.limit}&sort=${result.sort}` 
+            result.nextLink = result.hasNextPage
+                ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${result.limit}&sort=${result.sort}&tipo=${tipo}`
                 : ''
             result.isValid = !(page <= 0 || page > result.totalPages)
-    
+            result.sort = sort
+            result.tipo = tipo 
+            
             return res.render('productsFilter', {
                 style: 'indexProducts.css',
                 result
             });
         } catch (error) {
             console.error(`Server Error: ${error}`)
-            return ERROR(res,`Error del servidor: ${error}`,'500')
+            return ERROR(res, `Error del servidor: ${error}`, '500')
         } finally {
             await mongoose.connection.close(); // Cerrar la conexión cuando termine
             console.log('Conexión cerrada correctamente en get product')
@@ -140,18 +144,18 @@ router.put("/:pid", async (req, res) => {
     const user = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
-        return ERROR(res,"ID no es válido")
+        return ERROR(res, "ID no es válido")
     }
 
     let result;
     try {
         result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel);
         if (!result) {
-            return ERROR(res,"Documento no encontrado" )
+            return ERROR(res, "Documento no encontrado")
         }
     } catch (error) {
         console.error('Error obteniendo el documento:', error)
-        return ERROR(res,'Error del servidor',"500")
+        return ERROR(res, 'Error del servidor', "500")
     }
 
     const products = {
@@ -169,7 +173,7 @@ router.put("/:pid", async (req, res) => {
         await mongoose.connect(process.env.MONGO_DB_URL)
         const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
         if (savedProduct.matchedCount === 0) {
-            return ERROR(res, "Producto no encontrado"  )
+            return ERROR(res, "Producto no encontrado")
         }
 
         return res.render('putProducts', {
@@ -178,7 +182,7 @@ router.put("/:pid", async (req, res) => {
         })
     } catch (error) {
         console.error('Error actualizando el producto:', error)
-        return ERROR(res,'Error del servidor',"500")
+        return ERROR(res, 'Error del servidor', "500")
     } finally {
         mongoose.connection.close()
     }
