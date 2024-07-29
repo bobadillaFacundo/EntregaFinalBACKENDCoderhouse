@@ -35,7 +35,6 @@ router.get('/', async (req, res) => {
 
     if (page > 0) {
         try {
-            await mongoose.connect(process.env.MONGO_DB_URL)
 
             let result = await porductsModel.paginate({}, {
                 page,
@@ -62,8 +61,7 @@ router.get('/', async (req, res) => {
             console.error(`Server Error: ${error}`)
             return ERROR(res, `Error del servidor: ${error}`, '500')
         } finally {
-            await mongoose.connection.close(); // Cerrar la conexión cuando termine
-            console.log('Conexión cerrada correctamente en get product')
+            return
         }
     }
     await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
@@ -92,7 +90,6 @@ router.post("/", (async (req, res) => {
         thumbnails: user.thumbnails || []
     })
     try {
-        await mongoose.connect(process.env.MONGO_DB_URL)
         const savedProduct = await newProduct.save()
         res.render('productsList', {
             style: 'indexProducts.css',
@@ -101,10 +98,7 @@ router.post("/", (async (req, res) => {
     } catch (error) {
         console.error(`Error al insertar documento, ${error}`)
         ERROR(res, `Error del servidor: ${error}`)
-    } finally {
-        await mongoose.connection.close(); // Cerrar la conexión cuando termine
-        console.log('Conexión cerrada correctamente en post');
-    }
+    } 
 }))
 
 router.get("/:pid", async (req, res) => {
@@ -170,7 +164,6 @@ router.put("/:pid", async (req, res) => {
     }
 
     
-        await mongoose.connect(process.env.MONGO_DB_URL)
         const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
         if (savedProduct.matchedCount === 0) {
             return ERROR(res, "Producto no encontrado")
@@ -183,9 +176,7 @@ router.put("/:pid", async (req, res) => {
     } catch (error) {
         console.error('Error actualizando el producto:', error)
         return ERROR(res, 'Error del servidor', "500")
-    } finally {
-        mongoose.connection.close()
-    }
+    } 
 })
 
 

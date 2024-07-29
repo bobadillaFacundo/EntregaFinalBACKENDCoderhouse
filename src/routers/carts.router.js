@@ -2,7 +2,7 @@ import express from "express"
 import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, ERROR } from "../utils.js"
 import cartsModel from '../models/carts.js'
 import __dirname from "../utils.js"
-import mongoose from 'mongoose'
+import mongoose, { connect } from 'mongoose'
 import dotenv from 'dotenv'
 import productsModel from '../models/products.js'
 dotenv.config();
@@ -24,19 +24,25 @@ router.get('/', async (req, res) => {
 })
 
 router.get("/:cid", async (req, res) => {
-    await obtenerDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel)
-        .then(result => {
-            if (!result) {
-                return ERROR(res, `Error del servidor: ID no Existe`)
-            }
-            return res.render('cartsList', {
-                style: 'indexCarts.css',
-                carts: result
-            })
-        })
-        .catch(error => {
-            ERROR(res, `Error del servidor: ${error}`)
-        })
+    try {
+        const result = await obtenerDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel);
+
+        if (!result) {
+            return ERROR(res, `Error del servidor: ID no Existe`);
+        }
+         
+
+        await result.products.populate('products')
+        result.save
+        console.log(result);
+        return res.render('cartsList', {
+            style: 'indexCarts.css',
+            carts: result
+        }) 
+       
+    } catch (error) {
+        ERROR(res, `Error del servidor: ${error}`);
+    }
 })
 
 router.post("/:cid/product/:pid", async (req, res) => {
@@ -52,22 +58,18 @@ router.post("/:cid/product/:pid", async (req, res) => {
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
         }
-        await mongoose.connect(process.env.MONGO_DB_URL)
-        const x =  carrito.products.find(a => a._id.toString() === producto._id.toString())
-        
+
+        const x = carrito.products.find(a => a._id.toString() === producto._id.toString())
+
         if (x) {
-            x.cantidad= x.cantidad + parseInt(req.query.numberProducts )
-        } else carrito.products.push({ _id: producto._id,cantidad:parseInt(req.query.numberProducts )})
-        
-    
+            x.cantidad = x.cantidad + parseInt(req.query.numberProducts)
+        } else carrito.products.push({ _id: producto._id, cantidad: parseInt(req.query.numberProducts) })
+
         await carrito.save()
-    
-        res.json({ carrito})
+
+        res.json({ carrito })
     } catch (error) {
         ERROR(res, `Error del servidor: ${error.message}`)
-    }
-    finally{
-        await mongoose.connection.close()
     }
 })
 
@@ -76,7 +78,6 @@ router.post("/", async (req, res) => {
         products: []
     })
     try {
-        await mongoose.connect(process.env.MONGO_DB_URL)
         const savedCarts = await newCarts.save()
         res.render('cartsList', {
             style: 'indexCarts.css',
@@ -84,11 +85,7 @@ router.post("/", async (req, res) => {
         })
     } catch (error) {
         console.error(`Error al insertar documento, ${error}`)
-        ERROR(res, `Error del servidor: ${error}`)
-    } finally {
-        await mongoose.connection.close(); // Cerrar la conexión cuando termine
-        console.log('Conexión cerrada correctamente');
-    }
+        ERROR(res, `Error del servidor: ${error}`)}
 })
 
 router.delete("/:cid", async (req, res) => {
@@ -115,19 +112,15 @@ router.delete("/:cid/product/:pid", async (req, res) => {
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
         }
-        await mongoose.connect(process.env.MONGO_DB_URL)
         let x = await carrito.products.filter(a => a._id.toString() !== producto._id.toString())
-       
+
         carrito.products = x
-        
+
         await carrito.save()
-    
-        res.json({ carrito})
+
+        res.json({ carrito })
     } catch (error) {
         ERROR(res, `Error del servidor: ${error.message}`)
-    }
-    finally{
-        await mongoose.connection.close()
     }
 })
 export default router

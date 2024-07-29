@@ -4,6 +4,9 @@ import express from "express"
 import engine from "express-handlebars"
 import __dirname from './utils.js'
 import path from "path"
+import mongoose from 'mongoose'
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express()
 const port = 8080
@@ -28,6 +31,12 @@ app.use('/css', express.static(path.join(__dirname, 'public', 'css'), {
         res.setHeader('Content-Type', contentType);
     }
 }))
+
+mongoose.connect(process.env.MONGO_DB_URL).then(() => {
+    console.log('Conectado a MongoDB');
+}).catch(err => {
+    console.error('Error de conexión a MongoDB:', err);
+})
 
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);

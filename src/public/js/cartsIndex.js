@@ -40,6 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
         })
     })
+
+    document.querySelectorAll('.button_').forEach(button => {
+        button.addEventListener('click', async () => {
+            const idInput = document.getElementById('IDC').value
+                if (idInput) {
+                    window.location.href = `http://localhost:8080/api/carts/${idInput}`
+                } else {
+                    alert('Error, ingrese el ID del Carrito');
+                }
+        })
+    })
+
      document.querySelectorAll('.btn-delete-Cart').forEach(button => {
         button.addEventListener('click', async () => {
             const idCart = button.getAttribute("data-id-carrito")
