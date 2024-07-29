@@ -62,17 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 stock: document.getElementById('stockMP').value,
                 category: document.getElementById('categoryMP').value
             }
-
-            console.log(data);
-
             try {
                 await fetch(`http://localhost:8080/api/products/${document.getElementById('idMP').value}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                });
+                })
                 document.getElementById('formMP').reset()
-                alert("Se modifico el producto")
                 location.reload()
             } catch (error) {
                 console.error('Error:', error)
@@ -101,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                });
+                })
                 document.getElementById('formCP').reset()
             } catch (error) {
                 console.error('Error:', error)
@@ -119,6 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const id = idInput.value
                     if (id) {
                         window.location.href = `http://localhost:8080/api/products/${id}`
+                        document.getElementById('formMP').reset()
+
                     } else {
                         alert('Error, ingrese el ID del producto');
                     }

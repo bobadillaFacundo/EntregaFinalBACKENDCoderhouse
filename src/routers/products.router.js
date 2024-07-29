@@ -130,6 +130,7 @@ router.delete("/:pid", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
+    
     await deleteDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
@@ -141,44 +142,43 @@ router.delete("/:pid", async (req, res) => {
 })
 
 router.put("/:pid", async (req, res) => {
-    const user = req.body;
-
+    const user = req.body
+    try {
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
         return ERROR(res, "ID no es válido")
     }
 
-    let result;
-    try {
-        result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel);
-        if (!result) {
-            return ERROR(res, "Documento no encontrado")
-        }
-    } catch (error) {
-        console.error('Error obteniendo el documento:', error)
-        return ERROR(res, 'Error del servidor', "500")
-    }
+    let result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
+    let status = true 
 
+    if(!(result)) {return ERROR(res,"ID no es valido") }
+
+    if (user.status === 'false') {
+        status = false
+    } else if (!(user.status)) {
+        status = user.status0
+    }    
     const products = {
         title: user.title || result.title,
         description: user.description || result.description,
         code: user.code || result.code,
         price: user.price || result.price,
-        status: user.status || result.status,
+        status,
         stock: user.stock || result.stock,
         category: user.category || result.category,
         thumbnails: user.thumbnails || result.thumbnails
-    };
+    }
 
-    try {
+    
         await mongoose.connect(process.env.MONGO_DB_URL)
         const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
         if (savedProduct.matchedCount === 0) {
             return ERROR(res, "Producto no encontrado")
         }
 
-        return res.render('putProducts', {
+        return res.render('productsPut', {
             style: 'indexProducts.css',
-            products: products // Asegúrate de que 'products' sea lo que necesitas renderizar
+            products: products 
         })
     } catch (error) {
         console.error('Error actualizando el producto:', error)

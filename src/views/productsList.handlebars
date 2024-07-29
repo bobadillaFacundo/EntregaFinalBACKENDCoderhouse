@@ -18,9 +18,11 @@
     <p><strong>Category:</strong> {{products.category}}</p>
     <p><strong>Price:</strong> {{products.price}}</p>
     <button class="btn-delete" data-id="{{products._id}}">Eliminar</button>
+     {{#if products.status}}
     <button class="btn-cart" data-id="{{_id}}">
         <i class="fas fa-shopping-cart"></i> Agregar al Carrito
     </button>
+    {{/if}}
     <button class="btn-volver">Volver</button>
 </div>
 <!-- Ventana emergente -->
