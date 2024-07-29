@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'DELETE'
             })
          
-            if (response.ok) {
-                location.reload()
-            }
+            location.reload()
+            alert('Se elimino el producto')
+
         } catch (error) {
             console.error('Error:', error);
             alert('Error al eliminar el producto')
