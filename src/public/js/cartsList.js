@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = `http://localhost:8080/api/carts`
         })
     })
-
-    // Event listener para el botón 'Eliminar Producto de Carrito'
     document.querySelectorAll('.btn-delete-products-carts').forEach(button => {
         button.addEventListener('click', async () => {
             const idCart = button.getAttribute("data-id23")
@@ -16,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'DELETE'
                 })
                 location.reload()
+                alert('Se elimino producto del carrito')
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al eliminar producto del carrito')
@@ -24,7 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
     })
+    document.querySelectorAll('.btn-delete-products-carts1').forEach(button => {
+        button.addEventListener('click', async () => {
+            const idCart = button.getAttribute("data-id231")
+            const idproducto = button.getAttribute("data-products1")
+            try {
+                await fetch(`http://localhost:8080/api/carts/${idCart}/product/${idproducto}`, {
+                    method: 'DELETE'
+                })
+                location.reload()
+                alert('Se elimino producto del carrito')
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al eliminar producto del carrito')
+            }
 
+
+        })
+    })
     // Event listener para el botón 'Eliminar Carrito'
     document.querySelectorAll('.btn-delete-carts').forEach(button => {
         button.addEventListener('click', async () => {

@@ -143,24 +143,25 @@ router.put("/:pid", async (req, res) => {
     }
 
     let result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
-    let status = true 
-
     if(!(result)) {return ERROR(res,"ID no es valido") }
 
-    if (user.status === 'false') {
-        status = false
-    } else if (!(user.status)) {
-        status = user.status0
-    }    
+    let status = user.status;
+
+    // Si 'status' es 'false' (como cadena de texto), se convierte a booleano false
+    if (status === 'false') {
+        status = false;
+    } else if (status === undefined) {
+        status = result.status;
+    }  
     const products = {
-        title: user.title || result.title,
-        description: user.description || result.description,
-        code: user.code || result.code,
-        price: user.price || result.price,
+        title: user.title ?? result.title,
+        description: user.description ?? result.description,
+        code: user.code ?? result.code,
+        price: user.price ?? result.price,
         status,
-        stock: user.stock || result.stock,
-        category: user.category || result.category,
-        thumbnails: user.thumbnails || result.thumbnails
+        stock: user.stock ?? result.stock,
+        category: user.category ?? result.category,
+        thumbnails: user.thumbnails ?? result.thumbnails
     }
 
     
@@ -171,7 +172,8 @@ router.put("/:pid", async (req, res) => {
 
         return res.render('productsPut', {
             style: 'indexProducts.css',
-            products: products 
+            products: products,
+            id: req.params.pid
         })
     } catch (error) {
         console.error('Error actualizando el producto:', error)

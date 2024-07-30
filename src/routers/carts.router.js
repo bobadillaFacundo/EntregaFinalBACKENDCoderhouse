@@ -2,7 +2,6 @@ import express from "express"
 import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, ERROR } from "../utils.js"
 import cartsModel from '../models/carts.js'
 import __dirname from "../utils.js"
-import mongoose, { connect } from 'mongoose'
 import dotenv from 'dotenv'
 import productsModel from '../models/products.js'
 dotenv.config();
@@ -31,10 +30,9 @@ router.get("/:cid", async (req, res) => {
             return ERROR(res, `Error del servidor: ID no Existe`);
         }
          
-
-        await result.products.populate('products')
+        await result.populate('products._id')
         result.save
-        console.log(result);
+
         return res.render('cartsList', {
             style: 'indexCarts.css',
             carts: result
@@ -79,7 +77,7 @@ router.post("/", async (req, res) => {
     })
     try {
         const savedCarts = await newCarts.save()
-        res.render('cartsList', {
+        res.render('cartsPost', {
             style: 'indexCarts.css',
             carts: savedCarts
         })

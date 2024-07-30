@@ -45,7 +45,7 @@ button {
     margin-right: 8px;
 }
 
-.btn-delete, .btn-delete-carts, .btn-delete-Cart, .btn-delete-productsCarts {
+.btn-delete, .btn-delete-carts, .btn-delete-Cart, .btn-delete-productsCarts, .btn-delete-products-carts,.btn-delete-products-carts1 {
     background-color: #e74c3c;
 }
 

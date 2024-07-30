@@ -1,32 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Carritos</title>
+</head>
+
 <body>
-    <div class="main-container">
-        <section class="carts-section">
-            <div class="carts-container">
-                <div class="carts-item">
-                    <label for="text">Carrito:</label>
-                    <p><strong>_id:</strong> {{carts._id}}</p>
-                    <label for="text">Lista de Productos:</label>
-                    {{#each carts.products}}
-                    <div class="carts-item">
-                        <p><strong>_id:</strong> {{_id}}</p>
-                        <p><strong>Title:</strong> {{title}}</p>
-                        <p><strong>Description:</strong> {{description}}</p>
-                        <p><strong>Code:</strong> {{code}}</p>
-                        <p><strong>Stock:</strong> {{stock}}</p>
-                        <p><strong>Stock:</strong> {{status}}</p>
-                        <p><strong>Category:</strong> {{category}}</p>
-                        <p><strong>Price:</strong> {{price}}</p>
-                        <p><strong>cantidad:</strong> {{cantidad}}</p>
-                        <button class="btn-delete-products-carts" data-products={{_id}}
-                            data-id23={{../carts._id}}>Eliminar</button>
-                    </div>
-                    {{/each}}
-                    <button class="btn-delete-carts" data-id32={{carts._id}}>Eliminar</button>
-                    <button class="btn-volver">Volver</button>
-                </div>
-            </div>
-        </section>
-    </div>
+    <h1>Listado de Carritos</h1>
+
+    <h2>Carrito ID: {{carts._id}}</h2>
+
+    {{#if carts.products.length}}
+    <h3>Productos en el Carrito:</h3>
+    <ul>
+        {{#each carts.products}}
+        <li>
+            Producto ID: {{this._id}} <br>
+            Cantidad: {{this.cantidad}} <br>
+            <button class="btn-delete-products-carts1" data-products1={{this._id}}
+                data-id231={{../carts._id}}>Eliminar Producto</button>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    <p>No hay productos en el carrito.</p>
+    {{/if}}
+    <button class="btn-delete-carts" data-id32={{carts._id}}>Eliminar Carrito</button>
+    <button class="btn-volver">Volver</button>
+
 </body>
+
+</html>
+
 
 <script src="js/cartsList.js"></script>

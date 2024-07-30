@@ -1,0 +1,32 @@
+<body>
+    <div class="main-container">
+        <section class="carts-section">
+            <div class="carts-container">
+                <div class="carts-item">
+                    <label for="text">Carrito:</label>
+                    <p><strong>_id:</strong> {{carts._id}}</p>
+                    <label for="text">Lista de Productos:</label>
+                    {{#each carts.products}}
+                    <div class="carts-item">
+                        <p><strong>_id:</strong> {{_id}}</p>
+                        <p><strong>Title:</strong> {{title}}</p>
+                        <p><strong>Description:</strong> {{description}}</p>
+                        <p><strong>Code:</strong> {{code}}</p>
+                        <p><strong>Stock:</strong> {{stock}}</p>
+                        <p><strong>Stock:</strong> {{status}}</p>
+                        <p><strong>Category:</strong> {{category}}</p>
+                        <p><strong>Price:</strong> {{price}}</p>
+                        <p><strong>cantidad:</strong> {{cantidad}}</p>
+                        <button class="btn-delete-products-carts" data-products={{_id}}
+                            data-id23={{../carts._id}}>Eliminar</button>
+                    </div>
+                    {{/each}}
+                    <button class="btn-delete-carts" data-id32={{carts._id}}>Eliminar</button>
+                    <button class="btn-volver">Volver</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+<script src="js/cartsList.js"></script>
