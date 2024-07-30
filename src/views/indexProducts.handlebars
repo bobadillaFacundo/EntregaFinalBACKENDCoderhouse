@@ -20,7 +20,7 @@
     <!-- Sección de Formularios -->
     <section class="forms-section">
         <h2 class="toggle-form" data-target="formCP">Cargar Producto</h2>
-        <form id="formCP" class="form" method="post">
+        <form id="formCP" class="form" method="POST">
             <input type="text" id="titleCP" class="input" placeholder="Title" name="title">
             <input type="text" id="descriptionCP" class="input" placeholder="Description" name="description">
             <input type="text" id="codeCP" class="input" placeholder="Code" name="code">
@@ -31,8 +31,8 @@
         </form>
 
         <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
-        <form id="formMP" class="form" method="put">
-            <input type="text" id="idMP" class="input" placeholder="ID" name="id">
+        <form id="formMP" class="form" method="PUT">
+            <input type="text" id="idMP" class="input" placeholder="ID" name="id" >
             <input type="text" id="titleMP" class="input" placeholder="Title" name="title">
             <input type="text" id="descriptionMP" class="input" placeholder="Description" name="description">
             <input type="text" id="codeMP" class="input" placeholder="Code" name="code">
@@ -44,7 +44,7 @@
             </select>
             <input type="text" id="stockMP" class="input" placeholder="Stock" name="stock">
             <input type="text" id="categoryMP" class="input" placeholder="Category" name="category">
-            <button type="submit" class="button22">Modificar</button>
+            <button type="submit" class="button_22">Modificar</button>
         </form>
     </section>
     <!-- Sección de Filtros -->
@@ -95,8 +95,10 @@
                 <p><strong>Category:</strong> {{category}}</p>
                 <p><strong>Price:</strong> {{price}}</p>
                 <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+                {{#if status}}
                 <button class="btn-cart" data-id="{{_id}}">
                     <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                {{/if}}
                 </button>
             </div>
             {{/each}}

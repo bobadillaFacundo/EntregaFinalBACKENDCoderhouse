@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+    // Función para manejar la eliminación de un producto
     const handleDelete = async (id) => {
         try {
             await fetch(`http://localhost:8080/api/products/${id}`, {
                 method: 'DELETE'
             })
-         
             location.reload()
             alert('Se elimino el producto')
 
@@ -15,12 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Función para manejar agregar al carrito
     const handleAddToCart = async (id) => {
         try {
             const response = await fetch(`http://localhost:8080/api/carts/?principal=false`)
-            if (!response.ok) {
-                throw new Error('Página no disponible')
-            }
             const data = await response.json()
             const h2 = document.getElementById('h2')
             h2.textContent = id
@@ -33,21 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Asignar eventos a los botones de eliminar
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', () => handleDelete(button.getAttribute('data-id')))
     })
 
+    // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', () => handleAddToCart(button.getAttribute('data-id')))
     })
 
+
+    // Navegar al carrito
     document.querySelectorAll('.cart-button').forEach(button => {
         button.addEventListener('click', () => window.location.href = 'http://localhost:8080/api/carts')
     })
 
-    document.querySelectorAll('.button22').forEach(button => {
+    document.querySelectorAll('.button_22').forEach(button => {
         button.addEventListener('click', async () => {
-
+            event.preventDefault()
             const data = {
                 title: document.getElementById('titleMP').value,
                 description: document.getElementById('descriptionMP').value,
@@ -57,19 +58,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 stock: document.getElementById('stockMP').value,
                 category: document.getElementById('categoryMP').value
             }
-            const id = document.getElementById('idMP').value
+
+            console.log(data);
+
             try {
-                await fetch(`http://localhost:8080/api/products/${id}`, {
+                await fetch(`http://localhost:8080/api/products/${document.getElementById('idMP').value}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                })
+                });
                 document.getElementById('formMP').reset()
-                alert('Se modifico el producto')
+                alert("Se modifico el producto")
+                location.reload()
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al actualizar el producto')
             }
+
+
         })
     })
 
@@ -109,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const id = idInput.value
                     if (id) {
                         window.location.href = `http://localhost:8080/api/products/${id}`
-                        document.getElementById('formMP').reset()
-
                     } else {
                         alert('Error, ingrese el ID del producto');
                     }
@@ -123,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 
+// Función para abrir la ventana emergente y agregar una lista
 function openPopup(items) {
     const overlay = document.getElementById('popupOverlay')
     const select = document.getElementById('popupList')
@@ -137,6 +142,7 @@ function openPopup(items) {
     overlay.style.display = 'flex'
 }
 
+// Función para cerrar la ventana emergente
 function closePopup() {
     document.getElementById('popupOverlay').style.display = 'none'
 }
