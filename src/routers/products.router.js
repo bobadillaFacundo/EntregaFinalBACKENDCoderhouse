@@ -51,8 +51,8 @@ router.get('/', async (req, res) => {
                 : ''
             result.isValid = !(page <= 0 || page > result.totalPages)
             result.sort = sort
-            result.tipo = tipo 
-            
+            result.tipo = tipo
+
             return res.render('productsFilter', {
                 style: 'indexProducts.css',
                 result
@@ -98,7 +98,7 @@ router.post("/", (async (req, res) => {
     } catch (error) {
         console.error(`Error al insertar documento, ${error}`)
         ERROR(res, `Error del servidor: ${error}`)
-    } 
+    }
 }))
 
 router.get("/:pid", async (req, res) => {
@@ -124,7 +124,7 @@ router.delete("/:pid", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
-    
+
     await deleteDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
@@ -138,33 +138,33 @@ router.delete("/:pid", async (req, res) => {
 router.put("/:pid", async (req, res) => {
     const user = req.body
     try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
-        return ERROR(res, "ID no es válido")
-    }
+        if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
+            return ERROR(res, "ID no es válido")
+        }
 
-    let result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
+        let result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
 
-    if(!(result)) {return ERROR(res,"ID no es valido") }
+        if (!(result)) { return ERROR(res, "ID no es valido") }
 
-    let status = user.status;
+        let status = user.status;
 
-    if (status === 'false') {
-        status = false;
-    } else if (status === undefined) {
-        status = result.status;
-    }  
-    const products = {
-        title: user.title || result.title,
-        description: user.description || result.description,
-        code: user.code || result.code,
-        price: user.price || result.price,
-        status,
-        stock: user.stock || result.stock,
-        category: user.category || result.category,
-        thumbnails: user.thumbnails || result.thumbnails
-    }
+        if (status === 'false') {
+            status = false;
+        } else if (status === undefined) {
+            status = result.status;
+        }
+        const products = {
+            title: user.title || result.title,
+            description: user.description || result.description,
+            code: user.code || result.code,
+            price: user.price || result.price,
+            status,
+            stock: user.stock || result.stock,
+            category: user.category || result.category,
+            thumbnails: user.thumbnails || result.thumbnails
+        }
 
-    
+
         const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
         if (savedProduct.matchedCount === 0) {
             return ERROR(res, "Producto no encontrado")
@@ -173,13 +173,30 @@ router.put("/:pid", async (req, res) => {
         return res.render('productsPut', {
             style: 'indexProducts.css',
             prod: products,
-            id: req.params.pid 
+            id: req.params.pid
         })
     } catch (error) {
         console.error('Error actualizando el producto:', error)
         return ERROR(res, 'Error del servidor', "500")
-    } 
+    }
 })
 
+router.get('/buscar', async (req, res) => {
+    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
+
+        const tetxo = req.query.tetxo
+        const buscar = req.query.buscar
+
+        if (buscar === 'status') result = result.find(a => a.status === tetxo)
+        if (buscar === 'categoria') result = result.find(a => a.category === tetxo)
+        
+            return res.render('buscar', {
+            style: 'indexProducts.css',
+            products: result
+        })
+    }).catch(error => {
+        ERROR(res, `Error del servidor: ${error}`)
+    })
+})
 
 export default router

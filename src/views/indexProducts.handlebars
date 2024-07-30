@@ -32,7 +32,7 @@
 
         <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
         <form id="formMP" class="form" method="PUT">
-            <input type="text" id="idMP" class="input" placeholder="ID" name="id" >
+            <input type="text" id="idMP" class="input" placeholder="ID" name="id">
             <input type="text" id="titleMP" class="input" placeholder="Title" name="title">
             <input type="text" id="descriptionMP" class="input" placeholder="Description" name="description">
             <input type="text" id="codeMP" class="input" placeholder="Code" name="code">
@@ -77,6 +77,16 @@
                 <input type="text" id="bID" name="bID" placeholder="ID producto">
                 <button type="button" class="button223">Buscar</button>
             </form>
+            <h2>Buscar por Status o Categoria</h2>
+            <form id="IDBSC">
+                <label for="IDBS">Ingrese el valor para Buscar</label>
+                <input type="text" id="IDbs" name="IDbs" placeholder="">
+                <select id="buscar" name="buscar">
+                    <option value="status">status</option>
+                    <option value="categoria">categoria</option>
+                </select>
+                <button type="button" class="button32">Buscar</button>
+            </form>
         </div>
     </section>
     <h1>Lista de Productos</h1>
@@ -98,7 +108,7 @@
                 {{#if status}}
                 <button class="btn-cart" data-id="{{_id}}">
                     <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                {{/if}}
+                    {{/if}}
                 </button>
             </div>
             {{/each}}

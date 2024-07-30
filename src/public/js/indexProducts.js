@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     // Función para manejar la eliminación de un producto
     const handleDelete = async (id) => {
@@ -125,7 +126,24 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
 
+        document.querySelectorAll('.button32').forEach(button => {
+            button.addEventListener('click', async () => {
+                    const texto = document.getElementById('IDbs').value
+                    const selectElement = document.getElementById('buscar');
+                    const buscar = selectElement.value;
+                    try {
+                        await fetch(`http://localhost:8080/api/products/buscar/?buscar=${buscar}&texto=${texto}`)
+                    } catch (error) {
+                        console.error('Error:', error)
+                        alert('Error al buscar')
+                    }
+                })
+            })
+
     })
+
+    
+
 
 // Función para abrir la ventana emergente y agregar una lista
 function openPopup(items) {
