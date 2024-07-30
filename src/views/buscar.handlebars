@@ -1,24 +1,27 @@
 <!-- Sección de Productos -->
-    <section class="products-section">
-        <div class="products-container">
-            {{#each products}}
-            <div class="product-item">
-                <p><strong>_id:</strong> {{_id}}</p>
-                <p><strong>Title:</strong> {{title}}</p>
-                <p><strong>Description:</strong> {{description}}</p>
-                <p><strong>Code:</strong> {{code}}</p>
-                <p><strong>Stock:</strong> {{stock}}</p>
-                <p><strong>Status:</strong> {{status}}</p>
-                <p><strong>Category:</strong> {{category}}</p>
-                <p><strong>Price:</strong> {{price}}</p>
-                <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
-                {{#if status}}
-                <button class="btn-cart" data-id="{{_id}}">
-                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                    {{/if}}
-                </button>
-            </div>
-            {{/each}}
+<header>
+    <button class="btn-volver">Volver</button>
+</header>
+<section class="products-section">
+    <div class="products-container">
+        {{#each products}}
+        <div class="product-item">
+            <p><strong>_id:</strong> {{_id}}</p>
+            <p><strong>Title:</strong> {{title}}</p>
+            <p><strong>Description:</strong> {{description}}</p>
+            <p><strong>Code:</strong> {{code}}</p>
+            <p><strong>Stock:</strong> {{stock}}</p>
+            <p><strong>Status:</strong> {{status}}</p>
+            <p><strong>Category:</strong> {{category}}</p>
+            <p><strong>Price:</strong> {{price}}</p>
+            <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+            {{#if status}}
+            <button class="btn-cart" data-id="{{_id}}">
+                <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                {{/if}}
+            </button>
         </div>
-    </section>
-<script src="js/indexProducts.js"></script>
+        {{/each}}
+    </div>
+</section>
+<script src="js/productsFilter.js"></script>

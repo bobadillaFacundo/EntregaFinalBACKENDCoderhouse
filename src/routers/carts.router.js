@@ -10,7 +10,7 @@ const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
 router.get('/', async (req, res) => {
-    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, cartsModel).then(result => {
+    await obtenerTodosLosDocumentos(cartsModel).then(result => {
         if (!req.query.principal) {
             return res.render('carts', {
                 style: 'indexCarts.css',
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
     try {
-        const result = await obtenerDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel);
+        const result = await obtenerDocumento(req.params.cid,cartsModel);
 
         if (!result) {
             return ERROR(res, `Error del servidor: ID no Existe`);
@@ -46,13 +46,13 @@ router.get("/:cid", async (req, res) => {
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
         // Obtener el carrito por ID
-        const carrito = await obtenerDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel);
+        const carrito = await obtenerDocumento(req.params.cid, cartsModel);
         if (!carrito) {
             return ERROR(res, 'Error del servidor: ID del carrito no existe')
         }
 
         // Obtener el producto por ID
-        const producto = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, productsModel);
+        const producto = await obtenerDocumento(req.params.pid, productsModel);
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
         }
@@ -87,7 +87,7 @@ router.post("/", async (req, res) => {
 })
 
 router.delete("/:cid", async (req, res) => {
-    await deleteDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel).then(result => {
+    await deleteDocumento(req.params.cid, cartsModel).then(result => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
@@ -100,13 +100,13 @@ router.delete("/:cid", async (req, res) => {
 router.delete("/:cid/product/:pid", async (req, res) => {
     try {
         // Obtener el carrito por ID
-        let carrito = await obtenerDocumento(req.params.cid, process.env.MONGO_DB_URL, cartsModel);
+        let carrito = await obtenerDocumento(req.params.cid,cartsModel);
         if (!carrito) {
             return ERROR(res, 'Error del servidor: ID del carrito no existe')
         }
 
         // Obtener el producto por ID
-        const producto = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, productsModel);
+        const producto = await obtenerDocumento(req.params.pid, productsModel);
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
         }
@@ -116,7 +116,7 @@ router.delete("/:cid/product/:pid", async (req, res) => {
 
         await carrito.save()
 
-        res.json({ carrito })
+        res.json(carrito)
     } catch (error) {
         ERROR(res, `Error del servidor: ${error.message}`)
     }

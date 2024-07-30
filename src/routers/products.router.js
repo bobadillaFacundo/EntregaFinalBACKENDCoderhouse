@@ -64,7 +64,7 @@ router.get('/', async (req, res) => {
             return
         }
     }
-    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
+    await obtenerTodosLosDocumentos(porductsModel).then(result => {
         return res.render('indexProducts', {
             style: 'indexProducts.css',
             products: result
@@ -101,11 +101,32 @@ router.post("/", (async (req, res) => {
     }
 }))
 
+router.get('/buscar', async (req, res) => {
+    await obtenerTodosLosDocumentos(porductsModel).then(result => {
+        const texto = req.query.texto
+        let comparar = false
+        const buscar = req.query.buscar
+        if ((texto === 'true')&&(buscar==='status')) {comparar = true }else {if (texto==='false'&&(buscar==='status')) {comparar=false } else  
+            {ERROR(res, `No hay nada que Mostrar`)}}
+
+        if (buscar === 'status') result = result.filter(a => a.status === comparar)
+        if (buscar === 'categoria') result = result.filter(a => a.category === texto)
+        
+        if(!result) return ERROR(res, `No hay nada que Mostrar`)
+        res.render('buscar', {
+            style: 'indexProducts.css',
+            products: result
+        })
+    }).catch(error => {
+        ERROR(res, `Error del servidor: ${error}`)
+    })
+})
+
 router.get("/:pid", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
-    await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
+    await obtenerDocumento(req.params.pid, porductsModel)
         .then(result => {
             if (!result) {
                 return ERROR(res, `Error del servidor: ID no Existe`)
@@ -125,7 +146,7 @@ router.delete("/:pid", async (req, res) => {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
 
-    await deleteDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel).then(result => {
+    await deleteDocumento(req.params.pid, porductsModel).then(result => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
@@ -135,37 +156,37 @@ router.delete("/:pid", async (req, res) => {
     })
 })
 
-router.put("/:pid", async (req, res) => {
-    const user = req.body
+router.put("/", async (req, res) => {
+    const product = req.body
     try {
-        if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
+        if (!mongoose.Types.ObjectId.isValid(product.id)) {
             return ERROR(res, "ID no es válido")
         }
 
-        let result = await obtenerDocumento(req.params.pid, process.env.MONGO_DB_URL, porductsModel)
+        let result = await obtenerDocumento(product.id,porductsModel)
 
         if (!(result)) { return ERROR(res, "ID no es valido") }
 
-        let status = user.status;
+        let status = product.status;
 
         if (status === 'false') {
-            status = false;
+            status = false
         } else if (status === undefined) {
-            status = result.status;
+            status = result.status
         }
         const products = {
-            title: user.title || result.title,
-            description: user.description || result.description,
-            code: user.code || result.code,
-            price: user.price || result.price,
+            title: product.title || result.title,
+            description: product.description || result.description,
+            code: product.code || result.code,
+            price: product.price || result.price,
             status,
-            stock: user.stock || result.stock,
-            category: user.category || result.category,
-            thumbnails: user.thumbnails || result.thumbnails
+            stock: product.stock || result.stock,
+            category: product.category || result.category,
+            thumbnails: product.thumbnails || result.thumbnails
         }
 
 
-        const savedProduct = await porductsModel.updateOne({ _id: req.params.pid }, { $set: products })
+        const savedProduct = await porductsModel.updateOne({ _id: product.id }, { $set: products })
         if (savedProduct.matchedCount === 0) {
             return ERROR(res, "Producto no encontrado")
         }
@@ -173,7 +194,7 @@ router.put("/:pid", async (req, res) => {
         return res.render('productsPut', {
             style: 'indexProducts.css',
             prod: products,
-            id: req.params.pid
+            id: product.id
         })
     } catch (error) {
         console.error('Error actualizando el producto:', error)
@@ -181,22 +202,5 @@ router.put("/:pid", async (req, res) => {
     }
 })
 
-router.get('/buscar', async (req, res) => {
-    await obtenerTodosLosDocumentos(process.env.MONGO_DB_URL, porductsModel).then(result => {
-
-        const tetxo = req.query.tetxo
-        const buscar = req.query.buscar
-
-        if (buscar === 'status') result = result.find(a => a.status === tetxo)
-        if (buscar === 'categoria') result = result.find(a => a.category === tetxo)
-        
-            return res.render('buscar', {
-            style: 'indexProducts.css',
-            products: result
-        })
-    }).catch(error => {
-        ERROR(res, `Error del servidor: ${error}`)
-    })
-})
 
 export default router

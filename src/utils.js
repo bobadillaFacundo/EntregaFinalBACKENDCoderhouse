@@ -1,6 +1,5 @@
 import path from "path"
 import { fileURLToPath } from "url"
-import mongo from 'mongoose'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -8,7 +7,7 @@ const __dirname = path.dirname(__filename)
 export default __dirname
 
 // Función para obtener todos los documentos de una colección
-export async function obtenerTodosLosDocumentos(url,model) {
+export async function obtenerTodosLosDocumentos(model) {
   try {
     const documents = await model.find()
     return documents
@@ -18,7 +17,7 @@ export async function obtenerTodosLosDocumentos(url,model) {
 }
 
 // Función para obtener un documento de una colección
-export async function obtenerDocumento(id, url, Model) {
+export async function obtenerDocumento(id,Model) {
   try {
     const document = await Model.findById(id)
     return document
@@ -27,7 +26,7 @@ export async function obtenerDocumento(id, url, Model) {
   }
 }
 
-export async function deleteDocumento(id, url, Model) {
+export async function deleteDocumento(id,Model) {
   try {const document = await Model.deleteOne({ _id: id })
     return document
   } catch (error) {

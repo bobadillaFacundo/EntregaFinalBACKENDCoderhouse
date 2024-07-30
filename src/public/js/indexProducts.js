@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.button_22').forEach(button => {
         button.addEventListener('click', async () => {
-            event.preventDefault()
             const data = {
+                id: document.getElementById('idMP').value,
                 title: document.getElementById('titleMP').value,
                 description: document.getElementById('descriptionMP').value,
                 code: document.getElementById('codeMP').value,
@@ -59,18 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 stock: document.getElementById('stockMP').value,
                 category: document.getElementById('categoryMP').value
             }
-
-            console.log(data);
-
+            
             try {
-                await fetch(`http://localhost:8080/api/products/${document.getElementById('idMP').value}`, {
+                await fetch(`http://localhost:8080/api/products/`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                });
+                })
                 document.getElementById('formMP').reset()
-                alert("Se modifico el producto")
-                location.reload()
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al actualizar el producto')
@@ -132,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const selectElement = document.getElementById('buscar');
                     const buscar = selectElement.value;
                     try {
-                        await fetch(`http://localhost:8080/api/products/buscar/?buscar=${buscar}&texto=${texto}`)
+                        window.location.href = (`http://localhost:8080/api/products/buscar?buscar=${buscar}&texto=${texto}`)
                     } catch (error) {
                         console.error('Error:', error)
                         alert('Error al buscar')
