@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Asignar eventos a los botones de eliminar
     document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', () => handleDelete(button.getAttribute('data-id')))
+        button.addEventListener( 'click', async () => await handleDelete(button.getAttribute('data-id')))
     })
 
     // Asignar eventos a los botones de agregar al carrito

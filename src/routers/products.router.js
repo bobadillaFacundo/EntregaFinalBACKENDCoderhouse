@@ -1,9 +1,10 @@
-import express, { text } from "express"
+import express from "express"
 import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, ERROR } from "../utils.js"
 import porductsModel from '../models/products.js'
 import mongoose from 'mongoose'
 import __dirname from "../utils.js"
 import dotenv from 'dotenv'
+import cartsModel from '../models/carts.js'
 dotenv.config()
 
 const router = express.Router()
@@ -106,15 +107,17 @@ router.get('/buscar', async (req, res) => {
         const texto = req.query.texto
         let comparar
         const buscar = req.query.buscar
-        if (buscar!=='categoria'){
-        if (texto === 'true') {comparar = true }else {if (texto==='false') {comparar=false } else  
-            {return ERROR(res, `No hay nada que Mostrar`)}}}
+        if (buscar !== 'categoria') {
+            if (texto === 'true') { comparar = true } else {
+                if (texto === 'false') { comparar = false } else { return ERROR(res, `No hay nada que Mostrar`) }
+            }
+        }
 
-        let result2 
+        let result2
         if (buscar === 'status') result2 = result.filter(a => a.status === comparar)
         if (buscar === 'categoria') result2 = result.filter(a => a.category === texto)
-        
-        if(!result2) return ERROR(res, `No hay nada que Mostrar`)
+
+        if (!result2) return ERROR(res, `No hay nada que Mostrar`)
 
         return res.render('buscar', {
             style: 'indexProducts.css',
@@ -148,12 +151,21 @@ router.delete("/:pid", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
-
-    await deleteDocumento(req.params.pid, porductsModel).then(result => {
+   
+    await deleteDocumento(req.params.pid, porductsModel).then(async result => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
-        return res.send({ status: "success", message: "Product delete" })
+        try {
+            let carts = await obtenerTodosLosDocumentos(cartsModel)            
+            await Promise.all(carts.map(async (cart) => {
+                cart.products = cart.products.filter(a => a._id.toString() !== req.params.pid.toString());
+                await cart.save(); 
+            }))
+            return res.send({ status: "success", message: "Product delete" })
+        } catch (error) {
+            return ERROR(res, `Error del servidor: ${error}`)
+        }
     }).catch(error => {
         ERROR(res, `Error del servidor: ${error}`)
     })
@@ -166,7 +178,7 @@ router.put("/", async (req, res) => {
             return ERROR(res, "ID no es válido")
         }
 
-        let result = await obtenerDocumento(product.id,porductsModel)
+        let result = await obtenerDocumento(product.id, porductsModel)
 
         if (!(result)) { return ERROR(res, "ID no es valido") }
 
@@ -177,7 +189,7 @@ router.put("/", async (req, res) => {
         } else if (status === 'true') {
             status = true
         } else status = result.status
-        
+
         const products = {
             title: product.title || result.title,
             description: product.description || result.description,
