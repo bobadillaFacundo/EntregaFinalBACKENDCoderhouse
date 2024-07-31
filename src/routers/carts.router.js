@@ -45,13 +45,11 @@ router.get("/:cid", async (req, res) => {
 
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
-        // Obtener el carrito por ID
         const carrito = await obtenerDocumento(req.params.cid, cartsModel)
         if (!carrito) {
             return ERROR(res, 'Error del servidor: ID del carrito no existe')
         }
 
-        // Obtener el producto por ID
         const producto = await obtenerDocumento(req.params.pid, productsModel)
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
@@ -99,13 +97,11 @@ router.delete("/:cid", async (req, res) => {
 
 router.delete("/:cid/product/:pid", async (req, res) => {
     try {
-        // Obtener el carrito por ID
         let carrito = await obtenerDocumento(req.params.cid,cartsModel)
         if (!carrito) {
             return ERROR(res, 'Error del servidor: ID del carrito no existe')
         }
 
-        // Obtener el producto por ID
         const producto = await obtenerDocumento(req.params.pid, productsModel)
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'DELETE'
             })
             const result = await response.json()
-            alert(result.message) 
+            alert(result.message)
             if (response.ok) {
                 window.location.href = `http://localhost:8080/api/products`
             }
@@ -23,29 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
             handleDelete(id)
         })
     })
-    
+
     // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async () => {
-
-            const selectElement = document.getElementById('popupList')
-            const carritoId = selectElement.value
-            const id = button.getAttribute('data-id2')
-            const numberProducts  = button.getAttribute('data-id3')
-
             try {
-                alert("numberProducts"+numberProducts+"id"+id+"carritoId"+carritoId)
-                // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
-                await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
-                    method: 'POST'
-                })
-
-                location.reload()
-                alert(`Se agregó producto al carrito: ${carritoId}`)
+                const response = await fetch(`http://localhost:8080/api/carts/?principal=false`)
+                const data = await response.json()
+                const h2 = document.getElementById('h2')
+                h2.style.display = 'visible'
+                openPopup(data)
 
             } catch (error) {
                 console.error('Error:', error)
-                alert(`Error al agregar al carrito: ${error.message}`)
+                alert('Error al agregar el producto al carrito')
             }
         })
     })
@@ -56,25 +47,51 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
-  
-    
+
+
 })
 
-  function openPopup(items) {
-        const overlay = document.getElementById('popupOverlay')
-        const select = document.getElementById('popupList')
-        select.innerHTML = '' // Limpiar las opciones existentes
-    
-        items.forEach(item => {
-            const option = document.createElement('option')
-            option.textContent = item._id
-            option.value = item._id
-            select.appendChild(option)
+function openPopup(items) {
+    const overlay = document.getElementById('popupOverlay')
+    const select = document.getElementById('popupList')
+    select.innerHTML = '' // Limpiar las opciones existentes
+
+    items.forEach(item => {
+        const option = document.createElement('option')
+        option.textContent = item._id
+        option.value = item._id
+        select.appendChild(option)
+    })
+    overlay.style.display = 'flex'
+}
+
+// Función para cerrar la ventana emergente
+function closePopup() {
+    document.getElementById('popupOverlay').style.display = 'none'
+}
+
+document.getElementById("carritoForm").addEventListener('submit', async (event) => {
+    event.preventDefault()
+
+    const selectElement = document.getElementById('popupList')
+    const carritoId = selectElement.value
+    const h2 = document.getElementById('h2')
+    const id = h2.textContent
+    const numberProducts = document.getElementById('numberProducts').value
+
+    try {
+        // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
+        await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
         })
-        overlay.style.display = 'flex'
+            alert(`Se agregó al carrito: ${carritoId}`)
+            location.reload()
+
+    } catch (error) {
+        console.error('Error:', error)
+        alert(`Error al agregar al carrito: ${error.message}`)
     }
-    
-    // Función para cerrar la ventana emergente
-    function closePopup() {
-        document.getElementById('popupOverlay').style.display = 'none'
-    }
+})

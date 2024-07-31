@@ -24,4 +24,20 @@
         {{/each}}
     </div>
 </section>
+<!-- Ventana emergente -->
+    <div class="overlay" id="popupOverlay">
+        <div class="popup">
+            <form id="carritoForm">
+            <h2>Producto: </h2>
+            <h2 id="h2">{{products._id}}</h2>
+            <h2>List de carritos</h2>
+            <select id="popupList">
+            </select>
+            <label for="name">Cantidad:</label>
+            <input type="number" id="numberProducts" name="number" min="1" value="0">
+            <button class="close-btn" onclick="closePopup()">Cerrar</button>
+            <button type="submit" id="agregarCarrito" class="agregarCarrito-btn">Seleccionar</button>
+            </form>
+        </div>
+    </div>
 <script src="js/productsFilter.js"></script>

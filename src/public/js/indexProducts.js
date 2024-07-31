@@ -1,6 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Función para manejar la eliminación de un producto
+
     const handleDelete = async (id) => {
         try {
             await fetch(`http://localhost:8080/api/products/${id}`, {
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Función para manejar agregar al carrito
     const handleAddToCart = async (id) => {
         try {
             const response = await fetch(`http://localhost:8080/api/carts/?principal=false`)

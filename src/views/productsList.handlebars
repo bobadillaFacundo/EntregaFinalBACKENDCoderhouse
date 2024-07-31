@@ -19,7 +19,7 @@
     <p><strong>Price:</strong> {{products.price}}</p>
     <button class="btn-delete" data-id="{{products._id}}">Eliminar</button>
      {{#if products.status}}
-    <button class="btn-cart" data-id2={{_id}} data-id3={{products._id}}>
+    <button class="btn-cart" data-id3={{products._id}}>
         <i class="fas fa-shopping-cart"></i> Agregar al Carrito
     </button>
     {{/if}}
@@ -30,8 +30,8 @@
         <div class="popup">
             <form id="carritoForm">
             <h2>Producto: </h2>
-            <h2 id="h2"></h2>
-            <h2>Lista de carritos</h2>
+            <h2 id="h2">{{products._id}}</h2>
+            <h2>List de carritos</h2>
             <select id="popupList">
             </select>
             <label for="name">Cantidad:</label>

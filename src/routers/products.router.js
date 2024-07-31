@@ -75,19 +75,19 @@ router.get('/', async (req, res) => {
 })
 
 router.post("/", (async (req, res) => {
-    const user = req.body
-    if (!user.title || !user.description || !user.code || !user.stock || !user.category || !user.price) {
+    const product = req.body
+    if (!product.title || !product.description || !product.code || !product.stock || !product.category || !product.price) {
         return ERROR(res, `Campos Vacios`)
     }
     const newProduct = new porductsModel({
-        title: user.title,
-        description: user.description,
-        code: user.code,
-        price: user.price,
+        title: product.title,
+        description: product.description,
+        code: product.code,
+        price: product.price,
         status: true,
-        stock: user.stock,
-        category: user.category,
-        thumbnails: user.thumbnails || []
+        stock: product.stock,
+        category: product.category,
+        thumbnails: product.thumbnails || []
     })
     try {
         const savedProduct = await newProduct.save()
