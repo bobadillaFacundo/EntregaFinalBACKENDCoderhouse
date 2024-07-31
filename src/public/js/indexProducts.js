@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Se elimino el producto')
 
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error:', error)
             alert('Error al eliminar el producto')
         }
     }
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const h2 = document.getElementById('h2')
             h2.textContent = id
             h2.style.display = 'visible'
-            openPopup(data);
+            openPopup(data)
 
         } catch (error) {
             console.error('Error:', error)
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 stock: document.getElementById('stockMP').value,
                 category: document.getElementById('categoryMP').value
             }
-            
+
             try {
                 await fetch(`http://localhost:8080/api/products/`, {
                     method: 'PUT',
@@ -107,41 +107,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.button223').forEach(button => {
         button.addEventListener('click', async () => {
-                const idInput = document.getElementById('bID')
-                if (idInput) {
-                    const id = idInput.value
-                    if (id) {
-                        window.location.href = `http://localhost:8080/api/products/${id}`
-                    } else {
-                        alert('Error, ingrese el ID del producto');
-                    }
+            const idInput = document.getElementById('bID')
+            if (idInput) {
+                const id = idInput.value
+                if (id) {
+                    window.location.href = `http://localhost:8080/api/products/${id}`
                 } else {
-                    console.error('No se encontró ID')
+                    alert('Error, ingrese el ID del producto')
                 }
-            
-            })
+            } else {
+                console.error('No se encontró ID')
+            }
+
         })
-
-        document.querySelectorAll('.button32').forEach(button => {
-            button.addEventListener('click', async () => {
-                    const texto = document.getElementById('IDbs').value
-                    const selectElement = document.getElementById('buscar');
-                    const buscar = selectElement.value;
-                    try {
-                        window.location.href = (`http://localhost:8080/api/products/buscar?buscar=${buscar}&texto=${texto}`)
-                    } catch (error) {
-                        console.error('Error:', error)
-                        alert('Error al buscar')
-                    }
-                })
-            })
-
     })
 
-    
+    document.querySelectorAll('.button32').forEach(button => {
+        button.addEventListener('click', async () => {
+            const texto = document.getElementById('IDbs').value
+            const selectElement = document.getElementById('buscar')
+            const buscar = selectElement.value
+            try {
+                window.location.href = (`http://localhost:8080/api/products/buscar?buscar=${buscar}&texto=${texto}`)
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al buscar')
+            }
+        })
+    })
 
+})
 
-// Función para abrir la ventana emergente y agregar una lista
 function openPopup(items) {
     const overlay = document.getElementById('popupOverlay')
     const select = document.getElementById('popupList')
@@ -152,7 +148,7 @@ function openPopup(items) {
         option.textContent = item._id
         option.value = item._id
         select.appendChild(option)
-    });
+    })
     overlay.style.display = 'flex'
 }
 
@@ -162,13 +158,13 @@ function closePopup() {
 }
 
 document.getElementById("carritoForm").addEventListener('submit', async (event) => {
-    event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+    event.preventDefault()
 
-    const selectElement = document.getElementById('popupList');
-    const carritoId = selectElement.value;
-    const h2 = document.getElementById('h2');
-    const id = h2.textContent;
-    const numberProducts = document.getElementById('numberProducts').value; // Asegúrate de que este elemento existe y tenga un valor
+    const selectElement = document.getElementById('popupList')
+    const carritoId = selectElement.value
+    const h2 = document.getElementById('h2')
+    const id = h2.textContent
+    const numberProducts = document.getElementById('numberProducts').value
 
     try {
         // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
@@ -180,15 +176,15 @@ document.getElementById("carritoForm").addEventListener('submit', async (event) 
         })
 
         if (response.ok) {
-            location.reload();
-            alert(`Se agregó al carrito: ${carritoId}`);
+            location.reload()
+            alert(`Se agregó al carrito: ${carritoId}`)
         } else {
-            const errorData = await response.json();
-            console.error('Error:', errorData);
-            alert(`Error al agregar al carrito: ${errorData.message}`);
+            const errorData = await response.json()
+            console.error('Error:', errorData)
+            alert(`Error al agregar al carrito: ${errorData.message}`)
         }
     } catch (error) {
-        console.error('Error:', error);
-        alert(`Error al agregar al carrito: ${error.message}`);
+        console.error('Error:', error)
+        alert(`Error al agregar al carrito: ${error.message}`)
     }
 })

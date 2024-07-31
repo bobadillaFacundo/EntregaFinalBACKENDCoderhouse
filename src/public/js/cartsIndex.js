@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (idInput) {
                     window.location.href = `http://localhost:8080/api/carts/${idInput}`
                 } else {
-                    alert('Error, ingrese el ID del producto');
+                    alert('Error, ingrese el ID del producto')
                 }
         })
     })
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (idInput) {
                     window.location.href = `http://localhost:8080/api/carts/${idInput}`
                 } else {
-                    alert('Error, ingrese el ID del Carrito');
+                    alert('Error, ingrese el ID del Carrito')
                 }
         })
     })

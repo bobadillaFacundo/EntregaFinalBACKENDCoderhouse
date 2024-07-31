@@ -4,7 +4,7 @@ import cartsModel from '../models/carts.js'
 import __dirname from "../utils.js"
 import dotenv from 'dotenv'
 import productsModel from '../models/products.js'
-dotenv.config();
+dotenv.config()
 
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))
@@ -24,10 +24,10 @@ router.get('/', async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
     try {
-        const result = await obtenerDocumento(req.params.cid,cartsModel);
+        const result = await obtenerDocumento(req.params.cid,cartsModel)
 
         if (!result) {
-            return ERROR(res, `Error del servidor: ID no Existe`);
+            return ERROR(res, `Error del servidor: ID no Existe`)
         }
          
         await result.populate('products._id')
@@ -39,20 +39,20 @@ router.get("/:cid", async (req, res) => {
         }) 
        
     } catch (error) {
-        ERROR(res, `Error del servidor: ${error}`);
+        ERROR(res, `Error del servidor: ${error}`)
     }
 })
 
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
         // Obtener el carrito por ID
-        const carrito = await obtenerDocumento(req.params.cid, cartsModel);
+        const carrito = await obtenerDocumento(req.params.cid, cartsModel)
         if (!carrito) {
             return ERROR(res, 'Error del servidor: ID del carrito no existe')
         }
 
         // Obtener el producto por ID
-        const producto = await obtenerDocumento(req.params.pid, productsModel);
+        const producto = await obtenerDocumento(req.params.pid, productsModel)
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
         }
@@ -100,13 +100,13 @@ router.delete("/:cid", async (req, res) => {
 router.delete("/:cid/product/:pid", async (req, res) => {
     try {
         // Obtener el carrito por ID
-        let carrito = await obtenerDocumento(req.params.cid,cartsModel);
+        let carrito = await obtenerDocumento(req.params.cid,cartsModel)
         if (!carrito) {
             return ERROR(res, 'Error del servidor: ID del carrito no existe')
         }
 
         // Obtener el producto por ID
-        const producto = await obtenerDocumento(req.params.pid, productsModel);
+        const producto = await obtenerDocumento(req.params.pid, productsModel)
         if (!producto) {
             return ERROR(res, 'Error del servidor: ID del producto no existe')
         }

@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`http://localhost:8080/api/products/${id}`, {
                 method: 'DELETE'
-            });
+            })
             const result = await response.json()
-            alert(result.message); // Mostrar mensaje de éxito o error
+            alert(result.message)
             if (response.ok) {
                 location.reload()
             }

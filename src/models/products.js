@@ -9,8 +9,8 @@ const productsSchema = mongoose.Schema({
   status: { type: Boolean, default: true },
   stock: { type: Number, required: true },
   category: { type: String, required: true },
-  thumbnails: [{ type: String }] // Usa un array de Strings para las miniaturas
+  thumbnails: [{ type: String }] 
 })
-productsSchema.plugin(mongoosePaginate);
+productsSchema.plugin(mongoosePaginate)
 const productsModel = mongoose.model(productsCollection, productsSchema)
 export default productsModel

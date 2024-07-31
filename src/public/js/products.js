@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`http://localhost:8080/api/products/${id}`, {
                 method: 'DELETE'
-            });
+            })
             const result = await response.json()
-            alert(result.message); // Mostrar mensaje de éxito o error
+            alert(result.message) 
             if (response.ok) {
                 window.location.href = `http://localhost:8080/api/products`
             }
@@ -23,19 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
             handleDelete(id)
         })
     })
-    // Función para manejar agregar al carrito
-    const handleAddToCart = async (id) => {
-
-    }
-
+    
     // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async () => {
 
-            const selectElement = document.getElementById('popupList');
-            const carritoId = selectElement.value;
-            const id = button.getAttribute('data-id')
-            const numberProducts = document.getElementById('numberProducts').value; // Asegúrate de que este elemento existe y tenga un valor
+            const selectElement = document.getElementById('popupList')
+            const carritoId = selectElement.value
+            const id = button.getAttribute('data-id2')
+            const numberProducts  = button.getAttribute('data-id3')
 
             try {
                 alert("numberProducts"+numberProducts+"id"+id+"carritoId"+carritoId)
@@ -44,12 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST'
                 })
 
-                location.reload();
-                alert(`Se agregó producto al carrito: ${carritoId}`);
+                location.reload()
+                alert(`Se agregó producto al carrito: ${carritoId}`)
 
             } catch (error) {
-                console.error('Error:', error);
-                alert(`Error al agregar al carrito: ${error.message}`);
+                console.error('Error:', error)
+                alert(`Error al agregar al carrito: ${error.message}`)
             }
         })
     })
@@ -60,4 +56,25 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
+  
+    
 })
+
+  function openPopup(items) {
+        const overlay = document.getElementById('popupOverlay')
+        const select = document.getElementById('popupList')
+        select.innerHTML = '' // Limpiar las opciones existentes
+    
+        items.forEach(item => {
+            const option = document.createElement('option')
+            option.textContent = item._id
+            option.value = item._id
+            select.appendChild(option)
+        })
+        overlay.style.display = 'flex'
+    }
+    
+    // Función para cerrar la ventana emergente
+    function closePopup() {
+        document.getElementById('popupOverlay').style.display = 'none'
+    }
