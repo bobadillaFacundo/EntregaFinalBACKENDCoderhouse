@@ -2,9 +2,7 @@ import express from "express"
 import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, ERROR } from "../utils.js"
 import cartsModel from '../models/carts.js'
 import __dirname from "../utils.js"
-import dotenv from 'dotenv'
 import productsModel from '../models/products.js'
-dotenv.config()
 
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))

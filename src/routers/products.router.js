@@ -3,9 +3,8 @@ import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, ERROR } f
 import porductsModel from '../models/products.js'
 import mongoose from 'mongoose'
 import __dirname from "../utils.js"
-import dotenv from 'dotenv'
 import cartsModel from '../models/carts.js'
-dotenv.config()
+
 
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))
