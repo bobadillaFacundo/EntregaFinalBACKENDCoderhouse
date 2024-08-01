@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para manejar agregar al carrito
     const handleAddToCart = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/carts/?principal=false`)
+            const response = await fetch(`http://localhost:8080/api/carts/principal`)
             const data = await response.json()
             const h2 = document.getElementById('h2')
             h2.textContent = id

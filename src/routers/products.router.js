@@ -9,6 +9,7 @@ import cartsModel from '../models/carts.js'
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
+
 router.get('/', async (req, res) => {
     let page = parseInt(req.query.page)
     let limit = parseInt(req.query.limit)

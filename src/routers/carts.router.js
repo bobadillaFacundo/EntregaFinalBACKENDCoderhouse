@@ -7,35 +7,43 @@ import productsModel from '../models/products.js'
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
-router.get('/', async (req, res) => {
+
+router.get('/principal', async (req, res) => {
     await obtenerTodosLosDocumentos(cartsModel).then(result => {
-        if (!req.query.principal) {
-            return res.render('carts', {
-                style: 'indexCarts.css',
-                carts: result
-            })
-        } else return res.json(result)
+        res.render('carts', {
+            style: 'indexCarts.css',
+            carts: result
+        })
     }).catch(error => {
         ERROR(res, `Error del servidor: ${error}`)
     })
 })
 
+router.get('/', async (req, res) => {
+    await obtenerTodosLosDocumentos(cartsModel).then(result => {
+        res.json(result)
+    }).catch(error => {
+        ERROR(res, `Error del servidor: ${error}`)
+    })
+})
+
+
 router.get("/:cid", async (req, res) => {
     try {
-        const result = await obtenerDocumento(req.params.cid,cartsModel)
+        const result = await obtenerDocumento(req.params.cid, cartsModel)
 
         if (!result) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
-         
+
         await result.populate('products._id')
         result.save
 
         return res.render('cartsList', {
             style: 'indexCarts.css',
             carts: result
-        }) 
-       
+        })
+
     } catch (error) {
         ERROR(res, `Error del servidor: ${error}`)
     }
@@ -68,18 +76,21 @@ router.post("/:cid/product/:pid", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const newCarts = new cartsModel({
-        products: []
-    })
+
     try {
+        const newCarts = new cartsModel({
+            products: []
+        })
         const savedCarts = await newCarts.save()
+        console.log("fsd");
         res.render('cartsPost', {
             style: 'indexCarts.css',
             carts: savedCarts
         })
     } catch (error) {
         console.error(`Error al insertar documento, ${error}`)
-        ERROR(res, `Error del servidor: ${error}`)}
+        ERROR(res, `Error del servidor: ${error}`)
+    }
 })
 
 router.delete("/:cid", async (req, res) => {
@@ -87,7 +98,7 @@ router.delete("/:cid", async (req, res) => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
-        return res.send("Carts delete")
+        return res.json("Carts delete")
     }).catch(error => {
         ERROR(res, `Error del servidor: ${error}`)
     })
@@ -95,7 +106,7 @@ router.delete("/:cid", async (req, res) => {
 
 router.delete("/:cid/product/:pid", async (req, res) => {
     try {
-        let carrito = await obtenerDocumento(req.params.cid,cartsModel)
+        let carrito = await obtenerDocumento(req.params.cid, cartsModel)
         if (!carrito) {
             return ERROR(res, 'Error del servidor: ID del carrito no existe')
         }
@@ -115,4 +126,5 @@ router.delete("/:cid/product/:pid", async (req, res) => {
         ERROR(res, `Error del servidor: ${error.message}`)
     }
 })
+
 export default router

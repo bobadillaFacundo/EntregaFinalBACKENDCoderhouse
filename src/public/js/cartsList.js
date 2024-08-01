@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener para el botón 'Volver'
     document.querySelectorAll('.btn-volver').forEach(button => {
         button.addEventListener('click', () => {
-            window.location.href = `http://localhost:8080/api/carts`
+            window.location.href = `http://localhost:8080/api/carts/principal`
         })
     })
     document.querySelectorAll('.btn-delete-products-carts').forEach(button => {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
     })
-    // Event listener para el botón 'Eliminar Carrito'
+
     document.querySelectorAll('.btn-delete-carts').forEach(button => {
         button.addEventListener('click', async () => {
             try {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'DELETE'
                 })
                 location.reload()
-                window.location.href = `http://localhost:8080/api/carts`
+                window.location.href = `http://localhost:8080/api/carts/principal`
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al eliminar carrito')

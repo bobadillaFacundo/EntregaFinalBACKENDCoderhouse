@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleAddToCart = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/carts/?principal=false`)
+            const response = await fetch(`http://localhost:8080/api/carts`)
             const data = await response.json()
             const h2 = document.getElementById('h2')
             h2.textContent = id
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navegar al carrito
     document.querySelectorAll('.cart-button').forEach(button => {
-        button.addEventListener('click', () => window.location.href = 'http://localhost:8080/api/carts')
+        button.addEventListener('click', () => window.location.href = 'http://localhost:8080/api/carts/principal')
     })
 
     document.querySelectorAll('.button_22').forEach(button => {
