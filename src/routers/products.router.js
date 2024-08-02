@@ -155,8 +155,8 @@ router.delete("/:pid", async (req, res) => {
         try {
             let carts = await obtenerTodosLosDocumentos(cartsModel)
             await Promise.all(carts.map(async (cart) => {
-                cart.products = cart.products.filter(a => a._id.toString() !== req.params.pid.toString());
-                await cart.save();
+                cart.products = cart.products.filter(a => a._id.toString() !== req.params.pid.toString())
+                await cart.save()
             }))
             return res.json({ status: "success", message: "Product delete" })
         } catch (error) {
@@ -180,7 +180,7 @@ router.put("/", async (req, res) => {
 
         let status = product.status
 
-        status = (status === 'false') ? false : (status === 'true') ? true : result.status;
+        status = (status === 'false') ? false : (status === 'true') ? true : result.status
 
 
         const products = {

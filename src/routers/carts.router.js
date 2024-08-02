@@ -82,7 +82,7 @@ router.post("/", async (req, res) => {
             products: []
         })
         const savedCarts = await newCarts.save()
-        console.log("fsd");
+  
         res.render('cartsPost', {
             style: 'indexCarts.css',
             carts: savedCarts

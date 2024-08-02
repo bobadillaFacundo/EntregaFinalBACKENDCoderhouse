@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             if (response.ok) {
-                location.reload();
+                location.reload()
                 alert(`Se agregó al carrito: ${carritoId}`)
             } else {
                 const errorData = await response.json()

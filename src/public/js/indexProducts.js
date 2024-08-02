@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             if (response.ok) {
-                location.reload();
+                location.reload()
                 alert(`Se agregó al carrito: ${carritoId}`)
             } else {
                 const errorData = await response.json()
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(`Error al agregar al carrito: ${errorData.message}`)
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error:', error)
             alert(`Error al agregar al carrito: ${error.message}`)
         }
     })
@@ -181,5 +181,6 @@ function openPopup(items) {
 
 function closePopup() {
     document.getElementById('popupOverlay').style.display = 'none'
+    return
 }
 
