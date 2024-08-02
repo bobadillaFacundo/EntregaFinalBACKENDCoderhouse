@@ -20,7 +20,7 @@
     <!-- Sección de Formularios -->
     <section class="forms-section">
         <h2 class="toggle-form" data-target="formCP">Cargar Producto</h2>
-        <form id="formCP" class="form" method="POST">
+        <form id="formCP" class="form" method="POST" action="/api/products/">
             <input type="text" id="titleCP" class="input" placeholder="Title" name="title">
             <input type="text" id="descriptionCP" class="input" placeholder="Description" name="description">
             <input type="text" id="codeCP" class="input" placeholder="Code" name="code">
@@ -34,7 +34,7 @@
     <section class="forms-section">
 
         <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
-        <form id="formMP" class="form" method="PUT">
+        <form id="formMP" class="form" method="PUT" action="/api/products/">
             <input type="text" id="idMP" class="input" placeholder="ID" name="id">
             <input type="text" id="titleMP" class="input" placeholder="Title" name="title">
             <input type="text" id="descriptionMP" class="input" placeholder="Description" name="description">
@@ -53,7 +53,7 @@
     <!-- Sección de Filtros -->
     <section class="filters-section">
         <h2>Filtros</h2>
-        <form id="filtersForm" method="get">
+        <form id="filtersForm" method="get" action="/api/products/">
             <label for="limit">Límite:</label>
             <input type="number" id="limit" name="limit" min="1" value="10">
 

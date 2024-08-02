@@ -9,6 +9,16 @@ import cartsModel from '../models/carts.js'
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
+router.get('/principal', async (req, res) => {
+    await obtenerTodosLosDocumentos(porductsModel).then(result => {
+        return res.render('indexProducts', {
+            style: 'indexProducts.css',
+            products: result
+        })
+    }).catch(error => {
+        ERROR(res, `Error del servidor: ${error}`)
+    })
+})
 
 router.get('/', async (req, res) => {
     let page = parseInt(req.query.page)
@@ -66,10 +76,8 @@ router.get('/', async (req, res) => {
         }
     }
     await obtenerTodosLosDocumentos(porductsModel).then(result => {
-        return res.render('indexProducts', {
-            style: 'indexProducts.css',
-            products: result
-        })
+        res.json(result)
+
     }).catch(error => {
         ERROR(res, `Error del servidor: ${error}`)
     })
@@ -151,16 +159,16 @@ router.delete("/:pid", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
-   
+
     await deleteDocumento(req.params.pid, porductsModel).then(async result => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
         try {
-            let carts = await obtenerTodosLosDocumentos(cartsModel)            
+            let carts = await obtenerTodosLosDocumentos(cartsModel)
             await Promise.all(carts.map(async (cart) => {
                 cart.products = cart.products.filter(a => a._id.toString() !== req.params.pid.toString());
-                await cart.save(); 
+                await cart.save();
             }))
             return res.send({ status: "success", message: "Product delete" })
         } catch (error) {
@@ -207,7 +215,7 @@ router.put("/", async (req, res) => {
             return ERROR(res, "Producto no encontrado")
         }
 
-        return res.render('productsPut', {
+        res.render('productsPut', {
             style: 'indexProducts.css',
             prod: products,
             id: product.id

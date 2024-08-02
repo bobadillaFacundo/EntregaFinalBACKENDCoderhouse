@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json()
             alert(result.message)
             if (response.ok) {
-                window.location.href = `http://localhost:8080/api/products`
+                window.location.href = `http://localhost:8080/api/products/principal`
             }
         } catch (error) {
             console.error('Error:', error)
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/carts/principal`)
+                const response = await fetch(`http://localhost:8080/api/carts`)
                 const data = await response.json()
                 const h2 = document.getElementById('h2')
                 h2.style.display = 'visible'
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.btn-volver').forEach(button => {
         button.addEventListener('click', () => {
-            window.location.href = `http://localhost:8080/api/products`
+            window.location.href = `http://localhost:8080/api/products/principal`
         })
     })
 

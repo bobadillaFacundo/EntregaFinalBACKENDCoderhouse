@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.btn-volver').forEach(button => {
         button.addEventListener('click', () => {
-            window.location.href = `http://localhost:8080/api/products`
+            window.location.href = `http://localhost:8080/api/products/principal`
         })
     })
 

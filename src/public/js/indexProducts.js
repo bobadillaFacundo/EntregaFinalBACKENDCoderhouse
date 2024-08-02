@@ -60,13 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                await fetch(`http://localhost:8080/api/products/`, {
+                await fetch(`http://localhost:8080/api/products`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 })
-                
-                alert("Se modifico el producto")
                 document.getElementById('formMP').reset()
             } catch (error) {
                 console.error('Error:', error)
@@ -91,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                await fetch(`http://localhost:8080/api/products/`, {
+                await fetch(`http://localhost:8080/api/products`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
