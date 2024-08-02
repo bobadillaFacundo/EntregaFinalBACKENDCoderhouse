@@ -1,54 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Función para manejar la eliminación de un producto
-    const handleDelete = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/products/${id}`, {
-                method: 'DELETE'
-            })
-            const result = await response.json()
-            alert(result.message)
-            if (response.ok) {
-                location.reload()
-            }
-        } catch (error) {
-            console.error('Error:', error)
-            alert('Error al eliminar el producto')
-        }
-    }
-
-    // Asignar eventos a loss botones de eliminar
     document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
             const id = button.getAttribute('data-id')
-            handleDelete(id)
+            try {
+                const response = await fetch(`http://localhost:8080/api/products/${id}`, {
+                    method: 'DELETE'
+                })
+                const result = await response.json()
+                alert(result.message)
+                if (response.ok) {
+                    location.reload()
+                }
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al eliminar el producto')
+            }
         })
     })
-    // Función para manejar agregar al carrito
-    const handleAddToCart = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/carts/principal`)
-            const data = await response.json()
-            const h2 = document.getElementById('h2')
-            h2.textContent = id
-            h2.style.display = 'visible'
-            openPopup(data)
 
-        } catch (error) {
-            console.error('Error:', error)
-            alert('Error al agregar el producto al carrito')
-        }
-
-    }
-    // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {
-        button.addEventListener('click', () => handleAddToCart(button.getAttribute('data-id')))
-    })
-
-    // Asignar eventos a los botones de agregar al carrito
-    document.querySelectorAll('.btn-cart').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
             const id = button.getAttribute('data-id')
-            handleAddToCart(id)
+            try {
+                const response = await fetch(`http://localhost:8080/api/carts`)
+                const data = await response.json()
+                const h2 = document.getElementById('h2')
+                h2.textContent = id
+                h2.style.display = 'visible'
+                openPopup(data)
+
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al agregar el producto al carrito')
+            }
         })
     })
 

@@ -1,47 +1,43 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const handleDelete = async (id) => {
-        try {
-            await fetch(`http://localhost:8080/api/products/${id}`, {
-                method: 'DELETE'
-            })
-            location.reload()
-            alert('Se elimino el producto')
-
-        } catch (error) {
-            console.error('Error:', error)
-            alert('Error al eliminar el producto')
-        }
-    }
-
-    const handleAddToCart = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/carts`)
-            const data = await response.json()
-            const h2 = document.getElementById('h2')
-            h2.textContent = id
-            h2.style.display = 'visible'
-            openPopup(data)
-
-        } catch (error) {
-            console.error('Error:', error)
-            alert('Error al agregar el producto al carrito')
-        }
-    }
-
-    // Asignar eventos a los botones de eliminar
     document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', async () => await handleDelete(button.getAttribute('data-id')))
+        button.addEventListener( 'click', async () => {
+            try {
+                const id = button.getAttribute('data-id')
+                await fetch(`http://localhost:8080/api/products/${id}`, {
+                    method: 'DELETE'
+                })
+                location.reload()
+                alert('Se elimino el producto')
+    
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al eliminar el producto')
+            }
+        })
     })
 
-    // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {
-        button.addEventListener('click', () => handleAddToCart(button.getAttribute('data-id')))
+        button.addEventListener('click', async () => {
+
+            try {
+                const id = button.getAttribute('data-id')
+                const response = await fetch(`http://localhost:8080/api/carts`)
+                const data = await response.json()
+                const h2 = document.getElementById('h2')
+                h2.textContent = id
+                h2.style.display = 'visible'
+                openPopup(data)
+    
+            } catch (error) {
+                console.error('Error:', error)
+                alert('Error al agregar el producto al carrito')
+            }
+        })
     })
 
 
-    // Navegar al carrito
     document.querySelectorAll('.cart-button').forEach(button => {
         button.addEventListener('click', () => window.location.href = 'http://localhost:8080/api/carts/principal')
     })
@@ -66,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data)
                 })
                 document.getElementById('formMP').reset()
-                location.reload()
                 alert('Se modifico el producto')
             } catch (error) {
                 console.error('Error:', error)
@@ -142,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function openPopup(items) {
     const overlay = document.getElementById('popupOverlay')
     const select = document.getElementById('popupList')
-    select.innerHTML = '' // Limpiar las opciones existentes
+    select.innerHTML = ''
 
     items.forEach(item => {
         const option = document.createElement('option')
@@ -153,7 +148,6 @@ function openPopup(items) {
     overlay.style.display = 'flex'
 }
 
-// Función para cerrar la ventana emergente
 function closePopup() {
     document.getElementById('popupOverlay').style.display = 'none'
 }

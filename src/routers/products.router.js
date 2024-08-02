@@ -21,13 +21,12 @@ router.get('/principal', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    let page = parseInt(req.query.page)
-    let limit = parseInt(req.query.limit)
+    let page = parseInt(req.query.page) || 1
+    let limit = parseInt(req.query.limit) || 10 
     let sort = req.query.sort
     let sortOption = {}
     let tipo = req.query.tipo
-
-
+    
     if (tipo === 'category') {
         if (sort === "asc") {
             sortOption = { category: 1 }
@@ -43,44 +42,33 @@ router.get('/', async (req, res) => {
             sortOption = { price: -1 }
         }
     }
+    try {
 
-    if (page > 0) {
-        try {
+        let result = await porductsModel.paginate({}, {
+            page,
+            limit,
+            lean: true,
+            sort: sortOption
+        })
 
-            let result = await porductsModel.paginate({}, {
-                page,
-                limit,
-                lean: true,
-                sort: sortOption
-            })
+        result.prevLink = result.hasPrevPage
+            ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${result.limit}&sort=${result.sort}&tipo=${tipo}`
+            : ''
+        result.nextLink = result.hasNextPage
+            ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${result.limit}&sort=${result.sort}&tipo=${tipo}`
+            : ''
+        result.isValid = !(page <= 0 || page > result.totalPages)
+        result.sort = sort
+        result.tipo = tipo
 
-            result.prevLink = result.hasPrevPage
-                ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${result.limit}&sort=${result.sort}&tipo=${tipo}`
-                : ''
-            result.nextLink = result.hasNextPage
-                ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${result.limit}&sort=${result.sort}&tipo=${tipo}`
-                : ''
-            result.isValid = !(page <= 0 || page > result.totalPages)
-            result.sort = sort
-            result.tipo = tipo
-
-            return res.render('productsFilter', {
-                style: 'indexProducts.css',
-                result
-            })
-        } catch (error) {
-            console.error(`Server Error: ${error}`)
-            return ERROR(res, `Error del servidor: ${error}`, '500')
-        } finally {
-            return
-        }
+        return res.render('productsFilter', {
+            style: 'indexProducts.css',
+            result
+        })
+    } catch (error) {
+        console.error(`Server Error: ${error}`)
+        return ERROR(res, `Error del servidor: ${error}`, '500')
     }
-    await obtenerTodosLosDocumentos(porductsModel).then(result => {
-        res.json(result)
-
-    }).catch(error => {
-        ERROR(res, `Error del servidor: ${error}`)
-    })
 })
 
 router.post("/", (async (req, res) => {
