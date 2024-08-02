@@ -14,9 +14,9 @@
             <p><strong>Status:</strong> {{status}}</p>
             <p><strong>Category:</strong> {{category}}</p>
             <p><strong>Price:</strong> {{price}}</p>
-            <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+            <button class="btn-delete" data-id={{_id}}>Eliminar</button>
             {{#if status}}
-            <button class="btn-cart" data-id="{{_id}}">
+            <button class="btn-cart" data-id={{_id}}>
                 <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                 {{/if}}
             </button>

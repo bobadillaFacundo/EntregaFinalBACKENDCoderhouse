@@ -20,8 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async () => {
-            const id = button.getAttribute('data-id')
+            
             try {
+                const id = button.getAttribute('data-id')
                 const response = await fetch(`http://localhost:8080/api/carts`)
                 const data = await response.json()
                 const h2 = document.getElementById('h2')
@@ -44,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("carritoForm").addEventListener('submit', async (event) => {
         event.preventDefault()
-
         const selectElement = document.getElementById('popupList')
         const carritoId = selectElement.value
         const h2 = document.getElementById('h2')
@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const numberProducts = document.getElementById('numberProducts').value
 
         try {
-            // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
             const response = await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
                 method: 'POST',
                 headers: {
@@ -61,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             if (response.ok) {
-                location.reload()
+                location.reload();
                 alert(`Se agregó al carrito: ${carritoId}`)
             } else {
                 const errorData = await response.json()
@@ -73,10 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(`Error al agregar al carrito: ${error.message}`)
         }
     })
+    })
 
-
-})
-// Función para cerrar la ventana emergente
 function closePopup() {
     document.getElementById('popupOverlay').style.display = 'none'
 }

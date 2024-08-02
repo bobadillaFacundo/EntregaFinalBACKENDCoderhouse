@@ -24,13 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
-    // Asignar eventos a los botones de agregar al carrito
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async () => {
             try {
+                const id = button.getAttribute('data-id3')
                 const response = await fetch(`http://localhost:8080/api/carts`)
                 const data = await response.json()
                 const h2 = document.getElementById('h2')
+                h2.textContent = id
                 h2.style.display = 'visible'
                 openPopup(data)
 
@@ -48,6 +49,30 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
 
+    document.getElementById("carritoForm").addEventListener('submit', async (event) => {
+        event.preventDefault()
+
+        const selectElement = document.getElementById('popupList')
+        const carritoId = selectElement.value
+        const h2 = document.getElementById('h2')
+        const id = h2.textContent
+        const numberProducts = document.getElementById('numberProducts').value
+
+        try {
+            await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            alert(`Se agregó al carrito: ${carritoId}`)
+            location.reload()
+
+        } catch (error) {
+            console.error('Error:', error)
+            alert(`Error al agregar al carrito: ${error.message}`)
+        }
+    })
 
 })
 
@@ -65,33 +90,6 @@ function openPopup(items) {
     overlay.style.display = 'flex'
 }
 
-// Función para cerrar la ventana emergente
 function closePopup() {
     document.getElementById('popupOverlay').style.display = 'none'
 }
-
-document.getElementById("carritoForm").addEventListener('submit', async (event) => {
-    event.preventDefault()
-
-    const selectElement = document.getElementById('popupList')
-    const carritoId = selectElement.value
-    const h2 = document.getElementById('h2')
-    const id = h2.textContent
-    const numberProducts = document.getElementById('numberProducts').value
-
-    try {
-        // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
-        await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            alert(`Se agregó al carrito: ${carritoId}`)
-            location.reload()
-
-    } catch (error) {
-        console.error('Error:', error)
-        alert(`Error al agregar al carrito: ${error.message}`)
-    }
-})
