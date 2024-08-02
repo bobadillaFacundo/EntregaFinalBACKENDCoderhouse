@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'DELETE'
                 })
                 location.reload()
+                alert('Se elimino el carrito')
                 window.location.href = `http://localhost:8080/api/carts/principal`
             } catch (error) {
                 console.error('Error:', error)
