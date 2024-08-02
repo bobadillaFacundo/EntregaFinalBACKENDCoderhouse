@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Asignar eventos a los botones de eliminar
     document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener( 'click', async () => await handleDelete(button.getAttribute('data-id')))
+        button.addEventListener('click', async () => await handleDelete(button.getAttribute('data-id')))
     })
 
     // Asignar eventos a los botones de agregar al carrito
@@ -66,6 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data)
                 })
                 document.getElementById('formMP').reset()
+                location.reload()
+                alert('Se modifico el producto')
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al actualizar el producto')
@@ -166,7 +168,6 @@ document.getElementById("carritoForm").addEventListener('submit', async (event) 
     const numberProducts = document.getElementById('numberProducts').value
 
     try {
-        // Usar parámetros de consulta o el cuerpo de la solicitud para enviar datos adicionales
         const response = await fetch(`http://localhost:8080/api/carts/${carritoId}/product/${id}/?numberProducts=${numberProducts}`, {
             method: 'POST',
             headers: {

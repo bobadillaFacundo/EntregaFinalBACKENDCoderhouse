@@ -34,7 +34,7 @@
     <section class="forms-section">
 
         <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
-        <form id="formMP" class="form" method="PUT" action="/api/products/">
+        <form id="formMP" class="form" method="PUT" >
             <input type="text" id="idMP" class="input" placeholder="ID" name="id">
             <input type="text" id="titleMP" class="input" placeholder="Title" name="title">
             <input type="text" id="descriptionMP" class="input" placeholder="Description" name="description">
@@ -53,7 +53,7 @@
     <!-- Sección de Filtros -->
     <section class="filters-section">
         <h2>Filtros</h2>
-        <form id="filtersForm" method="get" action="/api/products/">
+        <form id="filtersForm" method="get" action="/api/products/"s>
             <label for="limit">Límite:</label>
             <input type="number" id="limit" name="limit" min="1" value="10">
 

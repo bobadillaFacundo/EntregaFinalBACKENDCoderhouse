@@ -170,7 +170,7 @@ router.delete("/:pid", async (req, res) => {
                 cart.products = cart.products.filter(a => a._id.toString() !== req.params.pid.toString());
                 await cart.save();
             }))
-            return res.send({ status: "success", message: "Product delete" })
+            return res.json({ status: "success", message: "Product delete" })
         } catch (error) {
             return ERROR(res, `Error del servidor: ${error}`)
         }
@@ -192,11 +192,8 @@ router.put("/", async (req, res) => {
 
         let status = product.status
 
-        if (status === 'false') {
-            status = false
-        } else if (status === 'true') {
-            status = true
-        } else status = result.status
+        status = (status === 'false') ? false : (status === 'true') ? true : result.status;
+
 
         const products = {
             title: product.title || result.title,
