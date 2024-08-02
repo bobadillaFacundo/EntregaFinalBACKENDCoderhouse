@@ -6,6 +6,8 @@ import __dirname from './utils.js'
 import path from "path"
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import methodOverride from 'method-override'
+
 dotenv.config()
 
 const app = express()
@@ -13,6 +15,7 @@ const port = 8080
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'));
 app.use('/api/products', products)
 app.use('/api/carts', carts)
 app.engine('handlebars', engine.engine({

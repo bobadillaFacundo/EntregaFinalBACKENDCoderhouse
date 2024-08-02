@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     document.querySelectorAll('.button_22').forEach(button => {
-        button.addEventListener('click', async () => {
+        button.addEventListener('click', async (event) => {
+            event.preventDefault()
             const data = {
                 id: document.getElementById('idMP').value,
                 title: document.getElementById('titleMP').value,
@@ -55,19 +56,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: document.getElementById('categoryMP').value
             }
 
+
             try {
-                await fetch(`http://localhost:8080/api/products`, {
+                await fetch('http://localhost:8080/api/products', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                })
-                document.getElementById('formMP').reset()
-                alert('Se modifico el producto')
-            } catch (error) {
-                console.error('Error:', error)
-                alert('Error al actualizar el producto')
-            }
+                });
 
+                    document.getElementById('formMP').reset()
+
+
+               
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al actualizar el producto');
+            }
 
         })
     })

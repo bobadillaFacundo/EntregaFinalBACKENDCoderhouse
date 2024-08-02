@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 await fetch(`http://localhost:8080/api/carts/${idCart}/product/${idproducto}`, {
                     method: 'DELETE'
                 })
+                alert('Se elimino el Producto')
                 location.reload()
+
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al eliminar producto del carrito')

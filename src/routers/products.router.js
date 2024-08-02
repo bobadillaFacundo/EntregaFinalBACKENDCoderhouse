@@ -9,6 +9,30 @@ import cartsModel from '../models/carts.js'
 const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
+
+// router.get('/mostrar/:pid', async (req, res) => {
+//     const products = {
+//         title: req.query.title,
+//         description: req.query.description,
+//         code: req.query.code,
+//         price: req.query.price,
+//         status: req.query.status,
+//         stock: req.query.stock,
+//         category: req.query.category,
+//         thumbnails: req.query.thumbnails
+//     }
+//     const pid = req.params.pid
+//     console.log(products);
+
+//     res.render('productsPut',
+//         {
+//             style: 'indexProducts.css',
+//             prod: products,
+//             id: pid
+//         }
+//     )
+// })
+
 router.get('/principal', async (req, res) => {
     await obtenerTodosLosDocumentos(porductsModel).then(result => {
         return res.render('indexProducts', {
@@ -22,11 +46,11 @@ router.get('/principal', async (req, res) => {
 
 router.get('/', async (req, res) => {
     let page = parseInt(req.query.page) || 1
-    let limit = parseInt(req.query.limit) || 10 
+    let limit = parseInt(req.query.limit) || 10
     let sort = req.query.sort
     let sortOption = {}
     let tipo = req.query.tipo
-    
+
     if (tipo === 'category') {
         if (sort === "asc") {
             sortOption = { category: 1 }
@@ -200,11 +224,9 @@ router.put("/", async (req, res) => {
             return ERROR(res, "Producto no encontrado")
         }
 
-        res.render('productsPut', {
-            style: 'indexProducts.css',
-            prod: products,
-            id: product.id
-        })
+       const nuevaUrl = `/api/products/mostrar/${product.id}/?title=${products.title}&description=${products.description}&code=${products.code}&price=${products.price}&status=${products.status}&stock=${products.stock}&category=${products.category}&thumbnails=${products.thumbnails}`
+
+        return res.redirect(nuevaUrl)
     } catch (error) {
         console.error('Error actualizando el producto:', error)
         return ERROR(res, 'Error del servidor', "500")
