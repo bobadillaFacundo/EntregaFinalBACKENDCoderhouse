@@ -59,7 +59,7 @@ router.get('/', async (req, res) => {
         }
     }
 
-    if (tipo === 'price') {
+     if (tipo === 'price') {
         if (sort === "asc") {
             sortOption = { price: 1 }
         } else if (sort === "desc") {
