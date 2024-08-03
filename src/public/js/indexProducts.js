@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.btn-delete').forEach(button => {
@@ -58,19 +57,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             try {
-                await fetch('http://localhost:8080/api/products', {
+                const response = await fetch('http://localhost:8080/api/products', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                });
+                })
 
+                if (response.ok) {
+                    alert('Se modifico el producto')
                     document.getElementById('formMP').reset()
 
+                } else alert('Error al actualizar el producto')
 
-               
+                location.reload()
+
+
+
             } catch (error) {
-                console.error('Error:', error);
-                alert('Error al actualizar el producto');
+                console.error('Error:', error)
+                alert('Error al actualizar el producto')
             }
 
         })
@@ -95,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 })
+                
                 document.getElementById('formCP').reset()
             } catch (error) {
                 console.error('Error:', error)

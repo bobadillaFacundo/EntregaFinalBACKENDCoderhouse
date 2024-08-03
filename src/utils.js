@@ -12,7 +12,7 @@ export async function obtenerTodosLosDocumentos(model) {
     const documents = await model.find()
     return documents
   } catch (error) {
-    console.error('Error al conectar o interactuar con la base de datos en obtenerTodoslosDocumentos', error)
+   return {message:'Error al conectar o interactuar con la base de datos en obtenerTodoslosDocumentos', error}
   } 
 }
 
@@ -22,7 +22,7 @@ export async function obtenerDocumento(id,Model) {
     const document = await Model.findById(id)
     return document
   } catch (error) {
-    console.error('Error al conectar o interactuar con la base de datos en obtenerDocumento', error)
+    return { message:'Error al conectar o interactuar con la base de datos en obtenerDocumento', error}
   }
 }
 
@@ -30,7 +30,7 @@ export async function deleteDocumento(id,Model) {
   try {const document = await Model.deleteOne({ _id: id })
     return document
   } catch (error) {
-    console.error('Error al conectar o interactuar con la base de datos en deleteDocumento', error)
+    return {message:'Error al conectar o interactuar con la base de datos en deleteDocumento', error}
   } 
 }
 
@@ -38,6 +38,7 @@ export function ERROR(res,message,status){
   status = status ?? 404
   res.status(status).render('ERROR', {
       style: 'index.css',
+      status,
       resultado: message
   })
 }

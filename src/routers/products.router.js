@@ -22,7 +22,7 @@ router.use(express.static(__dirname + "/public"))
 //         thumbnails: req.query.thumbnails
 //     }
 //     const pid = req.params.pid
-//     console.log(products);
+//     console.log(products)
 
 //     res.render('productsPut',
 //         {
@@ -196,6 +196,9 @@ router.put("/", async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(product.id)) {
             return ERROR(res, "ID no es válido")
+        } 
+        if (!(product.id)){
+            return ERROR(res, "Ingresar Id")
         }
 
         let result = await obtenerDocumento(product.id, porductsModel)
@@ -226,7 +229,7 @@ router.put("/", async (req, res) => {
 
        const nuevaUrl = `/api/products/mostrar/${product.id}/?title=${products.title}&description=${products.description}&code=${products.code}&price=${products.price}&status=${products.status}&stock=${products.stock}&category=${products.category}&thumbnails=${products.thumbnails}`
 
-        return res.redirect(nuevaUrl)
+        return res.json(savedProduct)
     } catch (error) {
         console.error('Error actualizando el producto:', error)
         return ERROR(res, 'Error del servidor', "500")
