@@ -8,9 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 const result = await response.json()
                 alert(result.message)
-                if (response.ok) {
-                    location.reload()
-                }
+                location.reload()
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al eliminar el producto')

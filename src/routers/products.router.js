@@ -22,6 +22,7 @@ router.get('/mostrar/:pid', async (req, res) => {
         category: req.query.category,
         thumbnails: req.query.thumbnails
     }
+    if (products.status === 'false') {products.status = false }else {products.status = true}
 
     return res.render('productsList',{
             products: products})
