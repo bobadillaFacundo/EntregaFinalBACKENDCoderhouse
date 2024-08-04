@@ -1,26 +1,19 @@
+En el siguiente video se ve:
 Cargar Producto
-
-https://github.com/user-attachments/assets/d3d4e963-b3f0-4d17-9c29-e1773ae7bb08
-
 Modificar Producto
-
-https://github.com/user-attachments/assets/c0c7657e-7d3e-4bfd-a7bf-9505207b8dca
-
 Buscar por status y categoria
+Buscar producto 
+Eliminar producto
+Uso de Paginacion
+Crear carrito
+Cargar carrito
+Buscar carrito y uso de populate
+Eliminar carrito
+Eliminar producto de carrito
 
-https://github.com/user-attachments/assets/1be1c48b-0f68-4975-b319-7c380eea150b
+https://drive.google.com/file/d/1jXGwxF_yMIH17aXVkjb0qcbvSdsqTPBG/view?usp=sharing
 
-Buscar producto y eliminarlo
-
-https://github.com/user-attachments/assets/771a4651-e9da-4ead-87f4-bc5f424e52c7
-
-Paginacion
-
-https://github.com/user-attachments/assets/1756c2b0-cb9a-4f7c-9845-4c4b650ba40a
-
-
-
-
+Las tecnologias que se usaron para el fron son html,css,js y handlebars, para el back node.js y mongo como persistencia. 
 
 
 
