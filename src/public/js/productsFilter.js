@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                },
+                }
             })
 
             if (response.ok) {

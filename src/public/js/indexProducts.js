@@ -62,17 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 })
+                document.getElementById('formMP').reset()
 
-                if (response.ok) {
-                    alert('Se modifico el producto')
-                    document.getElementById('formMP').reset()
-
-                } else alert('Error al actualizar el producto')
-
-                location.reload()
-
-
-
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    const result = await response.json();
+                    alert(result.error || 'Producto actualizado correctamente');
+                }
             } catch (error) {
                 console.error('Error:', error)
                 alert('Error al actualizar el producto')
