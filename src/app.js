@@ -32,13 +32,12 @@ app.engine('handlebars', engine.engine({
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Configuración de tipo MIME para CSS (si es necesario)
-app.use('/css', express.static(path.join(__dirname, 'public', 'css'), {
-    setHeaders: (res, filePath) => {
-        const contentType = mime.getType(filePath) || 'text/plain';
-        res.setHeader('Content-Type', contentType);
-    }
-}));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+// Configurar la ruta para servir archivos estáticos
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+
+
 
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGO_DB_URL).then(() => {

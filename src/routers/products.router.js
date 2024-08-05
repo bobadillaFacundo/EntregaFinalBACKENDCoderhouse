@@ -10,9 +10,9 @@ const router = express.Router()
 router.use(express.static(__dirname + "/public"))
 
 
-router.get('/mostrar/:pid', async (req, res) => {
+router.get('/mostrar', async (req, res) => {
     const products = {
-        _id: req.params.pid,
+        _id: req.query._id,
         title: req.query.title,
         description: req.query.description,
         code: req.query.code,
@@ -25,6 +25,7 @@ router.get('/mostrar/:pid', async (req, res) => {
     if (products.status === 'false') {products.status = false }else {products.status = true}
 
     return res.render('productsList',{
+            style: 'indexProducts.css',
             products: products})
 })
 
@@ -222,7 +223,7 @@ router.put("/", async (req, res) => {
             return ERROR(res, "Producto no encontrado")
         }
 
-       const nuevaUrl = `/api/products/mostrar/${product.id}/?title=${products.title}&description=${products.description}&code=${products.code}&price=${products.price}&status=${products.status}&stock=${products.stock}&category=${products.category}&thumbnails=${products.thumbnails}`
+       const nuevaUrl = `/api/products/mostrar?_id=${product.id}&title=${products.title}&description=${products.description}&code=${products.code}&price=${products.price}&status=${products.status}&stock=${products.stock}&category=${products.category}&thumbnails=${products.thumbnails}`
 
         return res.redirect(nuevaUrl)
     } catch (error) {
