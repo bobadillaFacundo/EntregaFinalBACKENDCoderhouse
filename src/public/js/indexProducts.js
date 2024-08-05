@@ -22,12 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const id = button.getAttribute('data-id')
-                const response = await fetch(`http://localhost:8080/api/carts`)
+                let response = await fetch(`http://localhost:8080/api/carts`)
                 const data = await response.json()
                 const h2 = document.getElementById('h2')
                 h2.textContent = id
                 h2.style.display = 'visible'
-                openPopup(data)
+                
+                if(data.length===0){
+                   response = await fetch (`http://localhost:8080/api/carts`,{
+                    method: 'POST',
+                })}
+                
+            openPopup(data)
 
             } catch (error) {
                 console.error('Error:', error)
