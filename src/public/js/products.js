@@ -28,9 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', async () => {
             try {
                 const id = button.getAttribute('data-id3')
-                const response = await fetch(`http://localhost:8080/api/carts`)
-                const data = await response.json()
+                let response = await fetch(`http://localhost:8080/api/carts`)
+                let data = await response.json()
                 const h2 = document.getElementById('h2')
+                if(data.length===0){
+                    response = await fetch (`http://localhost:8080/api/carts`,{
+                     method: 'POST',
+                 })
+                 response = await fetch(`http://localhost:8080/api/carts`)
+                 data = await response.json()}
                 h2.textContent = id
                 h2.style.display = 'visible'
                 openPopup(data)
