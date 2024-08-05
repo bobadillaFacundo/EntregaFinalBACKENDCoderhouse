@@ -98,7 +98,7 @@ router.delete("/:cid", async (req, res) => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
-        return res.json("Carts delete")
+        return res.json('Se elimino el carrito')
     }).catch(error => {
         ERROR(res, `Error del servidor: ${error}`)
     })
@@ -121,7 +121,7 @@ router.delete("/:cid/product/:pid", async (req, res) => {
 
         await carrito.save()
 
-        res.json(carrito)
+        res.json('Se elimino el producto')
     } catch (error) {
         ERROR(res, `Error del servidor: ${error.message}`)
     }

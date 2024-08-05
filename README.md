@@ -19,6 +19,8 @@ Preparación de la aplicación:
 
 Asegúrate de tener de clonar este directorio en tu maquina local
 
+Copiar el archivo .env.example y renombrar como .env
+
 Construcción de la imagen Docker:
 
 Desde la línea de comandos, en el directorio donde se encuentra tu Docker-Compose, ejecuta el siguiente comando para construir la imagen Docker-compose:
