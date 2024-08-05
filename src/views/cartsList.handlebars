@@ -17,11 +17,20 @@
     <ul>
         {{#each carts.products}}
         <li>
-            Producto ID: {{this._id}} <br>
-            Cantidad: {{this.cantidad}} <br>
-            <button class="btn-delete-products-carts1" data-id231={{../carts._id}}
-                data-products1={{this._id._id}}>Eliminar Producto</button>
+            Producto ID: {{this._id._id}} <br>
+            Title: {{this._id.title}} <br>
+            Description: {{this._id.description}} <br>
+            Code: {{this._id.code}} <br>
+            Stock: {{this._id.stock}} <br>
+            Status: {{this._id.status}} <br>
+            Category: {{this._id.category}} <br>
+            Price: {{this._id.price}} <br>
         </li>
+        <li>
+            Cantidad: {{this.cantidad}} <br>
+        </li>
+        <button class="btn-delete-products-carts1" data-id231={{../carts._id}} data-products1={{this._id._id}}>Eliminar
+            Producto</button>
         {{/each}}
     </ul>
     {{else}}
