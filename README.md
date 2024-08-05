@@ -15,6 +15,23 @@ https://drive.google.com/file/d/1jXGwxF_yMIH17aXVkjb0qcbvSdsqTPBG/view?usp=shari
 
 Las tecnologias que se usaron para el fron son html,css,js y handlebars, para el back node.js y mongo como persistencia. 
 
+Preparación de la aplicación:
+
+Asegúrate de tener de clonar este directorio en tu maquina local
+
+Construcción de la imagen Docker:
+
+Desde la línea de comandos, en el directorio donde se encuentra tu Docker-Compose, ejecuta el siguiente comando para construir la imagen Docker-compose:
+
+          docker-compose build
+Ejecución del contenedor:
+
+Una vez que la imagen se haya construido correctamente, puedes ejecutar un contenedor con el siguiente comando
+
+          docker-compose up
+Despues habrir en el puerto [http://localhost:8080/api/products/principal](http://localhost:8080/api/products/principal) 
+
+Los datos se persisten en la bdd MongoDB
 
 
 
