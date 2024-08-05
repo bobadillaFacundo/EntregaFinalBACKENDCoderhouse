@@ -5,6 +5,7 @@ En el siguiente video se ve:
   Buscar producto <br>
   Eliminar producto<br>
   Uso de Paginacion<br>
+  Te crea un carrito cuando no lo hay, al querer cargar un producto<br>
   Crear carrito<br>
   Cargar carrito<br>
   Buscar carrito y uso de populate<br>
