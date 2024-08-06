@@ -1,6 +1,6 @@
 import express from "express"
 import { obtenerTodosLosDocumentos, obtenerDocumento, deleteDocumento, ERROR } from "../utils.js"
-import porductsModel from '../models/products.js'
+import productsModel from '../models/products.js'
 import mongoose from 'mongoose'
 import __dirname from "../utils.js"
 import cartsModel from '../models/carts.js'
@@ -22,15 +22,16 @@ router.get('/mostrar', async (req, res) => {
         category: req.query.category,
         thumbnails: req.query.thumbnails
     }
-    if (products.status === 'false') {products.status = false }else {products.status = true}
+    if (products.status === 'false') { products.status = false } else { products.status = true }
 
-    return res.render('productsList',{
-            style: 'indexProducts.css',
-            products: products})
+    return res.render('productsList', {
+        style: 'indexProducts.css',
+        products: products
+    })
 })
 
 router.get('/principal', async (req, res) => {
-    await obtenerTodosLosDocumentos(porductsModel).then(result => {
+    await obtenerTodosLosDocumentos(productsModel).then(result => {
         return res.render('indexProducts', {
             style: 'indexProducts.css',
             products: result
@@ -55,7 +56,7 @@ router.get('/', async (req, res) => {
         }
     }
 
-     if (tipo === 'price') {
+    if (tipo === 'price') {
         if (sort === "asc") {
             sortOption = { price: 1 }
         } else if (sort === "desc") {
@@ -64,7 +65,7 @@ router.get('/', async (req, res) => {
     }
     try {
 
-        let result = await porductsModel.paginate({}, {
+        let result = await productsModel.paginate({}, {
             page,
             limit,
             lean: true,
@@ -96,7 +97,7 @@ router.post("/", (async (req, res) => {
     if (!product.title || !product.description || !product.code || !product.stock || !product.category || !product.price) {
         return ERROR(res, `Campos Vacios`)
     }
-    const newProduct = new porductsModel({
+    const newProduct = new productsModel({
         title: product.title,
         description: product.description,
         code: product.code,
@@ -119,28 +120,33 @@ router.post("/", (async (req, res) => {
 }))
 
 router.get('/buscar', async (req, res) => {
-    await obtenerTodosLosDocumentos(porductsModel).then(result => {
-        const texto = req.query.texto
-        let comparar
-        const buscar = req.query.buscar
-        if (buscar !== 'categoria') {
-            if (texto === 'true') { comparar = true } else {
-                if (texto === 'false') { comparar = false } else { return ERROR(res, `No hay nada que Mostrar`) }
-            }
+    const texto = req.query.texto
+    const buscar = req.query.buscar
+
+    let result2
+    if (buscar === 'status') {
+        if (texto === 'true') {
+            result2 = { status: true };
+        } else if (texto === 'false') {
+            result2 = { status: false };
+        } else {
+            return ERROR(res, `No hay nada que Mostrar`);
         }
+    } else if (buscar === 'categoria') {
+        result2 = { category: texto };
+    } else {
+        return ERROR(res, `No hay nada que Mostrar`);
+    }
 
-        let result2
-        if (buscar === 'status') result2 = result.filter(a => a.status === comparar)
-        if (buscar === 'categoria') result2 = result.filter(a => a.category === texto)
+    const filter = await productsModel.aggregate([
+        { $match: result2 }])
 
-        if (!result2) return ERROR(res, `No hay nada que Mostrar`)
 
-        return res.render('buscar', {
-            style: 'indexProducts.css',
-            products: result2
-        })
-    }).catch(error => {
-        ERROR(res, `Error del servidor: ${error}`)
+    if (filter.toString() === '') return ERROR(res, `No hay nada que Mostrar`)
+
+    return res.render('buscar', {
+        style: 'indexProducts.css',
+        products: filter
     })
 })
 
@@ -148,7 +154,7 @@ router.get("/:pid", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.pid)) {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
-    await obtenerDocumento(req.params.pid, porductsModel)
+    await obtenerDocumento(req.params.pid, productsModel)
         .then(result => {
             if (!result) {
                 return ERROR(res, `Error del servidor: ID no Existe`)
@@ -168,7 +174,7 @@ router.delete("/:pid", async (req, res) => {
         return ERROR(res, `Error del servidor: ID no Existe`)
     }
 
-    await deleteDocumento(req.params.pid, porductsModel).then(async result => {
+    await deleteDocumento(req.params.pid, productsModel).then(async result => {
         if (result.deletedCount === 0) {
             return ERROR(res, `Error del servidor: ID no Existe`)
         }
@@ -192,12 +198,12 @@ router.put("/", async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(product.id)) {
             return ERROR(res, "ID no es válido")
-        } 
-        if (!(product.id)){
+        }
+        if (!(product.id)) {
             return ERROR(res, "Ingresar Id")
         }
 
-        let result = await obtenerDocumento(product.id, porductsModel)
+        let result = await obtenerDocumento(product.id, productsModel)
 
         if (!(result)) { return ERROR(res, "ID no es valido") }
 
@@ -218,12 +224,12 @@ router.put("/", async (req, res) => {
         }
 
 
-        const savedProduct = await porductsModel.updateOne({ _id: product.id }, { $set: products })
+        const savedProduct = await productsModel.updateOne({ _id: product.id }, { $set: products })
         if (savedProduct.matchedCount === 0) {
             return ERROR(res, "Producto no encontrado")
         }
 
-       const nuevaUrl = `/api/products/mostrar?_id=${product.id}&title=${products.title}&description=${products.description}&code=${products.code}&price=${products.price}&status=${products.status}&stock=${products.stock}&category=${products.category}&thumbnails=${products.thumbnails}`
+        const nuevaUrl = `/api/products/mostrar?_id=${product.id}&title=${products.title}&description=${products.description}&code=${products.code}&price=${products.price}&status=${products.status}&stock=${products.stock}&category=${products.category}&thumbnails=${products.thumbnails}`
 
         return res.redirect(nuevaUrl)
     } catch (error) {
