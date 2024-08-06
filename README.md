@@ -1,7 +1,7 @@
 En el siguiente video se ve:
   Cargar Producto<br>
   Modificar Producto<br>
-  Buscar por status y categoria<br>
+  Ordenar por status y categoria<br>
   Buscar producto <br>
   Eliminar producto<br>
   Uso de Paginacion<br>
