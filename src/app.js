@@ -47,7 +47,7 @@ mongoose.connect(process.env.MONGO_DB_URL).then(() => {
 });
 
 // Iniciar servidor
-const port = process.env.PORT;
+const port = process.env.PORT
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });

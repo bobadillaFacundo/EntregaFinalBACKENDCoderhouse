@@ -10,120 +10,153 @@
 </head>
 
 <body>
-    <h1>CRUD Productos</h1>
-    <header>
-        <!-- Botón para mostrar carritos -->
-        <button id="showCartButton" class="cart-button">
-            <i class="fas fa-shopping-cart"></i> Ver Carrito
-        </button>
-    </header>
-    <!-- Sección de Formularios -->
-    <section class="forms-section">
-        <h2 class="toggle-form" data-target="formCP">Cargar Producto</h2>
-        <form id="formCP" class="form" method="POST" action="/api/products/">
-            <input type="text" id="titleCP" class="input" placeholder="Title" name="title">
-            <input type="text" id="descriptionCP" class="input" placeholder="Description" name="description">
-            <input type="text" id="codeCP" class="input" placeholder="Code" name="code">
-            <input type="text" id="priceCP" class="input" placeholder="Price" name="price">
-            <input type="text" id="stockCP" class="input" placeholder="Stock" name="stock">
-            <input type="text" id="categoryCP" class="input" placeholder="Category" name="category">
-            <button type="submit" class="button2">Registrar</button>
-        </form>
+    <div class="main-container">
+        <div class="left-column">
+            <!-- Sección de Filtros -->
+            <section class="filters-section">
+                <h2>Filtros</h2>
+                <form id="filtersForm" method="get" action="/api/products/" s>
+                    <label for="limit">Límite:</label>
+                    <input type="number" id="limit" name="limit" min="1" value="10">
 
-    </section>
-    <section class="forms-section">
+                    <label for="page">Página:</label>
+                    <input type="number" id="page" name="page" min="1" value="1">
 
-        <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
-        <form id="formMP" class="form" >
-            <input type="hidden" name="_method" value="PUT">
-            <input type="text" id="idMP" class="input" placeholder="ID" name="id">
-            <input type="text" id="titleMP" class="input" placeholder="Title" name="title">
-            <input type="text" id="descriptionMP" class="input" placeholder="Description" name="description">
-            <input type="text" id="codeMP" class="input" placeholder="Code" name="code">
-            <input type="text" id="priceMP" class="input" placeholder="Price" name="price">
-            <select id="statusMP" name="status">
-                <option value="null"></option>
-                <option value="false">false</option>
-                <option value="true">true</option>
-            </select>
-            <input type="text" id="stockMP" class="input" placeholder="Stock" name="stock">
-            <input type="text" id="categoryMP" class="input" placeholder="Category" name="category">
-            <button type="submit" class="button_22">Modificar</button>
-        </form>
-    </section>
-    <!-- Sección de Filtros -->
-    <section class="filters-section">
-        <h2>Filtros</h2>
-        <form id="filtersForm" method="get" action="/api/products/" s>
-            <label for="limit">Límite:</label>
-            <input type="number" id="limit" name="limit" min="1" value="10">
-
-            <label for="page">Página:</label>
-            <input type="number" id="page" name="page" min="1" value="1">
-
-            <label for="sort">Ordenar:</label>
-            <select id="sort" name="sort">
-                <option value="asc">Ascendente</option>
-                <option value="desc">Descendente</option>
-            </select>
-            <label for="ordenar">Por:</label>
-            <select id="tipo" name="tipo">
-                <option value="">Ninguno</option>
-                <option value="category">Categoria</option>
-                <option value="price">Precio</option>
-            </select>
-            <button type="submit">Aplicar Filtros</button>
-        </form>
-        <section class="filters-section">
-
-            <div class="search-container">
-                <h2>Buscar por ID</h2>
-                <form id="IDB">
-                    <label for="BID">ID del Producto:</label>
-                    <input type="text" id="bID" name="bID" placeholder="ID producto">
-                    <button type="button" class="button223">Buscar</button>
+                    <label for="sort">Ordenar:</label>
+                    <select id="sort" name="sort">
+                        <option value="asc">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select>
+                    <label for="ordenar">Por:</label>
+                    <select id="tipo" name="tipo">
+                        <option value="">Ninguno</option>
+                        <option value="category">Categoria</option>
+                        <option value="price">Precio</option>
+                    </select>
+                    <button type="submit">Aplicar Filtros</button>
                 </form>
-        </section>
-        <section class="filters-section">
+                <section class="filters-section">
 
-            <h2>Buscar por Status o Categoria</h2>
-            <form id="IDBSC">
-                <label for="IDBS">Ingrese el valor para Buscar</label>
-                <input type="text" id="IDbs" name="IDbs" placeholder="">
-                <select id="buscar" name="buscar">
-                    <option value="status">status</option>
-                    <option value="categoria">categoria</option>
-                </select>
-                <button type="button" class="button32">Buscar</button>
-            </form>
-        </section>
+                    <div class="search-container">
+                        <h2>Buscar por ID</h2>
+                        <form id="IDB">
+                            <label for="BID">ID del Producto:</label>
+                            <input type="text" id="bID" name="bID" placeholder="ID producto">
+                            <button type="button" class="button223">Buscar</button>
+                        </form>
+                </section>
+                <section class="filters-section">
+
+                    <h2>Buscar por Status o Categoria</h2>
+                    <form id="IDBSC">
+                        <label for="IDBS">Ingrese el valor para Buscar</label>
+                        <input type="text" id="IDbs" name="IDbs" placeholder="">
+                        <select id="buscar" name="buscar">
+                            <option value="status">status</option>
+                            <option value="categoria">categoria</option>
+                        </select>
+                        <button type="button" class="button32">Buscar</button>
+                    </form>
+                </section>
         </div>
-    </section>
-    <h1>Lista de Productos</h1>
+        </section>
+    </div>
+    </div>
+             <!-- Sección de productos -->
 
-    <!-- Sección de Productos -->
-    <section class="products-section">
-        <div class="products-container">
-            {{#each products}}
-            <div class="product-item">
-                <p><strong>_id:</strong> {{_id}}</p>
-                <p><strong>Title:</strong> {{title}}</p>
-                <p><strong>Description:</strong> {{description}}</p>
-                <p><strong>Code:</strong> {{code}}</p>
-                <p><strong>Stock:</strong> {{stock}}</p>
-                <p><strong>Status:</strong> {{status}}</p>
-                <p><strong>Category:</strong> {{category}}</p>
-                <p><strong>Price:</strong> {{price}}</p>
-                <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
-                {{#if status}}
-                <button class="btn-cart" data-id="{{_id}}">
-                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                    {{/if}}
-                </button>
+        <section class="products-section">
+
+            {{#if result.isValid}}
+            <div>
+                <h1>Lista de productos</h1>
+                <section class="products-section">
+                    <div class="products-container">
+                        {{#each result.docs}}
+                        <div class="product-item">
+                            <p><strong>_id:</strong> {{_id}}</p>
+                            <p><strong>Title:</strong> {{title}}</p>
+                            <p><strong>Description:</strong> {{description}}</p>
+                            <p><strong>Code:</strong> {{code}}</p>
+                            <p><strong>Stock:</strong> {{stock}}</p>
+                            <p><strong>Status:</strong> {{status}}</p>
+                            <p><strong>Category:</strong> {{category}}</p>
+                            <p><strong>Price:</strong> {{price}}</p>
+                            <button class="btn-delete" data-id="{{_id}}">Eliminar</button>
+                            <button class="btn-cart" data-id="{{_id}}">
+                                <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                            </button>
+                        </div>
+                        {{/each}}
+                    </div>
+                </section>
+                <div class="pagination">
+                    {{#if result.hasPrevPage}}
+                    <a href="?page={{result.prevPage}}&limit={{result.limit}}" class="prev-link">
+                        << Anterior</a>
+                            {{/if}}
+
+                            <span class="page-number">{{result.page}}</span>
+
+                            {{#if result.hasNextPage}}
+                            <a href="?page={{result.nextPage}}&limit={{result.limit}}" class="next-link">Siguiente
+                                >></a>
+                            {{/if}}
+                </div>
             </div>
-            {{/each}}
-        </div>
-    </section>
+            {{else}}
+            <div>
+                <h1>No hay productos para mostrar</h1>
+            </div>
+            {{/if}}
+        </section>
+    </div>
+
+    <div class="right-column">
+       
+            <!-- Todo el contenido de formularios y filtros -->
+
+            <h1>CRUD Productos</h1>
+            <header>
+                <!-- Botón para mostrar carritos -->
+                <button id="showCartButton" class="cart-button">
+                    <i class="fas fa-shopping-cart"></i> Ver Carrito
+                </button>
+            </header>
+            <!-- Sección de Formularios -->
+            <section class="forms-section">
+                <h2 class="toggle-form" data-target="formCP">Cargar Producto</h2>
+                <form id="formCP" class="form" method="POST" action="/api/products/">
+                    <input type="text" id="titleCP" class="input" placeholder="Title" name="title">
+                    <input type="text" id="descriptionCP" class="input" placeholder="Description" name="description">
+                    <input type="text" id="codeCP" class="input" placeholder="Code" name="code">
+                    <input type="text" id="priceCP" class="input" placeholder="Price" name="price">
+                    <input type="text" id="stockCP" class="input" placeholder="Stock" name="stock">
+                    <input type="text" id="categoryCP" class="input" placeholder="Category" name="category">
+                    <button type="submit" class="button2">Registrar</button>
+                </form>
+
+            </section>
+            <section class="forms-section">
+
+                <h2 class="toggle-form" data-target="formMP">Modificar Producto</h2>
+                <form id="formMP" class="form">
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="text" id="idMP" class="input" placeholder="ID" name="id">
+                    <input type="text" id="titleMP" class="input" placeholder="Title" name="title">
+                    <input type="text" id="descriptionMP" class="input" placeholder="Description" name="description">
+                    <input type="text" id="codeMP" class="input" placeholder="Code" name="code">
+                    <input type="text" id="priceMP" class="input" placeholder="Price" name="price">
+                    <select id="statusMP" name="status">
+                        <option value="null"></option>
+                        <option value="false">false</option>
+                        <option value="true">true</option>
+                    </select>
+                    <input type="text" id="stockMP" class="input" placeholder="Stock" name="stock">
+                    <input type="text" id="categoryMP" class="input" placeholder="Category" name="category">
+                    <button type="submit" class="button_22">Modificar</button>
+                </form>
+            </section>
+            
     <!-- Ventana emergente -->
     <div class="overlay" id="popupOverlay">
         <div class="popup">

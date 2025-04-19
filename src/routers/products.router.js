@@ -31,15 +31,37 @@ router.get('/mostrar', async (req, res) => {
 })
 
 router.get('/principal', async (req, res) => {
-    await obtenerTodosLosDocumentos(productsModel).then(result => {
+    let page =  1
+    let limit = 10
+ 
+    try {
+
+        let result = await productsModel.paginate({}, {
+            page,
+            limit,
+            lean: true
+        })
+
+        result.prevLink = result.hasPrevPage
+            ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${result.limit}`
+            : ''
+        result.nextLink = result.hasNextPage
+            ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${result.limit}`
+            : ''
+        result.isValid = !(page <= 0 || page > result.totalPages)
+        
+
         return res.render('indexProducts', {
             style: 'indexProducts.css',
-            products: result
+            result
         })
-    }).catch(error => {
-        ERROR(res, `Error del servidor: ${error}`)
-    })
+    } catch (error) {
+        console.error(`Server Error: ${error}`)
+        return ERROR(res, `Error del servidor: ${error}`, '500')
+    }
+
 })
+
 
 router.get('/', async (req, res) => {
     let page = parseInt(req.query.page) || 1
